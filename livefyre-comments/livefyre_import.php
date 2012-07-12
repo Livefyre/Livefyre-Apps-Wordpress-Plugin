@@ -29,7 +29,7 @@ class Livefyre_Import {
         }
         $siteId = $this->ext->get_option('livefyre_site_id', '');
         if ($siteId == '') {
-            return false;
+            return;
         }
         $url = $this->lf_core->quill_url . '/import/wordpress/' . $siteId . '/start';
         $http = $this->lf_core->lf_domain_object->http;
@@ -46,10 +46,10 @@ class Livefyre_Import {
 
         if ($status != 'error') {
             $this->ext->update_option('livefyre_import_status', 'started');
-            return true;
         } else {
+            $this->ext->update_option('livefyre_import_status', 'error');
+            $this->ext->update_option('livefyre_import_message', $message);
             $this->report_error('Error requesting import session, message: ' . $message);
-            return false;
         }
     }
 

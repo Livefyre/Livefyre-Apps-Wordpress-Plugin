@@ -42,16 +42,32 @@ class Livefyre_core {
         $dopts = array(
             'livefyre_tld' => LF_DEFAULT_TLD
         );
+        $uses_default_tld = (strpos(LF_DEFAULT_TLD, 'livefyre.com') === 0);
         $this->lf_domain_object = new Livefyre_Domain( $profile_domain, $client_key, null, $dopts);
+        $site_id = $this->ext->get_option( 'livefyre_site_id' );
+        $this->site = $this->lf_domain_object->site( 
+            $site_id, 
+            trim( $this->ext->get_option( 'livefyre_site_key' ) )
+        );
         $this->debug_mode = false;
         $this->top_domain = ( $profile_domain == LF_DEFAULT_PROFILE_DOMAIN ? LF_DEFAULT_TLD : $profile_domain );
-
-        $this->http_url = ( strpos(LF_DEFAULT_TLD, 'livefyre.com') === 0 ? "http://www." . LF_DEFAULT_TLD : "http://" . LF_DEFAULT_TLD );
+        $this->http_url = ( $uses_default_tld ? "http://www." . LF_DEFAULT_TLD : "http://" . LF_DEFAULT_TLD );
         $this->api_url = "http://api.$this->top_domain";
         $this->quill_url = "http://quill.$this->top_domain";
         $this->admin_url = "http://admin.$this->top_domain";
         $this->assets_url = "http://zor." . LF_DEFAULT_TLD;
         $this->bootstrap_url = "http://bootstrap.$this->top_domain";
+        
+        // for non-production environments, we use a dev url and prefix the path with env name
+        $bootstrap_domain = 'bootstrap-json-dev.s3.amazonaws.com';
+        $environment = $dopts['livefyre_tld'] . '/';
+        if ( $uses_default_tld ) {
+            $bootstrap_domain = 'data.bootstrap.fyre.co';
+            $environment = '';
+        }
+
+        $this->bootstrap_url_v3 = "http://$bootstrap_domain/$environment$profile_domain/$site_id";
+        
         $this->home_url = $this->ext->home_url();
         $this->plugin_version = LF_PLUGIN_VERSION;
 

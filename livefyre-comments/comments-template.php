@@ -7,30 +7,28 @@
         } else {
             $post_id = $post->ID;
         }
-        // Only do bootstrap html if using version 1
-        if ( $livefyre->ext->get_post_version( $post_id ) == '1' ) {
-            $transient_key = 'livefyre_bootstrap_' . $post_id;
-            $cached_html = get_transient( $transient_key );
-            if ( !$cached_html ) {
-                $cached_html = '';
+        $transient_key = 'livefyre_bootstrap_' . $post_id;
+        $cached_html = get_transient( $transient_key );
+        if ( !$cached_html ) {
+            $cached_html = '';
+            $use_v3 = ($livefyre->ext->get_post_version( $post_id ) != '1');
+            if ( $use_v3 ) {
+                $url = $livefyre->bootstrap_url_v3 . '/' . base64_encode($post_id) . '/bootstrap.html';
+            } else {
                 $url = $livefyre->bootstrap_url . '/api/v1.1/public/bootstrap/html/' . get_option( 'livefyre_site_id' ) . '/'.base64_encode($post_id) . '.html?allow_comments=' . comments_open();
-                $result = $livefyre->lf_domain_object->http->request( $url, array( 'method' => 'GET' ) );
-                if ( is_array( $result ) && isset($result['response']) && $result['response']['code'] == 200 && strlen($result['body']) > 0 ) {
-                    $cached_html = $result['body'];
-                }
-                if (strpos($cached_html, 'id="livefyre"') === false && strpos($cached_html, 'id=\'livefyre\'') === false) {
-                    // if we don't see the required container,
-                    // something is wrong with the response
-                    $cached_html = '<div id="livefyre"></div>';
-                }
-                set_transient( $transient_key , $cached_html, 300 );
             }
-            echo $cached_html;
-        } else {
-            ?>
-            <div id='comments'></div>
-            <?php
+            $result = $livefyre->lf_domain_object->http->request( $url, array( 'method' => 'GET' ) );
+            if ( is_array( $result ) && isset($result['response']) && $result['response']['code'] == 200 && strlen($result['body']) > 0 ) {
+                $cached_html = $result['body'];
+            }
+            if (strpos($cached_html, '<div') === false) {
+                // if we don't see the required container,
+                // something is wrong with the response
+                $cached_html = ($use_v3 ? '' : '<div id="livefyre"></div>');
+            }
+            set_transient( $transient_key , $cached_html, 300 );
         }
+        echo '<div id="comments">' . $cached_html . '</div>';
     }
 
     echo "<!-- Livefyre Comments Version: " . $livefyre->plugin_version."-->";

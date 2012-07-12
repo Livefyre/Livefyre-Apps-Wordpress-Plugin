@@ -676,12 +676,8 @@ class Livefyre_Admin {
                         if ( !$this->allow_domain_settings() ) {
                             $this->network_options_page();
                         }
-                        settings_fields( 'livefyre_site_options' );
-                        do_settings_sections( 'livefyre' );
+                        include( dirname(__FILE__) . '/settings-template.php');
                     ?>
-                    <p class="submit">
-                        <input type="submit" class="button-primary" value="<?php _e( 'Save Changes' ) ?>" />
-                    </p>
                 </form>
             </div>
         <?php
@@ -939,7 +935,7 @@ class Livefyre_Display {
                 }
             }
             $domain = $this->lf_core->lf_domain_object;
-            $site = $domain->site( $this->ext->get_option( 'livefyre_site_id' ), trim( $this->ext->get_option( 'livefyre_site_key' ) ), '' );
+            $site = $this->lf_core->site;
             $article = $site->article( $original_id, get_permalink($original_id), get_the_title($original_id) );
             $conv = $article->conversation();
             $use_backplane = $this->ext->get_network_option( 'livefyre_use_backplane', false );
