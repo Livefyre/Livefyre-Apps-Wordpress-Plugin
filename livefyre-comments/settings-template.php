@@ -101,6 +101,7 @@ if (!in_array($status, array('', 'error', 'csv_uploaded'))) {
             <ul class="fyre-list">
                 <li class="fyre-list">Livefyre Site ID: <strong><?php echo get_option('livefyre_site_id') ?></strong></li>
                 <li class="fyre-list">Livefyre Site Key: <strong><?php echo get_option('livefyre_site_key') ?></strong></li>
+                <li class="fyre-list">Livefyre Admin URL: <a href="http://livefyre.com/admin">Admin Panel</a></li>
             </ul>
         </div>
     </div>
@@ -118,7 +119,24 @@ if (!in_array($status, array('', 'error', 'csv_uploaded'))) {
                     <div class="fyre-status red"></div>
                     <span class="fyre-title">Initialization Error</span>
                     <span class="fyre-subtext">
-                        <?php echo get_option('livefyre_import_message','') ?>
+                        <?php echo "Message: " . get_option('livefyre_import_message','') ?>
+                        <p>Please reattempt the import process by hitting the green button below. If that proceeds to fail, please 
+                            e-mail Livefyre at <a href="support@livefyre.com">support@livefyre.com</a> with the following:</p>
+                        <ul>
+                            <li>An .XML file of your Wordpress Blog:</li>
+                                <ol>
+                                    <li>Open your WP-Admin panel</li>
+                                    <li>Click "Tools" on the left-hand side</li>
+                                    <li>Click "Export"</li>
+                                    <li>Choose "All Content"</li>
+                                    <li>Click "Download Export file"</li>
+                                </ol>
+                            <li>The base site url you are trying to import for (yourblog.com).
+                                <strong>Note:</strong> If you have multiple sites on your Wordpress that you would like to import comments for, please make note of that
+                                in the email
+                                <br />
+                            </li>
+                        </ul>
                     </span>
                     <a href="?page=livefyre&livefyre_import_begin=1" class="green fyre-button">Re-attempt comment import</a>
                 </div>
