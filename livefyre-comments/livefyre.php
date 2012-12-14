@@ -91,26 +91,7 @@ class Livefyre_Application {
     }
 
     function get_post_version( $postId ) {
-        $installed = (int) $this->get_option('livefyre_v3_installed', 0);
-        if ( $installed == 0 ) {
-            // $installed == 0 means they never used V2 - short-circuit the check
-            return LF_POST_META_USE_V3;
-        }
-        $version = $this->get_post_option( $postId, LF_POST_META_KEY, '' );
-        $update = false;
-        if ( $version == '' ) {
-            $version = ( $this->post_uses_v3( $postId ) ? LF_POST_META_USE_V3 : LF_POST_META_USE_V1 );
-            $update = true;
-        } else if ( $version == 'LF_POST_META_DEFAULT_VALUE' ) {
-            // MarkD: This is to fix a previous version that was setting the post value to a
-            // non-existent variable, thus making all widgets use v1.
-            $version = LF_POST_META_USE_V3;
-            $update = true;
-        }
-        if ($update) {
-            $this->update_post_option( $postId, LF_POST_META_KEY, $version );
-        }
-        return $version;
+        return LF_POST_META_USE_V3;
     }
     
     function post_uses_v3($post_id) {

@@ -12,11 +12,9 @@
         if ( !$cached_html ) {
             $cached_html = '';
             $use_v3 = ($livefyre->ext->get_post_version( $post_id ) != '1');
-            if ( $use_v3 ) {
-                $url = $livefyre->bootstrap_url_v3 . '/' . base64_encode($post_id) . '/bootstrap.html';
-            } else {
-                $url = $livefyre->bootstrap_url . '/api/v1.1/public/bootstrap/html/' . get_option( 'livefyre_site_id' ) . '/'.base64_encode($post_id) . '.html?allow_comments=' . comments_open();
-            }
+            
+            $url = $livefyre->bootstrap_url_v3 . '/' . base64_encode($post_id) . '/bootstrap.html';
+            
             $result = $livefyre->lf_domain_object->http->request( $url, array( 'method' => 'GET' ) );
             if ( is_array( $result ) && isset($result['response']) && $result['response']['code'] == 200 && strlen($result['body']) > 0 ) {
                 $cached_html = $result['body'];
