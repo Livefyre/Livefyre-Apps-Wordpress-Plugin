@@ -660,9 +660,9 @@ class Livefyre_Admin {
         $settings_section = 'livefyre_site_options';
         register_setting($settings_section, 'livefyre_site_id');
         register_setting($settings_section, 'livefyre_site_key');
+        register_setting($settings_section, 'livefyre_admin_url');
         
-        if( $this->returned_from_setup() )
-        {
+        if( $this->returned_from_setup() ) {
             $this->ext->update_network_option("livefyre_site_id", $_GET["site_id"] );
             $this->ext->update_network_option("livefyre_site_key", $_GET["secretkey"] );
         }
@@ -670,19 +670,29 @@ class Livefyre_Admin {
         add_settings_section('lf_site_settings',
             'Livefyre Site Settings',
             array( &$this, 'settings_callback' ),
-            $name);
+            $name
+        );
         
         add_settings_field('livefyre_site_id',
             'Livefyre Site ID',
             array( &$this, 'site_id_callback' ),
             $name,
-            $section_name);
+            $section_name
+        );
         
         add_settings_field('livefyre_site_key',
             'Livefyre Site Key',
             array( &$this, 'site_key_callback' ),
             $name,
-            $section_name);
+            $section_name
+        );
+
+        add_settings_field('livefyre_admin_url',
+            'Livefyre Admin Url',
+            array( &$this, 'site_admin_url_callback' ),
+            $name,
+            $section_name
+        );
         
         // is this a non-mu site? if so, call network_options_init()
         if ( !is_multisite() ) {
@@ -712,15 +722,22 @@ class Livefyre_Admin {
 
     function site_id_callback() {
     
-        echo "<input name='livefyre_site_id' value='". get_option( 'livefyre_site_id' ) ."' />";
+        echo "<input name='livefyre_site_id' value='" . get_option( 'livefyre_site_id' ) . "' />";
         
     }
     
     function site_key_callback() { 
     
-        echo "<input name='livefyre_site_key' value='". get_option( 'livefyre_site_key' ) ."' />";
+        echo "<input name='livefyre_site_key' value='" . get_option( 'livefyre_site_key' ) . "' />";
         
     }
+
+    function site_admin_url_callback() {
+
+        echo "<input name='livefyre_admin_url' value=" . $this->lf_core->lf_domain_object.get_livefyre_tld() . "/>";
+
+    }
+
     function do_save_network_options() {
     
         if ( !isset( $_POST[ 'livefyre_domain_name' ] ) || $_POST[ 'livefyre_domain_name' ] == '' ) {
