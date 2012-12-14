@@ -1011,6 +1011,7 @@ class Livefyre_Display {
             $conv = $article->conversation();
             $use_backplane = $this->ext->get_network_option( 'livefyre_use_backplane', false );
             $initcfg = array();
+            $initcfg['betaBanner'] = true; // Always have the beta banner active on WordPress.
             $profile_sys = $this->ext->get_network_option( 'livefyre_profile_system', 'livefyre' );
             $initcfg['betaBanner'] = ($profile_sys == 'livefyre');
             if ( !$use_backplane && $network != LF_DEFAULT_PROFILE_DOMAIN) {
