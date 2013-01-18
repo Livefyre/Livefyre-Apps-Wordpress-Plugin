@@ -4,8 +4,8 @@ Donate link: http://livefyre.com/
 Tags: comments, widget, plugin, community, social, profile,
 moderation, engagement, twitter, facebook, conversation
 Requires at least: 2.8
-Tested up to: 3.2.1
-Stable tag: 3.52
+Tested up to: 3.5
+Stable tag: 4.0.0
 
 Livefyre replaces your outdated comment section with a real-time
 social conversation. Post comments live, tag friends from Facebook and
