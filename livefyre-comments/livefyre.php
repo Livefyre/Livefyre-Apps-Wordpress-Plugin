@@ -683,6 +683,7 @@ class Livefyre_Admin {
         register_setting($settings_section, 'livefyre_site_id');
         register_setting($settings_section, 'livefyre_site_key');
         register_setting($settings_section, 'livefyre_admin_url');
+        register_setting($settings_section, 'livefyre_support_url');
         
         if( $this->returned_from_setup() ) {
             $this->ext->update_network_option("livefyre_site_id", $_GET["site_id"] );
@@ -712,6 +713,13 @@ class Livefyre_Admin {
         add_settings_field('livefyre_admin_url',
             'Livefyre Admin Url',
             array( &$this, 'site_admin_url_callback' ),
+            $name,
+            $section_name
+        );
+
+        add_settings_field('livefyre_support_url',
+            'Livefyre Support Url',
+            array( &$this, 'site_support_url_callback' ),
             $name,
             $section_name
         );
@@ -759,6 +767,13 @@ class Livefyre_Admin {
         echo "<input name='livefyre_admin_url' value=" . $this->lf_core->lf_domain_object.get_livefyre_tld() . "/>";
 
     }
+
+    function site_support_url_callback() {
+
+        echo "<input name='livefyre_support_url' value='www.support.livefyre.com'/>";
+
+    }
+
 
     function do_save_network_options() {
     
