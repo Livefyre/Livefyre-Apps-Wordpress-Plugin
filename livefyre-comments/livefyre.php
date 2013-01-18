@@ -683,6 +683,7 @@ class Livefyre_Admin {
         register_setting($settings_section, 'livefyre_site_id');
         register_setting($settings_section, 'livefyre_site_key');
         register_setting($settings_section, 'livefyre_admin_url');
+        register_setting($settings_section, 'livefyre_support_url');
         
         if( $this->returned_from_setup() ) {
             $this->ext->update_network_option("livefyre_site_id", $_GET["site_id"] );
@@ -715,6 +716,13 @@ class Livefyre_Admin {
             $name,
             $section_name
         );
+
+        add_settings_field('livefyre_support_url',
+            'Livefyre Support Url',
+            array( &$this, 'site_support_url_callback' ),
+            $name,
+            $section_name 
+        );
         
         // is this a non-mu site? if so, call network_options_init()
         if ( !is_multisite() ) {
@@ -743,21 +751,19 @@ class Livefyre_Admin {
     }
 
     function site_id_callback() {
-    
         echo "<input name='livefyre_site_id' value='" . get_option( 'livefyre_site_id' ) . "' />";
-        
     }
     
     function site_key_callback() { 
-    
         echo "<input name='livefyre_site_key' value='" . get_option( 'livefyre_site_key' ) . "' />";
-        
     }
 
     function site_admin_url_callback() {
-
         echo "<input name='livefyre_admin_url' value=" . $this->lf_core->lf_domain_object.get_livefyre_tld() . "/>";
+    }
 
+    function site_support_url_callback() {
+        echo "<input name='livefyre_support_url' value='www.support.livefyre.com'/>";
     }
 
     function do_save_network_options() {
