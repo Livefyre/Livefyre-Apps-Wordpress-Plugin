@@ -952,7 +952,7 @@ class Livefyre_Admin {
                 if ( $this->ext->get_option('livefyre_v3_notify_installed', false) ) {
                     $message = "Thanks for installing the new Livefyre plugin featuring Livefyre Comments 3! Visit your <a href=\"./options-general.php?page=livefyre\">Livefyre settings</a> to import your old comments.";
                 } elseif ( $this->ext->get_option('livefyre_v3_notify_upgraded', false) ) {
-                    $message = "Thanks for upgrading to the latest Livefyre plugin. Create a new post to try out the new features in Livefyre Comments 3.";
+                    $message = "Thanks for upgrading to the latest Livefyre plugin. Your posts should now be running Comments 3.";
                 }
                 if ($message) {
                     $message = $message . ' <a href="./options-general.php?page=livefyre&livefyre_reset_v3_notes=1">Got it, thanks!</a>';
