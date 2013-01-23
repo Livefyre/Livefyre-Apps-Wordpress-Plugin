@@ -1,20 +1,20 @@
 <?php
-if (function_exists( 'home_url' )) {
+if ( function_exists( 'home_url' ) ) {
     $home_url=home_url();
 } else {
-    $home_url=get_option('home');
+    $home_url=get_option( 'home' );
 }
 
-$site_id=get_option('livefyre_site_id',''); 
+$site_id=get_option( 'livefyre_site_id', '' ); 
 
-if (isset($_GET['status'])) {
-    update_option('livefyre_import_status', $_GET['status']);
-    if (isset($_GET['message'])) {
-        update_option('livefyre_import_message', urldecode($_GET['message']));
+if ( isset( $_GET['status'] ) ) {
+    update_option( 'livefyre_import_status', $_GET['status'] );
+    if ( isset( $_GET['message'] ) ) {
+        update_option( 'livefyre_import_message', urldecode( $_GET['message'] ) );
     }
-} elseif (isset($_GET['livefyre_reset_v3_notes'])) {
-    delete_option('livefyre_v3_notify_installed');
-    delete_option('livefyre_v3_notify_upgraded');
+} elseif ( isset( $_GET['livefyre_reset_v3_notes'] ) ) {
+    delete_option( 'livefyre_v3_notify_installed' );
+    delete_option( 'livefyre_v3_notify_upgraded' );
 }
 ?>
 
@@ -88,8 +88,8 @@ function livefyre_start_ajax(iv) {
 
 
 <?php
-$status = get_option('livefyre_import_status','');
-if (!in_array($status, array('', 'error', 'csv_uploaded'))) {
+$status = get_option( 'livefyre_import_status', '' );
+if ( !in_array( $status, array( '', 'error', 'csv_uploaded' ) ) ) {
     //only report status of the import
     ?>
     <script type="text/javascript">
@@ -113,11 +113,12 @@ if (!in_array($status, array('', 'error', 'csv_uploaded'))) {
     </div>
 
     <?php
-    $import_status = get_option('livefyre_import_status','');
-    if (get_option('livefyre_site_id','') == '' || get_option( 'livefyre_v3_installed', null) != 0) {
+    $import_status = get_option( 'livefyre_import_status', '' );
+    $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
+    if ( get_option( 'livefyre_site_id', '' ) == '' || get_option( 'livefyre_v3_installed', null ) != 0 ) {
         // Don't allow the status sections if there isn't a site
         // The second condition hides the button to start an import, if this was an upgrade from V2
-    } else if ($import_status == 'error') {
+    } else if ( $import_status == 'error' ) {
         ?>
         <div class="fyre-container-base" id="fyre-failure">
             <div class="fyre-container">
@@ -125,7 +126,7 @@ if (!in_array($status, array('', 'error', 'csv_uploaded'))) {
                     <div class="fyre-status red"></div>
                     <span class="fyre-title">Initialization Error</span>
                     <span class="fyre-subtext">
-                        <?php echo "Message: " . get_option('livefyre_import_message','') ?>
+                        <?php echo "Message: " . get_option( 'livefyre_import_message', '' ) ?>
                         <p>Please reattempt the import process by hitting the green button below. If that proceeds to fail, please 
                             e-mail Livefyre at <a href="support@livefyre.com">support@livefyre.com</a> with the following:</p>
                         <ul>
@@ -149,7 +150,7 @@ if (!in_array($status, array('', 'error', 'csv_uploaded'))) {
             </div>
         </div>
         <?php
-    } else if ($import_status == 'csv_uploaded') {
+    } else if ( $import_status == 'csv_uploaded' ) {
         ?>
         <div class="fyre-container-base" id='fyre-success'>
             <div class="fyre-container">
@@ -157,13 +158,13 @@ if (!in_array($status, array('', 'error', 'csv_uploaded'))) {
                     <div class="fyre-status green"></div>
                     <span class="fyre-title">Successfully Imported</span>
                     <span class="fyre-subtext">
-                        <?php echo get_option('livefyre_import_message','') ?>
+                        <?php echo get_option( 'livefyre_import_message', '' ) ?>
                     </span>
                 </div>
             </div>
         </div>
         <?php
-    } else if ($import_status == '') {
+    } else if ( $import_status == '' ) {
         ?>
         <div class="fyre-container-base" id="fyre-start">
             <div class="fyre-container">
@@ -179,6 +180,23 @@ if (!in_array($status, array('', 'error', 'csv_uploaded'))) {
             </div>
         </div>
         <?php
+        if ( $upgrade_status == 'success' ) {
+            update_option( 'livefyre_backend_upgrade', 'sent' );
+            ?>
+            <div class="fyre-container-base" id="fyre-start">
+                <div class="fyre-container">
+                    <div class="fyre-header">
+                        <div class="fyre-status slate"></div>
+                        <span id="fyre-progress-title" class="fyre-title"></span>
+
+                        <span class="fyre-subtext">
+                            We are transfering over old Comments 2 conversations and comments to be upgraded into Comments 3. Please note that conversations on Comments 2 created before July 2012 will need to be upgraded.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        <?php
+        }
     } else {
         ?>
         <div class="fyre-container-base" id="fyre-start">

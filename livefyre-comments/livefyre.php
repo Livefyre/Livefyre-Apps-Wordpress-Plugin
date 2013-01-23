@@ -1115,3 +1115,5 @@ class Livefyre_Http_Extension {
 
 
 $livefyre = new Livefyre_core;
+
+?>
