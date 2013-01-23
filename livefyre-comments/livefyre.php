@@ -137,13 +137,13 @@ class Livefyre_Application {
 
     }
 
+    add_action( 'livefyre_check_for_sync', 'check_site_sync' );
     /*
     * To alleviate site_syncs not firing, check to make sure they are set up
     */
     function setup_sync_check() {
         
-        add_action( 'check_for_sync', 'check_site_sync' );
-        wp_schedule_event( time(), 'hourly', 'check_for_sync' );
+        wp_schedule_event( time(), 'hourly', 'livefyre_check_for_sync' );
     }
 
     /*
