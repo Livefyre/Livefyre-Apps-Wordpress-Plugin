@@ -142,7 +142,7 @@ if ( !in_array( $status, array( '', 'error', 'csv_uploaded' ) ) ) {
                     <span class="fyre-subtext">
                         <?php echo "Message: " . get_option( 'livefyre_import_message', '' ) ?>
                         <p>Please reattempt the import process by hitting the green button below. If that proceeds to fail, please 
-                            e-mail Livefyre at <a href="support@livefyre.com">support@livefyre.com</a> with the following:</p>
+                            e-mail Livefyre at <a href="mailto:support@livefyre.com">support@livefyre.com</a> with the following:</p>
                         <ul>
                             <li>An .XML file of your Wordpress Blog:</li>
                                 <ol>
@@ -179,37 +179,55 @@ if ( !in_array( $status, array( '', 'error', 'csv_uploaded' ) ) ) {
         </div>
         <?php
     } else if ( $import_status == '' ) {
+        if ( wp_count_comments()->total_comments > 100000 ) {
         ?>
-        <div class="fyre-container-base" id="fyre-start">
-            <div class="fyre-container">
-                <div class="fyre-header">
-                    <div class="fyre-status slate">Start Your Import</div>
-                    <span id="fyre-progress-title" class="fyre-title">Start Your Import</span>
-
-                    <span class="fyre-subtext">
-                        Import your existing WordPress comments so that they show up in Livefyre Comments and in the Livefyre Admin.  As your comments are being imported the status will be displayed bere.   If Livefyre is unable to import data, you can still use the plugin, but your existing comments will not be displayed by Livefyre.
-                    </span>
-                    <a href="?page=livefyre&livefyre_import_begin=1" class="green fyre-button">Import comments</a>
-                </div>
-            </div>
-        </div>
-        <?php
-        if ( $upgrade_status == 'success' ) {
-            update_option( 'livefyre_backend_upgrade', 'sent' );
-            ?>
             <div class="fyre-container-base" id="fyre-start">
                 <div class="fyre-container">
                     <div class="fyre-header">
-                        <div class="fyre-status slate"></div>
-                        <span id="fyre-progress-title" class="fyre-title"></span>
-
+                        <div class="fyre-status yellow"></div>
+                        <span id="fyre-progress-title" class="fyre-title">Import Status</span>
                         <span class="fyre-subtext">
-                            We are transfering over old Comments 2 conversations and comments to be upgraded into Comments 3. Please note that conversations on Comments 2 created before July 2012 will need to be upgraded.
+                            Oh snap, it looks like you're pretty popular! You've got a really large amount of comment data that will need some extra attention from our support team to make sure that all of your comments end up properly imported. If you wouldn't mind dropping a quick e-mail to <a href="mailto:support@livefyre.com">support@livefyre.com</a> 
+                            with your site's URL, we'll get the ball rolling on completing your import and making sure that you're well taken care of.
                         </span>
                     </div>
                 </div>
             </div>
         <?php
+        }
+        else {
+        ?>
+            <div class="fyre-container-base" id="fyre-start">
+                <div class="fyre-container">
+                    <div class="fyre-header">
+                        <div class="fyre-status slate">Start Your Import</div>
+                        <span id="fyre-progress-title" class="fyre-title">Start Your Import</span>
+
+                        <span class="fyre-subtext">
+                            Import your existing WordPress comments so that they show up in Livefyre Comments and in the Livefyre Admin.  As your comments are being imported the status will be displayed bere.   If Livefyre is unable to import data, you can still use the plugin, but your existing comments will not be displayed by Livefyre.
+                        </span>
+                        <a href="?page=livefyre&livefyre_import_begin=1" class="green fyre-button">Import comments</a>
+                    </div>
+                </div>
+            </div>
+            <?php
+            if ( $upgrade_status == 'success' ) {
+                update_option( 'livefyre_backend_upgrade', 'sent' );
+            ?>
+                <div class="fyre-container-base" id="fyre-start">
+                    <div class="fyre-container">
+                        <div class="fyre-header">
+                            <div class="fyre-status slate"></div>
+                            <span id="fyre-progress-title" class="fyre-title"></span>
+
+                            <span class="fyre-subtext">
+                                We are transfering over old Comments 2 conversations and comments to be upgraded into Comments 3. Please note that conversations on Comments 2 created before July 2012 will need to be upgraded.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+        <?php
+            }
         }
     } else {
         ?>
@@ -220,7 +238,8 @@ if ( !in_array( $status, array( '', 'error', 'csv_uploaded' ) ) ) {
                     <span id="fyre-progress-title" class="fyre-title">Importing Comments</span>
 
                     <span class="fyre-subtext">
-                        Import your existing WordPress comments so that they show up in Livefyre Comments and in the Livefyre Admin.  As your comments are being imported the status will be displayed bere.   If Livefyre is unable to import data, you can still use the plugin, but your existing comments will not be displayed by Livefyre.
+                        Import your existing WordPress comments so that they show up in Livefyre Comments and in the Livefyre Admin.  As your comments are being imported the status will be displayed bere.   
+                        If Livefyre is unable to import data, you can still use the plugin, but your existing comments will not be displayed by Livefyre.
                     </span>
                     <p id="livefyre-import-text">Warming up the engine...</p>
                     <div id="circleG">
