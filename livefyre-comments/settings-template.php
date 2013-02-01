@@ -115,9 +115,23 @@ if ( !in_array( $status, array( '', 'error', 'csv_uploaded' ) ) ) {
     <?php
     $import_status = get_option( 'livefyre_import_status', '' );
     $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
-    if ( get_option( 'livefyre_site_id', '' ) == '' || get_option( 'livefyre_v3_installed', null ) != 0 ) {
+    if ( get_option( 'livefyre_site_id', '' ) == '' ) {
         // Don't allow the status sections if there isn't a site
         // The second condition hides the button to start an import, if this was an upgrade from V2
+    } else if ( strpos( get_option( 'livefyre_deactivated' ), 'Deactivated' ) !== false ) {
+        ?>
+        <div class="fyre-container-base" id='fyre-success'>
+            <div class="fyre-container">
+                <div class="fyre-header">
+                    <div class="fyre-status green"></div>
+                    <span class="fyre-title">Deactivation</span>
+                    <span class="fyre-subtext">
+                        You seem to have deactivated Livefyre recently. Please shoot us an e-mail at <a href="support@livefyre.com">support@livefyre.com</a> and we'll see what you've been up to since.
+                    </span>
+                </div>
+            </div>
+        </div>
+        <?php
     } else if ( $import_status == 'error' ) {
         ?>
         <div class="fyre-container-base" id="fyre-failure">

@@ -25,8 +25,10 @@ class Livefyre_core {
 
         $this->add_extension();
         $this->require_php_api();
+        $this->require_logger();
         $this->define_globals();
         $this->require_subclasses();
+        $this->Logger->add( "Livefyre: Constructing a Livefyre_core." );
         
     }
     
@@ -79,6 +81,12 @@ class Livefyre_core {
 
     }
 
+    function require_logger() {
+
+        require_once(dirname(__FILE__) . "/logger.php");
+
+    }
+
     function add_extension() {
 
         if ( class_exists( 'Livefyre_Application' ) ) {
@@ -97,7 +105,7 @@ class Livefyre_core {
         $this->Admin = new Livefyre_Admin( $this );
         $this->Display = new Livefyre_Display( $this );
         $this->Federation = new Livefyre_Federation( $this );
-
+        $this->Logger = new Logger( );
     }
 
 } //  Livefyre_core
@@ -113,6 +121,8 @@ class Livefyre_Health_Check {
     }
 
     function livefyre_health_check() {
+
+        $this->lf_core->Logger->add( "Livefyre: Making a health check." );
 
         if ( !isset( $_GET[ 'livefyre_ping_hash' ] ) )
             return;
@@ -150,10 +160,12 @@ class Livefyre_Activation {
     function deactivate() {
 
         $this->reset_caches();
+        $this->ext->update_option( 'livefyre_deactivated', 'Deactivated: ' . time() );
 
     }
 
     function activate() {
+        $this->lf_core->Logger->add( "Livefyre: Activated." );
         $existing_blogname = $this->ext->get_option( 'livefyre_blogname', false );
         if ( $existing_blogname ) {
             $site_id = $existing_blogname;
@@ -193,17 +205,33 @@ class Livefyre_Activation {
 
             $resp = $http->request( $url, array( 'timeout' => 10 ) );
             if ( is_wp_error( $resp ) ) {
+                $this->lf_core->Logger->add( "Livefyre: Backend upgrade error: " . $resp->get_error_message() );
                 update_option( 'livefyre_backend_upgrade', 'error' );
                 update_option( 'livefyre_backend_msg', $resp->get_error_message() );
-            } else {
-                $json = json_decode( $resp );
-                $status = $json->status;
-                $message = $json->msg;
-                update_option( 'livefyre_backend_upgrade', $status );
-                update_option( 'livefyre_backend_msg', $message );
+                return;
             }
+
+            $resp_code = $resp['response']['code'];
+            $resp_message = $resp['response']['message'];
+            $this->lf_core->Logger->add( "Livefyre: Backfill Request: Code: " . $resp_code . " Message: " . $resp_message . "." );
+
+            if ( $resp_code != '200' ) {
+                $this->lf_core->Logger->add( "Livefyre: Request returned an non successful value. " . $resp );
+                update_option( 'livefyre_backend_upgrade', 'error' );
+                return;
+            }
+
+            $json_data = json_decode( $resp['body'] );
+            $backfill_status = $json_data->status;
+            $backfill_msg = $json_data->msg;
+
+            $this->lf_core->Logger->add( "Livefyre: Backend Response: Status: " . $backfill_status . " Message: " . $backfill_msg . "." );
+            if ( $backfill_status == 'success' ) {
+                $backfill_msg = 'Request for Comments 2 upgrade has been sent';
+            }
+            update_option( 'livefyre_backend_upgrade', $backfill_status );
+            update_option( 'livefyre_backend_msg', $backfill_msg );
         }
-        $this->ext->setup_sync_check();
     }
 
     function reset_caches() {
@@ -273,7 +301,7 @@ class Livefyre_Sync {
     }
 
     function do_sync() {
-    
+        $this->lf_core->Logger->add( "Livefyre: Running a site sync." );
         /*
             Fetch comments from the livefyre server, providing last activity id we have.
             Schedule the next sync if we got >50 or the server says "more-data".
@@ -286,7 +314,6 @@ class Livefyre_Sync {
             'activities-handled' => 0
         );
         $inserts_remaining = LF_SYNC_MAX_INSERTS;
-        $this->ext->debug_log( time() . ' livefyre synched' );
         $max_activity = $this->ext->get_option( 'livefyre_activity_id', '0' );
         if ( $max_activity == '0' ) {
             $final_path_seg = '';
