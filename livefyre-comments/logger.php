@@ -7,7 +7,7 @@ class Logger {
     }
 
     function add( $message, $database_flag = false ) {
-        if ( WP_DEBUG === true ) {
+        if ( WP_DEBUG !== true ) {
             return;
         }
         if ( is_array( $message ) || is_object( $message ) ) {
