@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=`sed 's/\./_/' version`
+version=`sed 's/\./_/g' version`
 archive=livefyre-${version}.zip
 
 zip -r $archive livefyre-comments/ -x "livefyre-comments/**/.*" -x "livefyre-comments/.*"

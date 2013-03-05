@@ -1,54 +1,96 @@
-=== Livefyre Realtime Comments ===
-Contributors: Livefyre
+=== Livefyre Comments 3 ===
+Contributors: Livefyre, Mike Soldner, Michael Liao, Chris Becker
 Donate link: http://livefyre.com/
-Tags: comments, widget, plugin, community, social, profile,
-moderation, engagement, twitter, facebook, conversation
+Tags: comments, widget, community, social, profile, moderation, engagement, twitter, facebook, conversation, avatars, email notification, spam protection, rich-text, sharing
 Requires at least: 2.8
 Tested up to: 3.5
 Stable tag: 4.0.0
 
-Livefyre replaces your outdated comment section with a real-time
-social conversation. Post comments live, tag friends from Facebook and
-Twitter, and sync the conversation happening across the web to your
-content.
+Livefyre Comments 3 replaces your default comments with real-time conversations. Our social integration features make it easy to capture all the conversations going on around your content across Twitter and Facebook, while pulling your friends into the conversation.
 
 == Description ==
 
-Livefyre is a real-time comment solution that centralizes
-conversations from around the social web back to your content, while
-encouraging live engagement between users on your site.
+Livefyre Comments 3 is a comment platform for real-time conversations. Comments 3 centralizes conversations from around the social web back to your site, and
+encouragwa engagement between readers on your site to build community around your content. 
 
-The Livefyre best-of-breed model is the future for content publisher
-communities, giving you the flexibility and constant, focused
-innovation you need from your technology providers.
+Livefyre’s Admin dashboard allows you to track and monitor every interaction on your site from one location, in real-time. Filter by comment, network or user, and moderate with ease. We make it seamless to maintain high quality conversation on your content.
 
-Livefyre offers key features like:
-- Social Sync; pulling Facebook & Twitter comments into your content
-in real-time.
-- Tagging Friends from Facebook & Twitter; anyone leaving a comment
-brings their entire social network with them to the conversation.
-- Intelligent & Community Moderation; ability to moderate in real-time
-thereby increasing the quality of the conversations without effecting
-the quantity.
-- SEO credit; Livefyre is Google crawl-able so you receive SEO credit
-for all comments, including those originating from Facebook & Twitter.
-- Real-time technology; built on XMPP chat technology for the fastest,
-lightest weight conversations possible.
+The Livefyre Comments 3 plugin connects your WordPress database to the Livefyre Network writes all of your comments back to your WP database in real-time.
+
+== Livefyre Comments 3 for WordPress ==
+
+=Livefyre Comments 3=
+
+Livefyre Comments 3 was designed from the ground-up for the social web, turning your blog into the hub of engagement and giving you the tools to moderate real-time conversations.
+
+=Features=
+- Real-time technology: Comments is built on XMPP chat technology for fast, lightweight conversations on your site.
+- Social Sync: the conversation happening around your articles on Facebook and Twitter automatically syncs directly to the comments on your site.
+- Social Signin: Users have the option to sign in with several social networks so that they can jump right in and join the conversation. No new login required.
+- Guest Commenting: Sites can also use our guest commenting option to let their community comment without even creating an account.
+- Friend Tagging: Easily invite Facebook, Twitter, and Livefyre contacts to join the conversation right from the comment box. 
+- Comment Sharing: With one click, readers can easily share comments with their contacts on Facebook, Twitter and LinkedIn.
+- Comment Liking: Let your community members recognize those commenters who elevate the conversation. 
+- Rich Text Editor: Emphasize your point of view in flourishes of bold italics, or create a bulleted list to drive home your argument.
+- LinkBack: Encourage community interaction by allowing other Livefyre bloggers display a link to their latest post when they leave a comment.
+- Live Listeners: Show readers exactly how many people are viewing the page and are following the conversation. 
+- Comment Notifiers: Show your readers who is participating in the conversation and what they are saying in real-time, all without losing your place on the page.
+- Media Embedding: Display Instagram photos, play videos from YouTube, listen to songs from Spotify, and cite Wikipedia articles directly in the conversation stream.
+- Comment Editing: Commenters can fix typos mistakes with a five-minute window to edit their comment after it has been posted.
+- User Profiles:  Visit the other Livefyre Network sites where your community is commenting.
+- SEO Optimization: Comments 3 is Google crawl-able so you receive SEO credit for all comments, including those originating from Facebook & Twitter.
+
+
+
+=Admin Dashboard=
+
+Livefyre’s centralized dashboard allows you to track and monitor every interaction on your site from one location. 
+
+=Features=
+- Spam Protection: Imperium spam filtering keeps the conversation going and the spam out.
+- Community Flagging: Develop trust with community members by letting them notify you when a comment is offensive or off topic. 
+- Edit Comments: Moderators can edit all comments to correct spelling and grammar, and make sure that shared links and embedded media keep the conversation clear and relevant.
+- Leave Comment Notes: No need to leave your admin panel to coordinate with your moderators, see all your communication around comments in one place.
+- Multiple Moderation roles: Delegate moderation responsibilities among Site Owners, Admins, Moderators, and  
+- Whitelists & Banned Users: Authors and trusted community members can bypass pre-moderation with Whitelists, while trolls are kept at bay with Ban lists and their comments are Bozo'ed so that they are only visible to the comment author and not your community.
+- Profanity Lists: Customize the settings for filtering comments for your community. 
+- User Activity: See which community members are your top commenters and who you should reach out to invite them back to your site.
+- Moderation & Conversation Reports: Generate reports that give an overview of your moderation practices and see which posts are sparking the most conversations.
+
+
+
 
 For more info check out [Livefyre's full feature
 list](http://livefyre.com/features).
 
 == Installation ==
 
-Check out the FAQ for install here to [view a
-video](http://support.livefyre.com/customer/portal/articles/22145-how-do-i-install-livefyre-on-wordpress-)
+1) Download the attached Livefyre Comments 3 plugin file (v4.0.0).
+2) Log in to your WP Admin panel and select "Plugins" from the Admin menu on the left.
+3) Deactivate any third party comment plugins you may have previously installed.
+4) Click "Add New" from the Plugins menu.
+5) Select "Upload" and choose the Livefyre-4_00.zip plugin file, and then click on the "Install Now" button.
+6) When the automated installation has completed, clicl "Activate Plugin."
+7) At the top of the Plugins screen you'll see a message box prompting you to "confirm your blog configuration with livefyre.com" - click on this link and sign in to your Livefyre account, or create a new account if needed.
+8) Once you Sign in or create a new account Livefyre will begin importing comments from your WP database to the Livefyre system. We always write your comments back to your database as they are made, so you don't have to worry about any re-imports or exports of your comments.
 
-== Frequently Asked Questions ==
+Our [Livefyre Comments 3 Knowledge Base](http://support.livefyre.com/customer/portal/articles/867218-how-to-install-livefyre-comments-3) has more information about installation.
 
-Visit the [Livefyre FAQ](http://support.livefyre.com) or e-mail us at
-support@livefyre.com.
+== FAQ ==
+
+Visit the [Livefyre FAQ](http://support.livefyre.com) to access our entire Knowledge Base, or e-mail us at
+support@livefyre.com with any questions you have.
 
 == Changelog ==
+
+= 4.00 =
+* Implemented the Comments 3 platform for all conversations.
+* Added a backend upgrade to migrate old conversations to the Comments 3 platform.
+* Increased the reliability of site syncing by making a check for it's scheduling.
+* Added debugging features in the WP logs if debug mode is on.
+* Updated and redesigned admin settings page.
+* Added useful links in the settings page.
+* Fixed issues with importing of comments to warn or potential problems.
 = 3.52 =
 * Fixes some issues with comment count, increases site sync request timeout to improve reliability.
 = 3.50 =
@@ -68,7 +110,7 @@ support@livefyre.com.
 = 3.07 =
 * Fixed misconfigured Livefyre domain for bootstrap html fetching.
 = 3.06 =
-* Added a deactivate action to reset the status of the import process.  This prevents upgrading an old plugin (in an inconsistent state) and erroniously getting the admin notification "we're still importing your comments..."
+* Added a deactivate action to reset the status of the import process.  This prevents upgrading an old plugin (in an inconsistent state) and erroneously getting the admin notification "we're still importing your comments..."
 * Added testing for iconv() support for before attempting to sanitize comments that are being exported (to Livefyre)
 = 3.05 =
 * Added better messaging during import process: * notifying users of the fact that a job is queued, when it is * better display when an error is encountered * allow users to come back and see continuously updated import status via the Livefyre link under Comments (WordPress Admin) * better messaging in admin dashboard during import
