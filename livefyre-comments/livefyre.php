@@ -532,8 +532,7 @@ class Livefyre_Admin {
 
     function register_admin_page() {
         
-        add_comments_page( 'Livefyre Settings', 'Livefyre', 'manage_options', 'livefyre', array( &$this, 'site_options_page' ) );
-
+        add_submenu_page( 'options-general.php', 'Livefyre Settings', 'Livefyre', 'manage_options', 'livefyre', array( &$this, 'site_options_page' ) );
     }
 
     function register_network_admin_page() {
