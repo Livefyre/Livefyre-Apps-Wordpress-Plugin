@@ -334,6 +334,7 @@ class Livefyre_Sync {
         if ( !is_array( $json_array ) ) {
             $this->schedule_sync( LF_SYNC_LONG_TIMEOUT );
             $error_message = 'Error during do_sync: Invalid response ( not a valid json array ) from sync request to url: ' . $url . ' it responded with: ' . $str_comments;
+            $this->lf_core->Logger->add( "Livefyre: Invalid response ( not a valid json array) from sync request." );
             $this->livefyre_report_error( $error_message );
             return array_merge(
                 $result,
@@ -345,6 +346,7 @@ class Livefyre_Sync {
         $last_activity_id = 0;
         // By default, we don't queue an other near-term sync unless we discover the need to
         $timeout = LF_SYNC_LONG_TIMEOUT;
+        $first = true;
         foreach ( $json_array as $json ) {
             $mtype = $json->message_type;
             if ( $mtype == LF_SYNC_ERROR ) {
@@ -378,6 +380,11 @@ class Livefyre_Sync {
                     'comment_date'  => $comment_date,
                     'lf_state'  => $json->state
                 );
+                if($first) {
+                    $first_id_msg = 'Livefyre: Processing activity page starting with ' . $data['lf_activity_id'];
+                    $this->lf_core->Logger->add($first_id_msg);
+                    $first = false;
+                }
                 if ( isset( $json->body_text ) ) {
                     $data[ 'comment_content' ] = $json->body_text;
                 }
@@ -393,6 +400,8 @@ class Livefyre_Sync {
         $result[ 'last-activity-id' ] = $last_activity_id;
         if ( $last_activity_id ) {
             $this->ext->update_option( 'livefyre_activity_id', $last_activity_id );
+            $last_id_msg = 'Livefyre: Set last activity ID processed to ' . $last_activity_id;
+            $this->lf_core->Logger->add($last_id_msg);
         }
         $this->schedule_sync( $timeout );
         return $result;
@@ -491,7 +500,6 @@ class Livefyre_Sync {
     }
 
     function livefyre_insert_activity( $data ) {
-
         if ( isset( $data[ 'lf_comment_parent' ] ) && $data[ 'lf_comment_parent' ]!= null ) {
             $app_comment_parent = $this->ext->get_app_comment_id( $data[ 'lf_comment_parent' ] );
             if ( $app_comment_parent == null ) {
@@ -507,10 +515,15 @@ class Livefyre_Sync {
         $action_types = array( 
             'comment-add', 
             'comment-moderate:mod-approve', 
-            'comment-moderate:mod-hide', 
-            'comment-update'
+            'comment-moderate:mod-hide',
+            'comment-moderate:mod-unapprove',
+            'comment-moderate:mod-mark-spam',
+            'comment-moderate:mod-bozo',
+            'comment-update',
+            'comment-delete'
         );
         if ( $app_comment_id > '' && in_array( $at, $action_types ) ) {
+
             // update existing comment
             $data[ 'comment_ID' ] = $app_comment_id;
             $at_parts = explode( ':', $at );
@@ -520,6 +533,10 @@ class Livefyre_Sync {
                 if ( $mod == 'mod-approve' ) {
                     $this->ext->update_comment_status( $app_comment_id, 'approve' );
                 } elseif ( $mod == 'mod-hide' && $data[ 'lf_state' ] == 'hidden' ) {
+                    $this->ext->delete_comment( $app_comment_id );
+                } elseif ( $mod == 'mod-unapprove') {
+                    $this->ext->update_comment_status( $app_comment_id, 'hold' );
+                } elseif ( $mod == 'mod-mark-spam' || $mod == 'mod-bozo') {
                     $this->ext->update_comment_status( $app_comment_id, 'spam' );
                 }
             } elseif ( ($action == 'comment-update' || $action == 'comment-add') && isset( $data[ 'comment_content' ] ) && $data[ 'comment_content' ] != '' ) {
@@ -528,6 +545,8 @@ class Livefyre_Sync {
                 if ( $data[ 'lf_state' ] == 'unapproved' ) {
                     $this->ext->update_comment_status( $app_comment_id, 'hold' );
                 }
+            } elseif ($action == 'comment-delete') {
+                $this->ext->delete_comment( $app_comment_id );
             }
         } elseif ( in_array( $at, array( 'comment-add', 'comment-moderate:mod-approve' ) ) ) {
             // insert new comment

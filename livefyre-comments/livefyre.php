@@ -385,7 +385,8 @@ class Livefyre_Application {
         "comment_ID",
         "comment_post_ID",
         "comment_parent",
-        "comment_approved"
+        "comment_approved",
+        "comment_date"
     );
     
     function sanitize_inputs ( $data ) {
@@ -402,9 +403,9 @@ class Livefyre_Application {
         
     }
     
-    function delete_comment( $data ) {
+    function delete_comment( $id ) {
 
-        return wp_delete_comment( $this->sanitize_inputs( $data ) );
+        return wp_delete_comment( $id );
 
     }
 
@@ -1082,15 +1083,20 @@ class Livefyre_Http_Extension {
 $livefyre = new Livefyre_core;
 
 add_action( 'livefyre_check_for_sync', 'check_site_sync' );
+
+function write_to_log( $msg ) {
+    if ( WP_DEBUG === false ) {
+        return;
+    }
+    error_log( $msg );
+}
 /*
 * To alleviate site_syncs not firing, check to make sure they are set up
 */
 function setup_sync_check() {
     $hook = 'livefyre_check_for_sync';
     if ( !wp_next_scheduled( $hook ) ) {
-        if ( WP_DEBUG === true ) {
-            error_log( "Livefyre: Setting up sync_check." );
-        }
+        write_to_log( 'Livefyre: Setting up sync_check.' );
         wp_schedule_event( time(), 'hourly', 'livefyre_check_for_sync' );
     }
 }
@@ -1098,17 +1104,29 @@ function setup_sync_check() {
 /*
 * Is there a site sync scheduled? (There should be...) If not schedule one for 7 hours down the road
 */
+
 function check_site_sync() {
     $hook = 'livefyre_sync';
-    if ( WP_DEBUG === true ) {
-        error_log( "Livefyre: Checking for a site sync." );
+    $msg = '';
+    $timeout = time();
+    write_to_log( 'Livefyre: Checking for a site sync.' );
+    if ( wp_next_scheduled( $hook ) > time() ) {
+        return;
     }
     if ( !wp_next_scheduled( $hook ) ) {
-        if ( WP_DEBUG === true ) {
-            error_log( "Livefyre: Scheduling a site sync. Don't know why one is not scheduled." );
-        }
-        wp_schedule_single_event( time() + LF_SYNC_LONG_TIMEOUT, $hook );
+        // Nothing scheduled for site sync
+        $msg = 'Livefyre: Scheduling a site sync. Don\'t know why one is not scheduled.';
+        $timeout += LF_SYNC_LONG_TIMEOUT;
     }
+    elseif ( wp_next_scheduled( $hook ) < time() ) {
+        // Sync was scheduled, but now timestamp is now expired
+        $msg = "Livefyre: Site sync cron job expired. Scheduling sync on short timeout";
+        $timeout += LF_SYNC_SHORT_TIMEOUT;
+        wp_clear_scheduled_hook( $hook );
+    }
+    write_to_log( $msg );
+    wp_schedule_single_event( $timeout, $hook );
+
 }
 
 setup_sync_check();

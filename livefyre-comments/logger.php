@@ -11,7 +11,7 @@ class Logger {
             return;
         }
         if ( is_array( $message ) || is_object( $message ) ) {
-            $message = print_r( $message );
+            $message = print_r( $message, true );
         }
         if ( $database_flag ) {
             global $wpdb;
