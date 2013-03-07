@@ -138,7 +138,7 @@ class Livefyre_Application {
 
     function setup_sync( $obj ) {
 
-        add_action( 'livefyre_sync', array( &$obj, 'do_sync' ) );
+        add_action( 'livefyre_sync', array( &$obj, 'run_do_sync' ) );
         add_action( 'init', array( &$obj, 'comment_update' ) );
         /*
          * Removing this for V2.0.1
@@ -160,9 +160,9 @@ class Livefyre_Application {
     
     function setup_import( $obj ) {
 
-        add_action('init', array(&$obj, 'check_import'));
-        add_action('init', array(&$obj, 'check_activity_map_import'));
-        add_action('init', array(&$obj, 'begin'));
+        add_action('init', array(&$obj, 'run_check_import'));
+        add_action('init', array(&$obj, 'run_check_activity_map_import'));
+        add_action('init', array(&$obj, 'run_begin'));
     
     }
     

@@ -18,7 +18,7 @@ class Livefyre_Import {
         return true;
     }
     
-    public function admin_import_notice() {
+    function admin_import_notice() {
         return; //todo: re-enable this
         if (!is_admin() || $_GET["page"] != "livefyre" ||
             $this->ext->get_option('livefyre_import_status', '') != '' ||
@@ -28,7 +28,21 @@ class Livefyre_Import {
         echo "<div id='livefyre-import-notice' class='updated fade'><p><a href='?page=livefyre&livefyre_import_begin=true'>Click here</a> to import your comments.</p></div>";
     }
 
-    public function begin() {
+    function run_begin() {
+        try {
+            $this->begin();
+        }
+        catch (Exception $e) {
+            try {
+                $this->lf_core->Logger->add('Livefyre Import: Exception occured in begin - ' . $e->getMessage());
+                $this->lf_core->Raven->captureException($e);
+            }
+            catch (Exception $f) {}
+            throw $e;
+        }
+    }
+
+    function begin() {
 
         $this->lf_core->Logger->add( "Livefyre: Beginning an import process." );
 
@@ -60,9 +74,25 @@ class Livefyre_Import {
             $this->ext->update_option('livefyre_import_status', 'started');
             $this->ext->delete_option('livefyre_v3_notify_installed');
         }
+        
     }
 
-    public function check_activity_map_import() {
+    function run_check_activity_map_import() {
+        try {
+            $this->check_activity_map_import();
+        }
+        catch (Exception $e) {
+            try {
+                $this->lf_core->Logger->add('Livefyre Import : Exception occured in check_activity_map_import - ' . $e->getMessage());
+                $this->lf_core->Raven->captureException($e);
+            }
+            catch (Exception $f) {}
+            throw $e;
+        }
+    }
+
+    function check_activity_map_import() {
+
         if (!isset($_POST['activity_map'])) {
             return;
         }
@@ -87,7 +117,21 @@ class Livefyre_Import {
         exit;
     }
 
-    public function check_import() {
+    function run_check_import() {
+        try {
+            $this->check_import();
+        }
+        catch (Exception $e) {
+            try {
+                $this->lf_core->Logger->add('Livefyre Import: Exception occured in check_import - ' . $e->getMessage());
+                $this->lf_core->Raven->captureException($e);
+            }
+            catch (Exception $f) {}
+            throw $e;
+        }
+    }
+
+    function check_import() {
 
         $this->lf_core->Logger->add( "Livefyre: Checking on an import." );
         // Make sure we're allowed to import comments

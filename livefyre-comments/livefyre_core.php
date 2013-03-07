@@ -28,6 +28,7 @@ class Livefyre_core {
         $this->require_logger();
         $this->define_globals();
         $this->require_subclasses();
+        $this->require_raven();
         $this->Logger->add( "Livefyre: Constructing a Livefyre_core." );
         
     }
@@ -85,6 +86,13 @@ class Livefyre_core {
 
         require_once(dirname(__FILE__) . "/logger.php");
 
+    }
+
+    function require_raven() {
+
+        require_once(dirname(__FILE__) . "/Raven/Autoloader.php");
+        Raven_Autoloader::register();
+        $this->Raven = new Raven_Client('http://0f5245e17ee1418a905268a6032ef829:3c1ef304db44449ab27988d6f0b4dfcf@sentry.livefyre.com:9000/3');
     }
 
     function add_extension() {
@@ -300,6 +308,22 @@ class Livefyre_Sync {
 
     }
 
+    function run_do_sync() {
+        try {
+            $this->do_sync();
+        }
+        catch (Exception $e) {
+            try {
+                $this->lf_core->Raven->captureException($e);
+                $error_message = 'Livefyre: Exception occured during do_sync - ' . $e->getMessage();
+                $this->lf_core->Logger->add($error_message);
+            }
+            catch (Exception $f) {}
+            throw $e;
+        }
+    }
+
+
     function do_sync() {
         $this->lf_core->Logger->add( "Livefyre: Running a site sync." );
         /*
@@ -313,6 +337,7 @@ class Livefyre_Sync {
             'last-message-type' => null,
             'activities-handled' => 0
         );
+
         $inserts_remaining = LF_SYNC_MAX_INSERTS;
         $max_activity = $this->ext->get_option( 'livefyre_activity_id', '0' );
         if ( $max_activity == '0' ) {
@@ -405,7 +430,7 @@ class Livefyre_Sync {
         }
         $this->schedule_sync( $timeout );
         return $result;
-    
+
     }
 
     function schedule_sync( $timeout ) {
