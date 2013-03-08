@@ -1,382 +1,350 @@
-.fyre-settings .fyre-list{
-	margin:0;
+#fyresettings #fyreheader{
+    height: 45px;
+    background-image: url('images/header-bg.png');
 }
 
-.fyre-settings .fyre-container{
-	*width: 800px;
-	max-width: 800px;
-	height: auto;
-	display: block;
-	border-radius: 7px;
-	background: #fff;
-	border: 1px solid #999;
-	box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
-	margin-bottom: 16px;
+#fyrebodycontent #fyrestatus {
+    border-bottom: 1px solid #CCC;
+    display: block;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
-.fyre-settings .fyre-container-list{
-	width: 350px;
-	height: auto;
-	display:block;
-	border-radius:7px;
-	border: 1px solid #999;
-	box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
-	margin-bottom:16px;
-	
+#fyrestatus span {
+    color: #999999;
+    font-size: 18px;
+    font-weight: normal;
 }
 
-.fyre-settings li.fyre-list {
-	height:32px;
-	width: 350px;
-	font: 12px/32px "Helvetica Neue";
-	border-bottom:1px solid #999;
-	list-style:none;
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	padding:0px 6px;
-	background-color: #f5f5f5;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ebebeb));
-	background-image: -webkit-linear-gradient(top, #ffffff, #ebebeb);
-	background-image: -moz-linear-gradient(top, #ffffff, #ebebeb);
-	background-image: -o-linear-gradient(top, #ffffff, #ebebeb);
-	background-image: -ms-linear-gradient(top, #ffffff, #ebebeb);
-	background-image: linear-gradient(top, #ffffff, #ebebeb);
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#ffffff', EndColorStr='#ebebeb');
-}
-.fyre-settings li:first-child{
-	border-radius:7px 7px 0px 0px;
-}
-.fyre-settings li:last-child{
-	border-bottom: none;
-}
-.fyre-settings .fyre-button{
-	background-color:#f2f2f2;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(242, 242, 242)),to(rgb(218, 218, 218)));
-	background-image: -webkit-linear-gradient(top, rgb(242, 242, 242), rgb(218, 218, 218));
-	background-image: -moz-linear-gradient(top, rgb(242, 242, 242), rgb(218, 218, 218));
-	background-image: -o-linear-gradient(top, rgb(242, 242, 242), rgb(218, 218, 218));
-	background-image: -ms-linear-gradient(top, rgb(242, 242, 242), rgb(218, 218, 218));
-	background-image: linear-gradient(top, rgb(242, 242, 242), rgb(218, 218, 218));
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f2f2f2', EndColorStr='#dadada');
-	border:1px solid #8c8c8c;
-	color: #666;
-	text-shadow: 0px 1px #e9e9e9;
-	height:24px;
-	font: 12px/22px "Helvetica Neue";
-	padding: 0px 6px;
-	text-decoration:none;
-	width:auto;
-	border: 1px solid #999;
-	box-shadow: inset 0px 1px rgba(255,255,255,0.35), 0px 1px rgba(255,255,255,0.2);
-	-webkit-box-shadow: inset 0px 1px rgba(255,255,255,0.35), 0px 1px rgba(255,255,255,0.2);
-	-moz-box-shadow: inset 0px 1px rgba(255,255,255,0.35), 0px 1px rgba(255,255,255,0.2);
-	border-radius:4px;
-	box-sizing: border-box;
-	display:inline-block;
-	margin-top:6px;
-    cursor: pointer;
+#fyrestatus h2 {
+    color: #999999;
+    font-size: 16px;
+    font-weight: normal;
 }
 
-.fyre-settings .fyre-button:active{
-	background-color: #e6e6e6;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(230, 230, 230)),to(rgb(203, 203, 203)));
-	background-image: -webkit-linear-gradient(top, rgb(230, 230, 230), rgb(203, 203, 203));
-	background-image: -moz-linear-gradient(top, rgb(230, 230, 230), rgb(203, 203, 203));
-	background-image: -o-linear-gradient(top, rgb(230, 230, 230), rgb(203, 203, 203));
-	background-image: -ms-linear-gradient(top, rgb(230, 230, 230), rgb(203, 203, 203));
-	background-image: linear-gradient(top, rgb(230, 230, 230), rgb(203, 203, 203));
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#e6e6e6', EndColorStr='#cbcbcb');
-	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.1), 0px 1px rgba(255,255,255,0.2);
-	-webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.1), 0px 1px rgba(255,255,255,0.2);
-	-moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.1), 0px 1px rgba(255,255,255,0.2);
-	text-shadow: 0px 1px rgba(255,255,255,0.25), 0px 1px rgba(255,255,255,0.2);
-
+#fyrebody #fyresidepanel {
+    position: absolute;
+    right: -281px;
+    top: 0px;
+    float: left;
+    width: 280px;
+    background: #FFF;
 }
 
-.fyre-settings .fyre-button.green{
-	background-color:#499515;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(134, 194, 94)),to(rgb(90, 169, 41)));
-	background-image: -webkit-linear-gradient(top, rgb(134, 194, 94), rgb(90, 169, 41));
-	background-image: -moz-linear-gradient(top, rgb(134, 194, 94), rgb(90, 169, 41));
-	background-image: -o-linear-gradient(top, rgb(134, 194, 94), rgb(90, 169, 41));
-	background-image: -ms-linear-gradient(top, rgb(134, 194, 94), rgb(90, 169, 41));
-	background-image: linear-gradient(top, rgb(134, 194, 94), rgb(90, 169, 41));
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#86c25e', EndColorStr='#5aa929');
-	border:1px solid #2f7907;
-	color: #fff;
-	text-shadow: 0px -1px rgba(0,0,0,0.2);
-	cursor:default;
-
+.fyreallowbutton {
+    background-color: #fbfafa;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f7f6f5));
+    background-image: -webkit-linear-gradient(top, #ffffff, #f7f6f5);
+    background-image: -moz-linear-gradient(top, #ffffff, #f7f6f5);
+    background-image: -o-linear-gradient(top, #ffffff, #f7f6f5);
+    background-image: -ms-linear-gradient(top, #ffffff, #f7f6f5);
+    background-image: linear-gradient(top, #ffffff, #f7f6f5);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#ffffff', EndColorStr='#f7f6f5');
+    border: 1px solid #E0DFDC;
+    border-radius: 2px;
+    color: #808080;
+    font-size: 12px;
+    float: right;
+    margin-top: 7px;
+    line-height: 18px;
+    text-decoration: none;
+    padding: 3px;
 }
 
-.fyre-settings .fyre-button.green:active{
-	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.1);
-	-webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.1);
-	-moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.1);
-	background-color: #41900a;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(123, 177, 84)),to(rgb(67, 144, 23)));
-	background-image: -webkit-linear-gradient(top, rgb(123, 177, 84), rgb(67, 144, 23));
-	background-image: -moz-linear-gradient(top, rgb(123, 177, 84), rgb(67, 144, 23));
-	background-image: -o-linear-gradient(top, rgb(123, 177, 84), rgb(67, 144, 23));
-	background-image: -ms-linear-gradient(top, rgb(123, 177, 84), rgb(67, 144, 23));
-	background-image: linear-gradient(top, rgb(123, 177, 84), rgb(67, 144, 23));
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#7bb154', EndColorStr='#439017');
-	border:1px solid #2c7207;
-	text-shadow:0px 1px 1px rgba(0,0,0,0.2);
-}
-.fyre-settings .fyre-status{
-	background-color: #f9f9f9;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(249, 249, 249)),to(rgb(226, 225, 226)));
-	background-image: -webkit-linear-gradient(top, rgb(249, 249, 249), rgb(226, 225, 226));
-	background-image: -moz-linear-gradient(top, rgb(249, 249, 249), rgb(226, 225, 226));
-	background-image: -o-linear-gradient(top, rgb(249, 249, 249), rgb(226, 225, 226));
-	background-image: -ms-linear-gradient(top, rgb(249, 249, 249), rgb(226, 225, 226));
-	background-image: linear-gradient(top, rgb(249, 249, 249), rgb(226, 225, 226));
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f9f9f9', EndColorStr='#e2e1e2');
-	border: 1px solid #999;
-	height: 16px;
-	width: 16px;
-	font: bold 14px/26px "Helvetica Neue";
-	border-radius: 50%;
-	box-shadow: inset 0px 1px rgba(255,255,255,0.2), 0px 1px 1px rgba(0,0,0,0.15);
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	display:inline-block;
-	float:left;
-	margin:0px 6px 0px 0px;
-	text-align: center;
-}
-.fyre-settings .fyre-status.slate{
-	background-color: #bbc5d6;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(187, 197, 214)),to(rgb(147, 160, 184)));
-	background-image: -webkit-linear-gradient(top, rgb(187, 197, 214), rgb(147, 160, 184));
-	background-image: -moz-linear-gradient(top, rgb(187, 197, 214), rgb(147, 160, 184));
-	background-image: -o-linear-gradient(top, rgb(187, 197, 214), rgb(147, 160, 184));
-	background-image: -ms-linear-gradient(top, rgb(187, 197, 214), rgb(147, 160, 184));
-	background-image: linear-gradient(top, rgb(187, 197, 214), rgb(147, 160, 184));
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#bbc5d6', EndColorStr='#93a0b8');
-	border: 1px solid #65747f;
-	color: #445273;
-	text-shadow: 0px 1px rgba(255,255,255,0.15);
-
-}
-.fyre-settings .fyre-status.green {
-	background-color: #85c55d;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(133, 197, 93)),to(rgb(91, 169, 42)));
-	background-image: -webkit-linear-gradient(top, rgb(133, 197, 93), rgb(91, 169, 42));
-	background-image: -moz-linear-gradient(top, rgb(133, 197, 93), rgb(91, 169, 42));
-	background-image: -o-linear-gradient(top, rgb(133, 197, 93), rgb(91, 169, 42));
-	background-image: -ms-linear-gradient(top, rgb(133, 197, 93), rgb(91, 169, 42));
-	background-image: linear-gradient(top, rgb(133, 197, 93), rgb(91, 169, 42));
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#85c55d', EndColorStr='#5ba92a');
-	border: 1px solid #3f7032;
-	color:#ffffff;
-	text-shadow: 0px 1px 1px rgba(0,0,0,0.35);
-}
-.fyre-settings .fyre-status.red{
-    background-color: #e75646;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(231, 86, 70)),to(rgb(185, 29, 18)));
-    background-image: -webkit-linear-gradient(top, rgb(231, 86, 70), rgb(185, 29, 18));
-    background-image: -moz-linear-gradient(top, rgb(231, 86, 70), rgb(185, 29, 18));
-    background-image: -o-linear-gradient(top, rgb(231, 86, 70), rgb(185, 29, 18));
-    background-image: -ms-linear-gradient(top, rgb(231, 86, 70), rgb(185, 29, 18));
-    background-image: linear-gradient(top, rgb(231, 86, 70), rgb(185, 29, 18));
-    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#e75646', EndColorStr='#b91d12');
-    border: 1px solid #950c0c;
-}
-.fyre-settings .fyre-status.yellow{
-	background: rgb(252,234,187); /* Old browsers */
-	background: -moz-linear-gradient(top,  rgb(252,234,187) 0%, rgb(252,205,77) 50%, rgb(248,181,0) 100%, rgb(251,223,147) 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(252,234,187)), color-stop(50%,rgb(252,205,77)), 
-		color-stop(100%,rgb(248,181,0)), color-stop(100%,rgb(251,223,147))); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  rgb(252,234,187) 0%,rgb(252,205,77) 50%,rgb(248,181,0) 100%,rgb(251,223,147) 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  rgb(252,234,187) 0%,rgb(252,205,77) 50%,rgb(248,181,0) 100%,rgb(251,223,147) 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  rgb(252,234,187) 0%,rgb(252,205,77) 50%,rgb(248,181,0) 100%,rgb(251,223,147) 100%); /* IE10+ */
-	background: linear-gradient(to bottom,  rgb(252,234,187) 0%,rgb(252,205,77) 50%,rgb(248,181,0) 100%,rgb(251,223,147) 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fceabb', endColorstr='#fbdf93',GradientType=0 ); /* IE6-9 */
-	border: 1px solid #9e9e3a;
-}
-.fyre-settings .fyre-header{
-	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.00)),to(rgba(0, 0, 0, 0.12)));
-	background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.12));
-	background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.12));
-	background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.12));
-	background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.12));
-	background-image: linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.12));
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#000000', EndColorStr='#000000');
-	min-height:48px;
-	border-radius:6px 6px 0px 0px;
-	padding:8px;
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-shadow: inset 0px 1px rgba(255,255,255,0.5);
+#fyreallowheader a {
+    float: right;
+    color: #4C89B8;
+    margin-top: -30px;
 }
 
-.fyre-settings .fyre-footer{
-	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.00)),to(rgba(0, 0, 0, 0.07)));
-	background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.07));
-	background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.07));
-	background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.07));
-	background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.07));
-	background-image: linear-gradient(top, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.07));
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#000000', EndColorStr='#000000');
-	padding: 0 0 0 6px;
-	border-top: 1px solid #999;
-	height:36px;
-	
+#fyreallowheader {
+    display: inline;
 }
-.fyre-settings .fyre-title{
-	display: block;
-	font: bold 14px/16px "Helvetica Neue";
-	color: #444;
-	text-shadow: 0px 1px rgba(255,255,255,0.75);
-	margin-bottom: 10px;
-	
+
+.fyreimportbutton {
+    background-color: #fbfafa;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f7f6f5));
+    background-image: -webkit-linear-gradient(top, #ffffff, #f7f6f5);
+    background-image: -moz-linear-gradient(top, #ffffff, #f7f6f5);
+    background-image: -o-linear-gradient(top, #ffffff, #f7f6f5);
+    background-image: -ms-linear-gradient(top, #ffffff, #f7f6f5);
+    background-image: linear-gradient(top, #ffffff, #f7f6f5);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#ffffff', EndColorStr='#f7f6f5');
+    border: 1px solid #E0DFDC;
+    border-radius: 2px;
+    color: #808080;
+    font-size: 12px;
+    line-height: 18px;
+    text-decoration: none;
+    padding: 3px;
 }
-.fyre-settings .fyre-subtext{
-	display:block;
-	font: 12px/18px "Helvetica Neue";
-	color: #666;
-	text-shadow: 0px 1px rgba(255,255,255,0.75);
+
+#fyrebody #fyrebodycontent {
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    display: block;
+    float: left;
+    width :850px;
+    min-height: 460px;
+    position: relative;
+    -moz-box-shadow: 2px 0px 1px #DDDDDD;
+    -webkit-box-shadow: 0px 0px 1px #DDDDDD;
+    box-shadow: 2px 0px 1px #DDDDDD;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#DDDDDD')";
 }
-.fyre-settings .fyre-textfield{
-	height: 22px;
-	box-sizing: border-box;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	-khtml-appearance: none;
-	appearance: none;
-	border-radius: 4px;
-	border: 1px solid #a0a0a0;
-	background: #fff;
-	-webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 1px rgba(255,255,255,0.2);
-	-moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 1px rgba(255,255,255,0.2);
-	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 1px rgba(255,255,255,0.2);
-	outline: none;
-	font: 12px/12px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
-	margin: 0px 0px 0px 8px;
-	text-align: left;
-	padding: 0px 4px;
-	box-sizing:border-box;
+
+#fyreimportstatus span {
+    color: #999999;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+#fyrebodycontent h1 {
+    color: #4D4D4D;
+    font-size: 18px;
+}
+
+#fyrebodycontent p {
+    color: #999999;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+#import_toggle_button {
+    cursor:pointer;
+    width: 70px;
+}
+
+#import_toggle_text {
+    display: inline;
+    padding-left: 5px;
+}
+
+#fyrebodycontent #fyreimportstatus {
+    border-bottom: 1px solid #CCC;
+    width: 97.8%;
+    display: block;
+    padding: 10px;
 }
 
 #livefyre-import-text {
     text-align: center;
-    font-style: italic;
-    font-size: 14px;
+    margin-top: 70px;
 }
 
-#circleG{
-    width: 150px;
+#fyrepotentials li:nth-child(even) {
+    background: #FAFAFA;
+}
+
+#fyreallowcomments li {
+    font-size: 12px;
+    line-height: 41px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#fyreallowcomments li span {
+    color: #999999;
+}
+
+#fyreallowcomments li span a {
+    color: #4C89B8;
+}
+
+#fyrepotentials #fyreallowcomments {
+    border-left: 1px solid #CCC;
+    width: 47%;
+    float: left;
+    min-height: inherit;
+    padding: 10px;
+    min-height: 347px;
+}
+
+#fyrepotentials #fyreconflictplugs {
+    width: 48%;
+    float: left;
+    min-height: inherit;
+    padding: 10px;
+}
+
+#fyreconflictplugs li {
+    padding-left: 5px;
+}
+
+#fyreconflictplugs li span {
+    color: #999999;
+}
+
+#fyresidepanel h1 {
+    font-size: 16px;
+    color: #4D4D4D;
+}
+
+#fyresidepanel #fyresidesettings {
+    border-right: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    padding: 10px;
+}
+
+#fyresidepanel #fyredeactivation {
+    border-right: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    padding: 10px;
+}
+
+#fyresidepanel #fyreimportsuccess {
+    border-right: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    padding: 10px;
+}
+
+#fyredeactivation a {
+    color: #4C89B8;
+}
+
+#fyresidepanel .lf_label {
+    display: inline;
+    font-size: 12px;
+    color: #4D4D4D;
+}
+
+#fyresidepanel .lf_text {
+    display: inline;
+    font-size: 12px;
+    color: #999999;
+}
+
+#fyresidesettings a {
+    color: #4C89B8;
+    text-decoration: none;
+}
+
+#import_information p a {
+    color: #4C89B8;
+}
+
+.plugincirclered {
+    border-radius: 50%;
+    margin-right: 5px;
+    display: inline-block;
+    background: red;
+    width: 10px;
+    height: 10px; 
+}
+
+.statuscirclered {
+    border-radius: 50%;
+    margin-right: 5px;
+    display: inline-block;
+    background: red;
+    width: 15px;
+    height: 15px; 
+}
+
+.statuscircleyellow {
+    border-radius: 50%;
+    margin-right: 5px;
+    display: inline-block;
+    background: #FEDA12;
+    width: 15px;
+    height: 15px; 
+}
+
+.statuscirclegreen {
+    border-radius: 50%;
+    margin-right: 5px;
+    display: inline-block;
+    background: #59DE09;
+    width: 15px;
+    height: 15px; 
+}
+
+#gears {
+    position: relative;
     margin: 0 auto;
+    width: 85px;
 }
-.circleG{
-    float:left;
-    height:32px;
-    margin-left:17px;
-    width:32px;
-    -moz-animation-name:bounce_circleG;
-    -moz-animation-duration:1.7999999999999998s;
-    -moz-animation-iteration-count:infinite;
-    -moz-animation-direction:linear;
-    -moz-border-radius:21px;
-    -webkit-animation-name:bounce_circleG;
-    -webkit-animation-duration:1.7999999999999998s;
-    -webkit-animation-iteration-count:infinite;
-    -webkit-animation-direction:linear;
-    -webkit-border-radius:21px;
-    -ms-animation-name:bounce_circleG;
-    -ms-animation-duration:1.7999999999999998s;
-    -ms-animation-iteration-count:infinite;
-    -ms-animation-direction:linear;
-    -ms-border-radius:21px;
-    -o-animation-name:bounce_circleG;
-    -o-animation-duration:1.7999999999999998s;
-    -o-animation-iteration-count:infinite;
-    -o-animation-direction:linear;
-    -o-border-radius:21px;
-    animation-name:bounce_circleG;
-    animation-duration:1.7999999999999998s;
-    animation-iteration-count:infinite;
-    animation-direction:linear;
-    border-radius:21px;
-}
-#circleG_1{
-    -moz-animation-delay:0.36s;
-    -webkit-animation-delay:0.36s;
-    -ms-animation-delay:0.36s;
-    -o-animation-delay:0.36s;
-    animation-delay:0.36s;
-}
-#circleG_2{
-    -moz-animation-delay:0.8400000000000001s;
-    -webkit-animation-delay:0.8400000000000001s;
-    -ms-animation-delay:0.8400000000000001s;
-    -o-animation-delay:0.8400000000000001s;
-    animation-delay:0.8400000000000001s;
-}
-#circleG_3{
-    -moz-animation-delay:1.0799999999999998s;
-    -webkit-animation-delay:1.0799999999999998s;
-    -ms-animation-delay:1.0799999999999998s;
-    -o-animation-delay:1.0799999999999998s;
-    animation-delay:1.0799999999999998s;
-}
-@-moz-keyframes bounce_circleG{
-    0%{
-    }
 
-    50%{
-        background-color:#635A63
-    }
+.gear1, .gear2, .gear3 {
+    position: absolute;
+}
 
-    100%{
+.gear1 { 
+    left: 0;
+    top: 5px;
+    -webkit-animation: spin 0.8s linear 0s infinite;
+    -moz-animation: spin 0.8s linear 0s infinite;
+    -o-animation: spin 0.8s linear 0s infinite;
+}
+.gear2 {
+    left: 45px;
+    top: 17px;
+    -webkit-animation: spin 0.4s linear 0s infinite;
+    -moz-animation: spin 0.4s linear 0s infinite;
+    -o-animation: spin 0.4s linear 0s infinite;
+}
+.gear3 {
+    left: 37px;
+    top: 0;
+    -webkit-animation: spin2 0.4s linear 0s infinite;
+    -moz-animation: spin2 0.4s linear 0s infinite;
+    -o-animation: spin2 0.4s linear 0s infinite;
+}
+@-webkit-keyframes spin {
+    from{
+        -webkit-transform: rotate(0deg);
+    }
+    to{
+        -webkit-transform: rotate(45deg);
     }
 }
-@-webkit-keyframes bounce_circleG{
-    0%{
+@-webkit-keyframes spin2 {
+    from{
+        -webkit-transform: rotate(0deg);
     }
-
-    50%{
-        background-color:#635A63
-    }
-
-    100%{
+    to{
+        -webkit-transform: rotate(-45deg);
     }
 }
-@-ms-keyframes bounce_circleG{
-    0%{
+@-moz-keyframes spin {
+    from{
+        -moz-transform: rotate(0deg);
     }
-
-    50%{
-        background-color:#635A63
-    }
-
-    100%{
+    to{
+        -moz-transform: rotate(45deg);
     }
 }
-@-o-keyframes bounce_circleG{
-    0%{
+@-moz-keyframes spin2 {
+    from{
+        -moz-transform: rotate(0deg);
     }
-
-    50%{
-        background-color:#635A63
-    }
-
-    100%{
+    to{
+        -moz-transform: rotate(-45deg);
     }
 }
-@keyframes bounce_circleG{
-    0%{
+@-o-keyframes spin {
+    from{
+        -o-transform: rotate(0deg);
     }
-
-    50%{
-        background-color:#635A63
+    to{
+        -o-transform: rotate(45deg);
     }
-
-    100%{
+}
+@-o-keyframes spin2 {
+    from{
+        -o-transform: rotate(0deg);
+    }
+    to{
+        -o-transform: rotate(-45deg);
     }
 }

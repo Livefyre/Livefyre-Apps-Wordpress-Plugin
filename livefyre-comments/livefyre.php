@@ -2,7 +2,7 @@
 /*
 Plugin Name: Livefyre Realtime Comments
 Plugin URI: http://livefyre.com/wordpress#
-Description: Implements livefyre realtime comments for WordPress
+Description: Implements Livefyre realtime comments for WordPress
 Author: Livefyre, Inc.
 Version: 4.0.0
 Author URI: http://livefyre.com/
@@ -699,20 +699,11 @@ class Livefyre_Admin {
 
     function site_options_page() {
 
-        ?>
-            <div class="wrap">
-                <h2>Livefyre Settings Page</h2>
-                <form method="post" action="options.php">
-                    <?php
-                        // is this a non-mu site? if so, call network_options_init()
-                        if ( !$this->allow_domain_settings() ) {
-                            $this->network_options_page();
-                        }
-                        include( dirname(__FILE__) . '/settings-template.php');
-                    ?>
-                </form>
-            </div>
-        <?php
+        // is this a non-mu site? if so, call network_options_init()
+        if ( !$this->allow_domain_settings() ) {
+            $this->network_options_page();
+        }
+        include( dirname(__FILE__) . '/settings-template.php');
     
     }
 

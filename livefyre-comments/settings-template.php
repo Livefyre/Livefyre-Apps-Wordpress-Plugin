@@ -1,4 +1,5 @@
 <?php
+global $wpdb;
 if ( function_exists( 'home_url' ) ) {
     $home_url=home_url();
 } else {
@@ -83,179 +84,299 @@ function livefyre_start_ajax(iv) {
     );
     checkStatusLF();
 }
-    
+
+import_toggle_less = function() {
+    var info = document.getElementById('import_information');
+    info.style.display = 'none';
+    var button = document.getElementById('import_toggle_button');
+    button.onclick = import_toggle_more;
+    var toggle_text = document.getElementById('import_toggle_text');
+    toggle_text.innerHTML = 'More Info';
+}
+
+import_toggle_more = function() {
+    var info = document.getElementById('import_information');
+    info.style.display = 'block';
+    var button = document.getElementById('import_toggle_button');
+    button.onclick = import_toggle_less;
+    var toggle_text = document.getElementById('import_toggle_text');
+    toggle_text.innerHTML = 'Less Info';
+}
+
 </script>
 
-
 <?php
-$status = get_option( 'livefyre_import_status', '' );
-if ( !in_array( $status, array( '', 'error', 'csv_uploaded' ) ) ) {
+
+if (isset($_POST['textfield'])) {
+    echo username();
+    return;
+}
+
+$import_status = get_option('livefyre_import_status','');
+if ( !in_array( $import_status, array( '', 'error', 'csv_uploaded' ) ) ) {
     //only report status of the import
     ?>
     <script type="text/javascript">
+        console.log('fdsalfjdfkldfs');
         livefyre_start_ajax(1000);
     </script>
     <?php
 }
+
+$deactivated_time = get_option( 'livefyre_deactivated', ': '.time() );
+$deactivated_time = explode(': ', $deactivated_time);
+if ( time() - $deactivated_time[1] >= 4838400 ) {
+    $import_status = '';
+    update_option( 'livefyre_deactivated', '' );
+}
+
+$upgrade_status = get_option( 'livefyre_backend_upgrade', false );
 ?>
-
-
-<div class="fyre-settings">
-    <div class="fyre-container-base">
-        <div class="fyre-container-list">
-            <ul class="fyre-list">
-                <li class="fyre-list">Livefyre Site ID: <strong><?php echo get_option('livefyre_site_id') ?></strong></li>
-                <li class="fyre-list">Livefyre Site Key: <strong><?php echo get_option('livefyre_site_key') ?></strong></li>
-                <li class="fyre-list">Livefyre Admin URL: <a href="http://livefyre.com/admin" target="_blank">Admin Panel</a></li>
-                <li class="fyre-list">Livefyre Support Page: <a href="http://support.livefyre.com" target="_blank">Support Page</a></li>
-            </ul>
-        </div>
+<div id="fyresettings">
+    <div id="fyreheader" style= <?php echo '"background-image: url(' .plugins_url( '/livefyre-comments/images/header-bg.png', 'livefyre-comments' ). ')"' ?> >
+        <img src= <?php echo '"' .plugins_url( '/livefyre-comments/images/logo.png', 'livefyre-comments' ). '"' ?> rel="Livefyre" style="padding: 5px; padding-left: 15px;" />
     </div>
+    <div id="fyrebody">
+        <div id="fyrebodycontent">
+            <?php
+            $bad_plugins = Array();
+            $all_bad_plugins = Array(
+                    'disqus-comment-system/disqus.php' => 'Disqus: Commenting plugin.',
+                    'cloudflare/cloudflare.php' => 'Cloudflare: Impacts the look of the widget on the page.',
+                    'spam-free-wordpress/tl-spam-free-wordpress.php' => 'Spam Free: Disables 3rd party commenting widgets.',
+            );
+            $need_deactivation = false;
+            foreach ( $all_bad_plugins as $key => $value ) {
+                if ( is_plugin_active( $key ) ) {
+                    array_push($bad_plugins, $value);
+                }
+            }
+            if( isset($_GET['allow_comments_id']) ) {
+                $db_prefix = $wpdb->base_prefix;
+                $allow_id = $_GET['allow_comments_id'];
+                $query = "
+                    UPDATE $wpdb->posts SET comment_status = 'open'
+                    WHERE ID = " .$allow_id. "
+                        AND comment_status = 'closed' 
+                        AND post_type IN ('page','post')
+                        AND post_status = 'publish'
+                    ";
+                if ( $allow_id == 'all' ) {
+                    $query = "
+                    UPDATE $wpdb->posts SET comment_status = 'open'
+                    WHERE comment_status = 'closed'
+                        AND post_type IN ('page','post')
+                        AND post_status = 'publish'
+                    ";
+                }
+                $no_comments_posts = $wpdb->get_results( $query );
+            }
+            $db_prefix = $wpdb->base_prefix;
+            $no_comments_posts = $wpdb->get_results( 
+                "
+                SELECT ID, post_title
+                FROM $wpdb->posts
+                WHERE comment_status = 'closed' 
+                    AND post_type IN ('page','post')
+                    AND post_status = 'publish'
+                "
+            );
+            ?>
+            <div id="fyrestatus">
+                <?php
+                if ( get_option( 'livefyre_site_id', '' ) == '' ) {
+                // Don't allow the status sections if there isn't a site
+                // The second condition hides the button to start an import, if this was an upgrade from V2
+                ?>
+                    <h1>Livefyre Status: Needs Configuration</h1>
+                    <h2>You must confirm your blog configuration with Livefyre.</h2>
+                    <style>
+                        <?php echo file_get_contents( dirname( __FILE__ ) . '/settings-template.css' )  ?>
+                    </style>
+                <?php
+                    return;
+                }
+                $plugins_count = count($bad_plugins);
+                $posts_count = count($no_comments_posts);
+                $status = Array('Warning, potential issues', 'yellow');
+                if( $plugins_count >= 1 ) {
+                    $status = Array('Error, conflicting plugins', 'red');
+                }
+                else if ( $posts_count + $plugins_count < 1 && $import_status == 'csv_uploaded' ) {
+                    $status = Array('All systems go!', 'green');
+                }
+                echo '<h1><span class="statuscircle' .$status[1]. '"></span>Livefyre Status: <span>' .$status[0]. '</span></h1>';
+                if ( $plugins_count + $posts_count > 0 || $import_status != 'csv_uploaded' ) {
+                    echo '<h2>' .($plugins_count + $posts_count + ($import_status != 'csv_uploaded' ? 1 : 0)).(($import_status != 'csv_uploaded' ? 1 : 0) + $plugins_count + $posts_count == 1 ? ' issue requires' : ' issues require'). ' your attention, please see below</h2>';
+                }
+                ?>
+            </div>
 
-    <?php
-    $import_status = get_option( 'livefyre_import_status', '' );
-    $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
-    if ( get_option( 'livefyre_site_id', '' ) == '' ) {
-        // Don't allow the status sections if there isn't a site
-        // The second condition hides the button to start an import, if this was an upgrade from V2
-    } else if ( strpos( get_option( 'livefyre_deactivated' ), 'Deactivated' ) !== false ) {
-        ?>
-        <div class="fyre-container-base" id='fyre-success'>
-            <div class="fyre-container">
-                <div class="fyre-header">
-                    <div class="fyre-status green"></div>
-                    <span class="fyre-title">Deactivation</span>
-                    <span class="fyre-subtext">
-                        You seem to have deactivated Livefyre recently. Please shoot us an e-mail at <a href="mailto:support@livefyre.com">support@livefyre.com</a> and we'll see what you've been up to since.
-                    </span>
-                </div>
-            </div>
-        </div>
-        <?php
-    } else if ( $import_status == 'error' ) {
-        ?>
-        <div class="fyre-container-base" id="fyre-failure">
-            <div class="fyre-container">
-                <div class="fyre-header">
-                    <div class="fyre-status red"></div>
-                    <span class="fyre-title">Initialization Error</span>
-                    <span class="fyre-subtext">
-                        <?php echo "Message: " . get_option( 'livefyre_import_message', '' ) ?>
-                        <p>Please reattempt the import process by hitting the green button below. If that proceeds to fail, please 
-                            e-mail Livefyre at <a href="mailto:support@livefyre.com">support@livefyre.com</a> with the following:</p>
-                        <ul>
-                            <li>An .XML file of your Wordpress Blog:</li>
-                                <ol>
-                                    <li>Open your WP-Admin panel</li>
-                                    <li>Click "Tools" on the left-hand side</li>
-                                    <li>Click "Export"</li>
-                                    <li>Choose "All Content"</li>
-                                    <li>Click "Download Export file"</li>
-                                </ol>
-                            <li>The base site url you are trying to import for (yourblog.com).
-                                <strong>Note:</strong> If you have multiple sites on your Wordpress that you would like to import comments for, please make note of that
-                                in the email
-                                <br />
-                            </li>
-                        </ul>
-                    </span>
-                    <a href="?page=livefyre&livefyre_import_begin=1" class="green fyre-button">Re-attempt comment import</a>
-                </div>
-            </div>
-        </div>
-        <?php
-    } else if ( $import_status == 'csv_uploaded' ) {
-        ?>
-        <div class="fyre-container-base" id='fyre-success'>
-            <div class="fyre-container">
-                <div class="fyre-header">
-                    <div class="fyre-status green"></div>
-                    <span class="fyre-title">Successfully Imported</span>
-                    <span class="fyre-subtext">
-                        <?php echo get_option( 'livefyre_import_message', '' ) ?>
-                    </span>
-                </div>
-            </div>
-        </div>
-        <?php
-    } else if ( $import_status == '' ) {
-        if ( wp_count_comments()->total_comments > 100000 ) {
-        ?>
-            <div class="fyre-container-base" id="fyre-start">
-                <div class="fyre-container">
-                    <div class="fyre-header">
-                        <div class="fyre-status yellow"></div>
-                        <span id="fyre-progress-title" class="fyre-title">Import Status</span>
-                        <span class="fyre-subtext">
-                            Oh snap, it looks like you're pretty popular! You've got a really large amount of comment data that will need some extra attention from our support team to make sure that all of your comments end up properly imported. If you wouldn't mind dropping a quick e-mail to <a href="mailto:support@livefyre.com">support@livefyre.com</a> 
-                            with your site's URL, we'll get the ball rolling on completing your import and making sure that you're well taken care of.
-                        </span>
-                    </div>
-                </div>
-            </div>
-        <?php
-        }
-        else {
-        ?>
-            <div class="fyre-container-base" id="fyre-start">
-                <div class="fyre-container">
-                    <div class="fyre-header">
-                        <div class="fyre-status slate"></div>
-                        <span id="fyre-progress-title" class="fyre-title">Start Your Import</span>
-
-                        <span class="fyre-subtext">
-                            Import your existing WordPress comments so that they show up in Livefyre Comments and in the Livefyre Admin.  As your comments are being imported the status will be displayed bere.   If Livefyre is unable to import data, you can still use the plugin, but your existing comments will not be displayed by Livefyre.
-                        </span>
-                        <a href="?page=livefyre&livefyre_import_begin=1" class="green fyre-button">Import comments</a>
-                    </div>
-                </div>
-            </div>
             <?php
             if ( $upgrade_status == 'success' ) {
                 update_option( 'livefyre_backend_upgrade', 'sent' );
             ?>
-                <div class="fyre-container-base" id="fyre-start">
-                    <div class="fyre-container">
-                        <div class="fyre-header">
-                            <div class="fyre-status slate"></div>
-                            <span id="fyre-progress-title" class="fyre-title">Backend Upgrade</span>
-
-                            <span class="fyre-subtext">
-                                We are transfering over old Comments 2 conversations and comments to be upgraded into Comments 3. Please note that conversations on Comments 2 created before July 2012 will need to be upgraded.
-                            </span>
-                        </div>
-                    </div>
+                <div id="fyrestatus">
+                    <h1>Livefyre Upgrade Status: <span>Sent</span></h1>
+                    <p>It looks like your backend is in need of moving to the latest and greatest version of Livefyre! 
+                        To implement the Comments 3 plugin, all your data pre July of 2012 will need to be updated. Depending on the number of blog posts and comments you have, 
+                        this may take up to several hours and the comments will not show up on those conversations until the data upgrade is complete.
+                    </p>
                 </div>
-        <?php
+            <?php
             }
-        }
-    } else {
-        ?>
-        <div class="fyre-container-base" id="fyre-start">
-            <div class="fyre-container">
-                <div class="fyre-header">
-                    <div class="fyre-status yellow"></div>
-                    <span id="fyre-progress-title" class="fyre-title">Importing Comments</span>
 
-                    <span class="fyre-subtext">
-                        Import your existing WordPress comments so that they show up in Livefyre Comments and in the Livefyre Admin.  As your comments are being imported the status will be displayed bere.   
-                        If Livefyre is unable to import data, you can still use the plugin, but your existing comments will not be displayed by Livefyre.
-                    </span>
-                    <p id="livefyre-import-text">Warming up the engine...</p>
-                    <div id="circleG">
-                        <div id="circleG_1" class="circleG"></div>
-                        <div id="circleG_2" class="circleG"></div>
-                        <div id="circleG_3" class="circleG"></div>
-                        <div style="clear:both"></div>
-                    </div>
+            if( $import_status != 'csv_uploaded' ) {
+            ?>
+                <div id="fyreimportstatus">
+                    <?php
+                    if ( $import_status == 'error' ) {
+                    ?>
+                        <h1>Livefyre Import Status: <span>Failed</span></h1>
+                        <div id="import_toggle_button" onclick="import_toggle_less()" cursor="pointer">
+                            <img id="import_toggle" src= <?php echo '"' .plugins_url( '/livefyre-comments/images/more-info.png', 'livefyre-comments' ). '"' ?> rel="Info">
+                            <div id='import_toggle_text'>Less Info</div>
+                        </div>
+                        <div id="import_information">
+                            <?php echo "<p>Message: " .get_option( 'livefyre_import_message', '' ). "</p>"?>
+                            <p>Aw, man. It looks like your comment data gave our importer a hiccup and the import process was derailed. But have no fear, the Livefyre support team is here to help. 
+                                If you wouldn’t mind following the instructions below, our support team would be more than happy to work with you to get this problem squared away before you know it!
+                                E-mail Livefyre at <a href="mailto:support@livefyre.com">support@livefyre.com</a> with the following:</p>
+                            <p>1. In your WP-Admin panel, click “Tools”<br />
+                            2. Click “Export”<br />
+                            3. Be sure that “All Content” is selected, and then click “Download Export File”<br />
+                            4. Attach and e-mail the .XML file that WordPress created to support@livefyre.com along with the URL of your blog.<br /><br />
+                            <strong>Note:</strong> If you have multiple sites on your WordPress that you would like to import comments for, please make note of that
+                            in the email.</p>
+                            <p>Livefyre will still be active and functional on your site, but your imported comments will not be displayed in the commment stream.</p>
+                        </div>
+                    <?php
+                    }
+                    else if ( $import_status == '' ) {
+                        if ( wp_count_comments()->total_comments > 100000 ) {
+                        ?>
+                            <h1>Livefyre Import Status: <span>Pending</span></h1>
+                            <p>Oh snap, it looks like you're pretty popular! You've got a really large amount of comment data that will need some extra attention from our support team to make sure that all of your comments end up properly imported. If you wouldn't mind dropping a quick e-mail to <a href="mailto:support@livefyre.com">support@livefyre.com</a> 
+                            with your site's URL, we'll get the ball rolling on completing your import and making sure that you're well taken care of.</p>
+                        <?php
+                        }
+                        else {
+                        ?>
+                            <h1>Livefyre Import Status: <span>Uninitialized</span></h1>
+                            <p>You’ve got some comment data that hasn’t been imported into Livefyre yet, please click the 'Import Comments' button below.
+                            As your comments are being imported the status will be displayed here.
+                            If Livefyre is unable to import your data, you can still use the plugin, but your existing comments will not be displayed in the Livefyre comment widget. 
+                            Please e-mail <a href="mailto:support@livefyre.com">support@livefyre.com</a> with any issues as we’d be more than happy to help you resolve them.</p>
+                            <span><a href="?page=livefyre&livefyre_import_begin=1" class="fyreimportbutton">Import Comments</a></span>
+                        <?php
+                        }
+                    }
+                    else {
+                    ?>
+                        <h1>Livefyre Import Status: <span>Running</span></h1>
+                        <p>Depending on the amount of data imported, your comment data may not be immediately displayed after your import completes. If you have any questions,
+                            please e-mail <a href="mailto:support@livefyre.com">support@livefyre.com.</a></p>
+                        <div id="gears">
+                            <img src=<?php echo '"' .plugins_url( '/livefyre-comments/images/gear1.png', 'livefyre-comments' ). '"';?> class="gear1" alt="" />
+                            <img src=<?php echo '"' .plugins_url( '/livefyre-comments/images/gear2.png', 'livefyre-comments' ). '"';?> class="gear2" alt="" />
+                            <img src=<?php echo '"' .plugins_url( '/livefyre-comments/images/gear3.png', 'livefyre-comments' ). '"';?> class="gear3" alt="" />
+                        </div>
+                        <p id="livefyre-import-text">Warming up the engine...</p>
+                    <?php
+                    }
+                    ?>
+                </div>
+            <?php
+            }
+            ?>
 
+            <div id="fyrepotentials" class="clearfix">
+                <div id="fyreconflictplugs">
+                    <?php echo '<h1>Conflicting Plugins (' .$plugins_count. ')</h1>';
+                    if ( $plugins_count ) {
+                    ?>
+                    <p>We found that the following plugins are active on your site, and unfortunately they will conflict with Livefyre Comments 3 and break our widget’s functionality. 
+                        To be sure that Comments 3 is running without a hitch, it will be necessary to deactivate the following plugins:</p>
+                    <ul>
+                    <?php
+                        foreach ( $bad_plugins as $plugin ) {
+                            $plugin_data = explode( ':', $plugin );
+                            echo '<li><div class="plugincirclered"></div>' .$plugin_data[0]. ": <span>" .$plugin_data[1];?></span></li><?php
+                        }
+                    ?>
+                    </ul>
+                    <?php
+                    }
+                    else {
+                        echo '<p>There are no conflicting plugins</p>';
+                    }
+                ?>
+                </div>
+
+                <div id="fyreallowcomments">
+                    <?php echo '<h1>Allow Comments Status (' .$posts_count. ')</h1>';
+                    if ( $posts_count ) {
+                        ?>
+                        <p>We've automagically found that you do not have the "Allow Comments" box in WordPress checked on the posts listed below. 
+                        This means that the Livefyre Comments 3 widget will not be functional on those posts. To be sure that the Livefyre Comments 3 widget functions properly on each post, just click on the “enable” button. 
+                        If you’d like to turn comments off on those posts, you can do so from your Livefyre admin panel by clicking the "Livefyre Admin" link to the right, then clicking “Conversations.”</p>
+                        <div id="fyreallowheader">
+                            <h1>Post:</h1>
+                            <a href="?page=livefyre&allow_comments_id=all" text-decoration:"none">Enable All</a>
+                        </div>
+                        <ul>
+                        <?php
+                        foreach ( $no_comments_posts as $ncpost ) {
+                            echo '<li>ID: <span>' .$ncpost->ID. "</span>  Title:</span> <span><a href=" .get_permalink($ncpost->ID). ">" .$ncpost->post_title. "</a></span>";
+                            echo '<a href="?page=livefyre&allow_comments_id=' .$ncpost->ID. '" class="fyreallowbutton">Enable</a>';
+                        }
+                    ?>
+                    </ul>
+                    <?php
+                    }
+                    else {
+                        echo '<p>There are no posts with comments not allowed</p>';
+                    }
+                    ?>
                 </div>
             </div>
-        </div><?php
-         
-    } 
-    ?>
+            <div id="fyresidepanel">
+                <div id="fyresidesettings">
+                    <h1>Site Settings</h1>
+                        <p class="lf_label">Livefyre Site ID: </p>
+                        <?php echo '<p class="lf_text">' .get_option('livefyre_site_id'). '</p>'; ?>
+                        <br />
+                        <p class="lf_label">Livefyre Site Key: </p>
+                        <?php echo '<p class="lf_text">' .get_option('livefyre_site_key'). '</p>'; ?>
+                    <h1>Links</h1>
+                        <a href="http://livefyre.com/admin" target="_blank">Livefyre Admin</a>
+                        <br />
+                        <a href="http://support.livefyre.com" target="_blank">Livefyre Support</a>
+                </div>
+                <?php
+                if ( $import_status == 'csv_uploaded' ) {
+                ?>
+                    <div id="fyreimportsuccess">
+                        <h1>Import Success</h1>
+                        <p class="lf_text">We’re all finished, your comment data is now fully imported. You are good to go!</p>
+                    </div>
+                <?php
+                }
+                if ( strpos( get_option( 'livefyre_deactivated' ), 'Deactivated' ) !== false ) {
+                ?>
+                    <div id="fyredeactivation">
+                        <h1>Deactivation</h1>
+                        <p class="lf_text">Welcome back! It looks like you’ve reactivated the Livefyre plugin recently. If you’ve had comments left on your site since deactivating Livefyre, 
+                            please shoot a quick e-mail to <a href="mailto:support@livefyre.com">support@livefyre.com</a> and we’d be happy to help you get all of your comment data properly re-imported.
+                    </div>
+                <?php
+                }
+                ?>
+            </div>
+        </div>
+    </div>
 </div>
+
 <style>
     <?php echo file_get_contents( dirname( __FILE__ ) . '/settings-template.css' )  ?>
 </style>
