@@ -25,11 +25,11 @@ class Livefyre_core {
 
         $this->add_extension();
         $this->require_php_api();
-        $this->require_logger();
+        $this->require_Livefyre_Logger();
         $this->define_globals();
         $this->require_subclasses();
         $this->require_raven();
-        $this->Logger->add( "Livefyre: Constructing a Livefyre_core." );
+        $this->Livefyre_Logger->add( "Livefyre: Constructing a Livefyre_core." );
         
     }
     
@@ -82,7 +82,7 @@ class Livefyre_core {
 
     }
 
-    function require_logger() {
+    function require_Livefyre_Logger() {
 
         require_once(dirname(__FILE__) . "/libs/php/Logger/livefyre_logger.php");
 
@@ -113,7 +113,7 @@ class Livefyre_core {
         $this->Admin = new Livefyre_Admin( $this );
         $this->Display = new Livefyre_Display( $this );
         $this->Federation = new Livefyre_Federation( $this );
-        $this->Logger = new Livefyre_Logger( );
+        $this->Livefyre_Logger = new Livefyre_Logger( );
     }
 
 } //  Livefyre_core
@@ -130,7 +130,7 @@ class Livefyre_Health_Check {
 
     function livefyre_health_check() {
 
-        $this->lf_core->Logger->add( "Livefyre: Making a health check." );
+        $this->lf_core->Livefyre_Logger->add( "Livefyre: Making a health check." );
 
         if ( !isset( $_GET[ 'livefyre_ping_hash' ] ) )
             return;
@@ -173,7 +173,7 @@ class Livefyre_Activation {
     }
 
     function activate() {
-        $this->lf_core->Logger->add( "Livefyre: Activated." );
+        $this->lf_core->Livefyre_Logger->add( "Livefyre: Activated." );
         $existing_blogname = $this->ext->get_option( 'livefyre_blogname', false );
         if ( $existing_blogname ) {
             $site_id = $existing_blogname;
@@ -213,10 +213,9 @@ class Livefyre_Activation {
 
             $resp = $http->request( $url, array( 'timeout' => 10 ) );
             if ( is_wp_error( $resp ) ) {
-                $msg = 'Backfill error for site ' . $site_id;
-                $this->lf_core->Raven->captureMessage($msg);
-                $this->lf_core->Raven->captureMessage('Error message: ' . $resp->get_error_message() );
-                $this->lf_core->Logger->add( "Livefyre: Backend upgrade error: " . $resp->get_error_message() );
+                $this->lf_core->Raven->captureMessage( "Backfill error for site " . $site_id );
+                $this->lf_core->Raven->captureMessage('Error message: ' . $resp->get_error_message() );
+                $this->lf_core->Livefyre_Logger->add( "Livefyre: Backend upgrade error: " . $resp->get_error_message() );
                 update_option( 'livefyre_backend_upgrade', 'error' );
                 update_option( 'livefyre_backend_msg', $resp->get_error_message() );
                 return;
@@ -224,14 +223,14 @@ class Livefyre_Activation {
 
             $resp_code = $resp['response']['code'];
             $resp_message = $resp['response']['message'];
-            $this->lf_core->Logger->add( "Livefyre: Backfill Request: Code: " . $resp_code . " Message: " . $resp_message . "." );
+            $this->lf_core->Livefyre_Logger->add( "Livefyre: Backfill Request: Code: " . $resp_code . " Message: " . $resp_message . "." );
 
             if ( $resp_code != '200' ) {
-                $msg = 'Backfill error for site ' . $site_id;
-                $this->lf_core->Raven->captureMessage($msg);
-                $this->lf_core->Raven->captureMessage('Error message: ' . $resp->get_error_message() );
-                $this->lf_core->Logger->add( "Livefyre: Request returned an non successful value. " . $resp );
+                $this->lf_core->Livefyre_Logger->add( "Livefyre: Request returned an non successful value. " . $resp );
                 update_option( 'livefyre_backend_upgrade', 'error' );
+                $this->lf_core->Raven->captureMessage( "Backfill error for site " . $site_id );
+                $this->lf_core->Raven->captureMessage('Error message: ' . $resp->get_error_message() );
+                $this->lf_core->Livefyre_Logger->add( "Livefyre: Backend upgrade error: " . $resp->get_error_message() );
                 return;
             }
 
@@ -239,7 +238,7 @@ class Livefyre_Activation {
             $backfill_status = $json_data->status;
             $backfill_msg = $json_data->msg;
 
-            $this->lf_core->Logger->add( "Livefyre: Backend Response: Status: " . $backfill_status . " Message: " . $backfill_msg . "." );
+            $this->lf_core->Livefyre_Logger->add( "Livefyre: Backend Response: Status: " . $backfill_status . " Message: " . $backfill_msg . "." );
             if ( $backfill_status == 'success' ) {
                 $backfill_msg = 'Request for Comments 2 upgrade has been sent';
             }
@@ -322,7 +321,7 @@ class Livefyre_Sync {
             try {
                 $this->lf_core->Raven->captureException($e);
                 $error_message = 'Livefyre: Exception occured during do_sync - ' . $e->getMessage();
-                $this->lf_core->Logger->add($error_message);
+                $this->lf_core->Livefyre_Logger->add($error_message);
             }
             catch (Exception $f) {}
             throw $e;
@@ -331,7 +330,7 @@ class Livefyre_Sync {
 
 
     function do_sync() {
-        $this->lf_core->Logger->add( "Livefyre: Running a site sync." );
+        $this->lf_core->Livefyre_Logger->add( "Livefyre: Running a site sync." );
         /*
             Fetch comments from the livefyre server, providing last activity id we have.
             Schedule the next sync if we got >50 or the server says "more-data".
@@ -365,7 +364,7 @@ class Livefyre_Sync {
         if ( !is_array( $json_array ) ) {
             $this->schedule_sync( LF_SYNC_LONG_TIMEOUT );
             $error_message = 'Error during do_sync: Invalid response ( not a valid json array ) from sync request to url: ' . $url . ' it responded with: ' . $str_comments;
-            $this->lf_core->Logger->add( "Livefyre: Invalid response ( not a valid json array) from sync request." );
+            $this->lf_core->Livefyre_Logger->add( "Livefyre: Invalid response ( not a valid json array) from sync request." );
             $this->livefyre_report_error( $error_message );
             return array_merge(
                 $result,
@@ -413,7 +412,7 @@ class Livefyre_Sync {
                 );
                 if($first) {
                     $first_id_msg = 'Livefyre: Processing activity page starting with ' . $data['lf_activity_id'];
-                    $this->lf_core->Logger->add($first_id_msg);
+                    $this->lf_core->Livefyre_Logger->add($first_id_msg);
                     $first = false;
                 }
                 if ( isset( $json->body_text ) ) {
@@ -432,7 +431,7 @@ class Livefyre_Sync {
         if ( $last_activity_id ) {
             $this->ext->update_option( 'livefyre_activity_id', $last_activity_id );
             $last_id_msg = 'Livefyre: Set last activity ID processed to ' . $last_activity_id;
-            $this->lf_core->Logger->add($last_id_msg);
+            $this->lf_core->Livefyre_Logger->add($last_id_msg);
         }
         $this->schedule_sync( $timeout );
         return $result;

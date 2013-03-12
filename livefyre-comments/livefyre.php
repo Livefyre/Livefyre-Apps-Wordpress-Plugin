@@ -367,7 +367,7 @@ class Livefyre_Application {
     
     function schedule_sync( $timeout ) {
         
-        $this->lf_core->Logger->add( "Livefyre: Scheduling a Sync." );
+        $this->lf_core->Livefyre_Logger->add( "Livefyre: Scheduling a Sync." );
         $hook = 'livefyre_sync';
 
         // try to clear the hook, for race condition safety
@@ -1072,7 +1072,7 @@ class Livefyre_Http_Extension {
 
 $livefyre = new Livefyre_core;
 
-add_action( 'livefyre_check_for_sync', array( &$obj, 'check_site_sync' ) );
+add_action( 'livefyre_check_for_sync', 'check_site_sync' );
 
 function write_to_log( $msg ) {
     if ( WP_DEBUG === false ) {
