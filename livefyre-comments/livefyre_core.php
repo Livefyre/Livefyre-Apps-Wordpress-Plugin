@@ -15,7 +15,7 @@ define( 'LF_SYNC_MAX_INSERTS', 25 );
 define( 'LF_SYNC_ACTIVITY', 'lf-activity' );
 define( 'LF_SYNC_MORE', 'more-data' );
 define( 'LF_SYNC_ERROR', 'error' );
-define( 'LF_PLUGIN_VERSION', '4.0' );
+define( 'LF_PLUGIN_VERSION', '4.0.1' );
 
 global $livefyre;
 
@@ -84,7 +84,7 @@ class Livefyre_core {
 
     function require_logger() {
 
-        require_once(dirname(__FILE__) . "/libs/php/Logger/logger.php");
+        require_once(dirname(__FILE__) . "/libs/php/Logger/livefyre_logger.php");
 
     }
 
@@ -113,7 +113,7 @@ class Livefyre_core {
         $this->Admin = new Livefyre_Admin( $this );
         $this->Display = new Livefyre_Display( $this );
         $this->Federation = new Livefyre_Federation( $this );
-        $this->Logger = new Logger( );
+        $this->Logger = new Livefyre_Logger( );
     }
 
 } //  Livefyre_core
@@ -213,6 +213,9 @@ class Livefyre_Activation {
 
             $resp = $http->request( $url, array( 'timeout' => 10 ) );
             if ( is_wp_error( $resp ) ) {
+                $msg = 'Backfill error for site ' . $site_id;
+                $this->lf_core->Raven->captureMessage($msg);
+                $this->lf_core->Raven->captureMessage('Error message: ' . $resp->get_error_message() );
                 $this->lf_core->Logger->add( "Livefyre: Backend upgrade error: " . $resp->get_error_message() );
                 update_option( 'livefyre_backend_upgrade', 'error' );
                 update_option( 'livefyre_backend_msg', $resp->get_error_message() );
@@ -224,6 +227,9 @@ class Livefyre_Activation {
             $this->lf_core->Logger->add( "Livefyre: Backfill Request: Code: " . $resp_code . " Message: " . $resp_message . "." );
 
             if ( $resp_code != '200' ) {
+                $msg = 'Backfill error for site ' . $site_id;
+                $this->lf_core->Raven->captureMessage($msg);
+                $this->lf_core->Raven->captureMessage('Error message: ' . $resp->get_error_message() );
                 $this->lf_core->Logger->add( "Livefyre: Request returned an non successful value. " . $resp );
                 update_option( 'livefyre_backend_upgrade', 'error' );
                 return;

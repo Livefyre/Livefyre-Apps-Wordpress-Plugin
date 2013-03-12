@@ -353,6 +353,41 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                         <br />
                         <a href="http://support.livefyre.com" target="_blank">Livefyre Support</a>
                 </div>
+                <div id="fyredisplayinfo">
+                    <h1>Display Comments</h1>
+                    <p class="lf_text">Comments will be displayed on:</p>
+                    <?php
+                    if( isset( $_GET['save_display_settings']) ) {
+                        if ( isset( $_GET['display_posts'] ) ) {
+                            update_option( 'livefyre_display_posts', $_GET['display_posts'] );
+                        }
+                        else {
+                            update_option( 'livefyre_display_posts', 'false' );
+                        }
+                        if ( isset( $_GET['display_pages'] ) ) {
+                            update_option( 'livefyre_display_pages', $_GET['display_pages'] );
+                        }
+                        else {
+                            update_option( 'livefyre_display_pages', 'false' );
+                        }
+                    }
+
+                    $posts_checkbox = "";
+                    $pages_checkbox = "";
+                    if ( get_option('livefyre_display_posts', 'true') == 'true' ) {
+                        $posts_checkbox = 'checked="yes"';
+                    }
+                    if ( get_option('livefyre_display_pages', 'true') == 'true' ) {
+                        $pages_checkbox = 'checked="yes"';
+                    }
+                    ?>
+                    <form id="fyredisplayform" action="options-general.php?page=livefyre">
+                        <input type="hidden" name="page" value="livefyre" />
+                        <input type="checkbox" class="checkbox" name="display_posts" value="true" <?php echo $posts_checkbox;?> />Posts<br />
+                        <input type="checkbox" class="checkbox" name="display_pages" value="true" <?php echo $pages_checkbox;?> />Pages<br />
+                        <input type="submit" class="submit" name="save_display_settings" value="Submit" />
+                    </form>
+                </div>
                 <?php
                 if ( $import_status == 'csv_uploaded' ) {
                 ?>

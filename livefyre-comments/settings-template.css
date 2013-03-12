@@ -165,9 +165,8 @@
     border-left: 1px solid #CCC;
     width: 47%;
     float: left;
-    min-height: inherit;
     padding: 10px;
-    min-height: 347px;
+    min-height: 544px;
 }
 
 #fyrepotentials #fyreconflictplugs {
@@ -194,6 +193,40 @@
     border-right: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
     padding: 10px;
+}
+
+#fyresidepanel #fyredisplayinfo {
+    border-right: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    padding: 10px;
+}
+
+#fyredisplayinfo #fyredisplayform {
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+#fyredisplayinfo .checkbox {
+    margin-right: 5px;
+}
+
+#fyredisplayinfo .submit {
+    background-color: #fbfafa;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f7f6f5));
+    background-image: -webkit-linear-gradient(top, #ffffff, #f7f6f5);
+    background-image: -moz-linear-gradient(top, #ffffff, #f7f6f5);
+    background-image: -o-linear-gradient(top, #ffffff, #f7f6f5);
+    background-image: -ms-linear-gradient(top, #ffffff, #f7f6f5);
+    background-image: linear-gradient(top, #ffffff, #f7f6f5);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#ffffff', EndColorStr='#f7f6f5');
+    border: 1px solid #E0DFDC;
+    border-radius: 2px;
+    color: #808080;
+    font-size: 12px;
+    margin-top: 7px;
+    line-height: 18px;
+    text-decoration: none;
+    padding: 3px;
 }
 
 #fyresidepanel #fyredeactivation {
