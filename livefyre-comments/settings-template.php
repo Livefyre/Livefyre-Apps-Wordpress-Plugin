@@ -107,6 +107,73 @@ import_toggle_more = function() {
 
 <?php
 
+function update_posts ( $id, $post_type ) {
+    global $wpdb;
+    $db_prefix = $wpdb->base_prefix;
+    if( $id ) {
+        $query = "
+            UPDATE $wpdb->posts SET comment_status = 'open'
+            WHERE ID = " .$id. "
+                AND comment_status = 'closed' 
+                AND post_type IN ('page','post')
+                AND post_status = 'publish'
+            ";
+    }
+    else {
+        $query = "
+            UPDATE $wpdb->posts SET comment_status = 'open'
+            WHERE comment_status = 'closed'
+                AND post_type = '" .$post_type. "'
+                AND post_status = 'publish'
+            ";
+    }
+    return $wpdb->get_results( $query );
+}
+
+function select_posts ( $post_type ) {
+    global $wpdb;
+    $query = "
+        SELECT ID, post_title
+        FROM $wpdb->posts
+        WHERE comment_status = 'closed' 
+            AND post_type = '" .$post_type. "'
+            AND post_status = 'publish'
+        ORDER BY DATE(`post_date`) DESC
+        LIMIT 50
+        ";
+    return $wpdb->get_results( $query );
+}
+
+function display_no_allows ( $post_type, $list ) {
+
+    ?>
+    <div id="fyreallowheader">
+        <?php
+        if ( $post_type == 'post' ) {
+        ?>
+            <h1>Post:</h1>
+            <a href="?page=livefyre&allow_comments_id=all_posts" text-decoration:"none">Enable All</a>
+        <?php
+        }
+        else {
+        ?>
+            <h1>Page:</h1>
+            <a href="?page=livefyre&allow_comments_id=all_pages" text-decoration:"none">Enable All</a>
+        <?php
+        }
+        ?>
+    </div>
+    <ul>
+        <?php
+        foreach ( $list as $ncpost ) {
+            echo '<li>ID: <span>' .$ncpost->ID. "</span>  Title:</span> <span><a href=" .get_permalink($ncpost->ID). ">" .$ncpost->post_title. "</a></span>";
+            echo '<a href="?page=livefyre&allow_comments_id=' .$ncpost->ID. '" class="fyreallowbutton">Enable</a></li>';
+        }
+    ?>
+    <ul>
+    <?php
+}
+
 if (isset($_POST['textfield'])) {
     echo username();
     return;
@@ -152,35 +219,21 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                 }
             }
             if( isset($_GET['allow_comments_id']) ) {
-                $db_prefix = $wpdb->base_prefix;
                 $allow_id = $_GET['allow_comments_id'];
-                $query = "
-                    UPDATE $wpdb->posts SET comment_status = 'open'
-                    WHERE ID = " .$allow_id. "
-                        AND comment_status = 'closed' 
-                        AND post_type IN ('page','post')
-                        AND post_status = 'publish'
-                    ";
-                if ( $allow_id == 'all' ) {
-                    $query = "
-                    UPDATE $wpdb->posts SET comment_status = 'open'
-                    WHERE comment_status = 'closed'
-                        AND post_type IN ('page','post')
-                        AND post_status = 'publish'
-                    ";
+
+                if ( $allow_id == 'all_posts' ) {
+                    update_posts( false, 'post' );
                 }
-                $no_comments_posts = $wpdb->get_results( $query );
+                else if ( $allow_id == 'all_pages' ) {
+                    update_posts( false, 'page' );
+                }
+                else {
+                    update_posts( $allow_id, false );
+                }
             }
             $db_prefix = $wpdb->base_prefix;
-            $no_comments_posts = $wpdb->get_results( 
-                "
-                SELECT ID, post_title
-                FROM $wpdb->posts
-                WHERE comment_status = 'closed' 
-                    AND post_type IN ('page','post')
-                    AND post_status = 'publish'
-                "
-            );
+            $no_comments_posts = select_posts( 'post' );
+            $no_comments_pages = select_posts( 'page' );
             ?>
             <div id="fyrestatus">
                 <?php
@@ -198,16 +251,25 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                 }
                 $plugins_count = count($bad_plugins);
                 $posts_count = count($no_comments_posts);
+                $pages_count = count($no_comments_pages);
+
+                $good_status = ( $posts_count + $pages_count + $plugins_count < 1 ) && $import_status == 'csv_uploaded';
+                $bad_status = $plugins_count >= 1;
                 $status = Array('Warning, potential issues', 'yellow');
-                if( $plugins_count >= 1 ) {
+                if( $bad_status ) {
                     $status = Array('Error, conflicting plugins', 'red');
                 }
-                else if ( $posts_count + $plugins_count < 1 && $import_status == 'csv_uploaded' ) {
+                else if ( $good_status ) {
                     $status = Array('All systems go!', 'green');
                 }
                 echo '<h1><span class="statuscircle' .$status[1]. '"></span>Livefyre Status: <span>' .$status[0]. '</span></h1>';
-                if ( $plugins_count + $posts_count > 0 || $import_status != 'csv_uploaded' ) {
-                    echo '<h2>' .($plugins_count + $posts_count + ($import_status != 'csv_uploaded' ? 1 : 0)).(($import_status != 'csv_uploaded' ? 1 : 0) + $plugins_count + $posts_count == 1 ? ' issue requires' : ' issues require'). ' your attention, please see below</h2>';
+
+                $total_errors = ( $plugins_count + $pages_count + $posts_count + ($import_status != 'csv_uploaded' ? 1 : 0) );
+                if ( $total_errors > 0 ) {
+                    echo '<h2>' 
+                    .$total_errors
+                    .($total_errors == 1 ? ' issue requires' : ' issues require')
+                    .' your attention, please see below</h2>';
                 }
                 ?>
             </div>
@@ -314,25 +376,20 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                 </div>
 
                 <div id="fyreallowcomments">
-                    <?php echo '<h1>Allow Comments Status (' .$posts_count. ')</h1>';
-                    if ( $posts_count ) {
+                    <?php echo '<h1>Allow Comments Status (' .($posts_count + $pages_count). ')</h1>';
+                    if ( $posts_count || $pages_count) {
                         ?>
-                        <p>We've automagically found that you do not have the "Allow Comments" box in WordPress checked on the posts listed below. 
-                        This means that the Livefyre Comments 3 widget will not be functional on those posts. To be sure that the Livefyre Comments 3 widget functions properly on each post, just click on the “enable” button. 
-                        If you’d like to turn comments off on those posts, you can do so from your Livefyre admin panel by clicking the "Livefyre Admin" link to the right, then clicking “Conversations.”</p>
-                        <div id="fyreallowheader">
-                            <h1>Post:</h1>
-                            <a href="?page=livefyre&allow_comments_id=all" text-decoration:"none">Enable All</a>
-                        </div>
-                        <ul>
+                        <p>We've automagically found that you do not have the "Allow Comments" box in WordPress checked on the posts and pages listed below, which means that the Livefyre widget will not be present on them. 
+                            To be sure that the Livefyre Comments 3 widget is visible on these posts or pages, simply click on the “enable” button next to each.</p>
+                        <p>If you’d like to simply close commenting on any post or page with the Livefyre widget still present, you can do so from your Livefyre admin panel by clicking the "Livefyre Admin" link to the right, 
+                            clicking “Conversations", and then clicking "Stream Settings."</p>
                         <?php
-                        foreach ( $no_comments_posts as $ncpost ) {
-                            echo '<li>ID: <span>' .$ncpost->ID. "</span>  Title:</span> <span><a href=" .get_permalink($ncpost->ID). ">" .$ncpost->post_title. "</a></span>";
-                            echo '<a href="?page=livefyre&allow_comments_id=' .$ncpost->ID. '" class="fyreallowbutton">Enable</a>';
+                        if ( $posts_count ) {
+                            display_no_allows( 'post', $no_comments_posts);
                         }
-                    ?>
-                    </ul>
-                    <?php
+                        if ( $pages_count ) {
+                            display_no_allows( 'page', $no_comments_pages);
+                        }
                     }
                     else {
                         echo '<p>There are no posts with comments not allowed</p>';
@@ -355,7 +412,7 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                 </div>
                 <div id="fyredisplayinfo">
                     <h1>Display Comments</h1>
-                    <p class="lf_text">Comments will be displayed on:</p>
+                    <p class="lf_text">I would like comments displayed on:</p>
                     <?php
                     if( isset( $_GET['save_display_settings']) ) {
                         if ( isset( $_GET['display_posts'] ) ) {

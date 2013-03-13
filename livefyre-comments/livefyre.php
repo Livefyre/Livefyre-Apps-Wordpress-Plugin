@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Livefyre Realtime Comments
-Plugin URI: http://livefyre.com/wordpress#
+Plugin URI: http://livefyre.com
 Description: Implements Livefyre realtime comments for WordPress
 Author: Livefyre, Inc.
 Version: 4.0.1
@@ -1039,8 +1039,18 @@ class Livefyre_Display {
     }
 
     function livefyre_show_comments(){
-
-        return ( is_single() && get_option('livefyre_display_posts') == 'true' ) || ( is_page() && get_option('livefyre_display_pages') == 'true' ) && ! is_preview();
+        
+        global $post;
+        /* Is this a post and is the settings checkbox on? */
+        $display_posts = ( is_single() && get_option('livefyre_display_posts') == 'true' );
+        /* Is this a page and is the settings checkbox on? */
+        $display_pages = ( is_page() && get_option('livefyre_display_pages') == 'true' );
+        /* Are comments open on this post/page? */
+        $comments_open = ( $post->comment_status == 'open' );
+        
+        return ( $display_posts || $display_pages )
+            && !is_preview()
+            && $comments_open;
 
     }
 
