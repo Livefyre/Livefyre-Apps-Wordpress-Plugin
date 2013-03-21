@@ -21,7 +21,9 @@ class Raven_Autoloader
      */
     public static function register()
     {
-        ini_set('unserialize_callback_func', 'spl_autoload_call');
+        //ini_set is disabled by some web hosts causing an error, spl_autoload_register works without ini_set
+
+        //ini_set('unserialize_callback_func', 'spl_autoload_call');
         spl_autoload_register(array(new self, 'autoload'));
     }
 

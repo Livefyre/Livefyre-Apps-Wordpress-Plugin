@@ -195,16 +195,21 @@ class Livefyre_Activation {
             if ( $site_id ) {
                 $this->ext->update_option( 'livefyre_v3_installed', current_time('timestamp') );
                 $this->ext->update_option( 'livefyre_v3_notify_upgraded', 1 );
+                $this->run_backfill( $site_id ); //only run backfill on existing blogs
             } else {
                 // !IMPORTANT
                 // livefyre_v3_installed == 0 is used elsewhere to determine if this
                 // installation was derived from a former V2 installation
                 $this->ext->update_option( 'livefyre_v3_installed', 0 );
                 $this->ext->update_option( 'livefyre_v3_notify_installed', 1 );
+                $this->ext->update_option( 'livefyre_backend_upgrade', 'skipped' );
             }
         }
+    }
 
-        $backend_upgrade = $this->ext->get_option('livefyre_backend_upgrade', 'not_started');
+    function run_backfill( $site_id ) {
+        $backend_upgrade = $this->ext->get_option('livefyre_backend_upgrade', 'not_started' );
+        $this->lf_core->Livefyre_Logger->add( "backend_upgrade is set to: " . $backend_upgrade );
         if ( $backend_upgrade == 'not_started' ) {
             # Need to upgrade the backend for this plugin. It's never been done for this site.
             # Since this only happens once, notify the user and then run it.
@@ -213,8 +218,7 @@ class Livefyre_Activation {
 
             $resp = $http->request( $url, array( 'timeout' => 10 ) );
             if ( is_wp_error( $resp ) ) {
-                $this->lf_core->Raven->captureMessage( "Backfill error for site " . $site_id );
-                $this->lf_core->Raven->captureMessage('Error message: ' . $resp->get_error_message() );
+                $this->lf_core->Raven->captureMessage( "Backfill error for site " . $site_id . ": " . $resp->get_error_message() );
                 $this->lf_core->Livefyre_Logger->add( "Livefyre: Backend upgrade error: " . $resp->get_error_message() );
                 update_option( 'livefyre_backend_upgrade', 'error' );
                 update_option( 'livefyre_backend_msg', $resp->get_error_message() );
@@ -228,8 +232,7 @@ class Livefyre_Activation {
             if ( $resp_code != '200' ) {
                 $this->lf_core->Livefyre_Logger->add( "Livefyre: Request returned an non successful value. " . $resp );
                 update_option( 'livefyre_backend_upgrade', 'error' );
-                $this->lf_core->Raven->captureMessage( "Backfill error for site " . $site_id );
-                $this->lf_core->Raven->captureMessage('Error message: ' . $resp->get_error_message() );
+                $this->lf_core->Raven->captureMessage( "Backfill error for site " . $site_id . ": " . $resp->get_error_message() );
                 $this->lf_core->Livefyre_Logger->add( "Livefyre: Backend upgrade error: " . $resp->get_error_message() );
                 return;
             }
@@ -239,6 +242,7 @@ class Livefyre_Activation {
             $backfill_msg = $json_data->msg;
 
             $this->lf_core->Livefyre_Logger->add( "Livefyre: Backend Response: Status: " . $backfill_status . " Message: " . $backfill_msg . "." );
+            $this->lf_core->Raven->captureMessage( "Backfill success for site " . $site_id . " Status: " . $backfill_status . " Message: " . $backfill_msg );
             if ( $backfill_status == 'success' ) {
                 $backfill_msg = 'Request for Comments 2 upgrade has been sent';
             }
@@ -578,7 +582,7 @@ class Livefyre_Sync {
             } elseif ($action == 'comment-delete') {
                 $this->ext->delete_comment( $app_comment_id );
             }
-        } elseif ( in_array( $at, array( 'comment-add', 'comment-moderate:mod-approve' ) ) ) {
+        } elseif ( $at == 'comment-add' ) {
             // insert new comment
             if ( !isset( $data[ 'comment_content' ] ) ) {
                 livefyre_report_error( 'comment_content missing for synched activity id:' . $data[ 'lf_activity_id' ] );
