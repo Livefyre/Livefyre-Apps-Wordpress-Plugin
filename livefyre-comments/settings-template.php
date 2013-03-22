@@ -310,7 +310,7 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                             4. Attach and e-mail the .XML file that WordPress created to support@livefyre.com along with the URL of your blog.<br /><br />
                             <strong>Note:</strong> If you have multiple sites on your WordPress that you would like to import comments for, please make note of that
                             in the email.</p>
-                            <p>Livefyre will still be active and functional on your site, but your imported comments will not be displayed in the commment stream.</p>
+                            <p>Livefyre will still be active and functional on your site, but your imported comments will not be displayed in the comment stream.</p>
                         </div>
                     <?php
                     }
@@ -329,7 +329,7 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                             As your comments are being imported the status will be displayed here.
                             If Livefyre is unable to import your data, you can still use the plugin, but your existing comments will not be displayed in the Livefyre comment widget. 
                             Please e-mail <a href="mailto:support@livefyre.com">support@livefyre.com</a> with any issues as we’d be more than happy to help you resolve them.</p>
-                            <span><a href="?page=livefyre&livefyre_import_begin=1" class="fyreimportbutton">Import Comments</a></span>
+                            <span><a href="?page=livefyre&livefyre_import_begin=1" class="fyrebutton">Import Comments</a></span>
                         <?php
                         }
                     }
@@ -442,7 +442,7 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                         <input type="hidden" name="page" value="livefyre" />
                         <input type="checkbox" class="checkbox" name="display_posts" value="true" <?php echo $posts_checkbox;?> />Posts<br />
                         <input type="checkbox" class="checkbox" name="display_pages" value="true" <?php echo $pages_checkbox;?> />Pages<br />
-                        <input type="submit" class="submit" name="save_display_settings" value="Submit" />
+                        <input type="submit" class="fyrebutton" name="save_display_settings" value="Submit" />
                     </form>
                 </div>
                 <?php
