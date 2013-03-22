@@ -4,7 +4,7 @@ Plugin Name: Livefyre Realtime Comments
 Plugin URI: http://livefyre.com
 Description: Implements Livefyre realtime comments for WordPress
 Author: Livefyre, Inc.
-Version: 4.0.2
+Version: 4.0.3
 Author URI: http://livefyre.com/
 */
 
@@ -1048,9 +1048,14 @@ class Livefyre_Display {
         /* Are comments open on this post/page? */
         $comments_open = ( $post->comment_status == 'open' );
         
-        return ( $display_posts || $display_pages )
+        $display = ( $display_posts || $display_pages )
             && !is_preview()
             && $comments_open;
+
+        if ( !$display ) {
+            echo '<p style="display:none">Livefyre Not Displaying on this post</p>';
+        }
+        return $display;
 
     }
 
@@ -1082,9 +1087,9 @@ class Livefyre_Http_Extension {
 
 $livefyre = new Livefyre_core;
 
-add_action( 'livefyre_check_for_sync', 'check_site_sync' );
+add_action( 'livefyre_check_for_sync', 'livefyre_check_site_sync' );
 
-function write_to_log( $msg ) {
+function livefyre_write_to_log( $msg ) {
     if ( WP_DEBUG === false ) {
         return;
     }
@@ -1093,10 +1098,10 @@ function write_to_log( $msg ) {
 /*
 * To alleviate site_syncs not firing, check to make sure they are set up
 */
-function setup_sync_check() {
+function livefyre_setup_sync_check() {
     $hook = 'livefyre_check_for_sync';
     if ( !wp_next_scheduled( $hook ) ) {
-        write_to_log( 'Livefyre: Setting up sync_check.' );
+        livefyre_write_to_log( 'Livefyre: Setting up sync_check.' );
         wp_schedule_event( time(), 'hourly', 'livefyre_check_for_sync' );
     }
 }
@@ -1105,11 +1110,11 @@ function setup_sync_check() {
 * Is there a site sync scheduled? (There should be...) If not schedule one for 7 hours down the road
 */
 
-function check_site_sync() {
+function livefyre_check_site_sync() {
     $hook = 'livefyre_sync';
     $msg = '';
     $timeout = time();
-    write_to_log( 'Livefyre: Checking for a site sync.' );
+    livefyre_write_to_log( 'Livefyre: Checking for a site sync.' );
     if ( wp_next_scheduled( $hook ) > time() ) {
         return;
     }
@@ -1124,11 +1129,11 @@ function check_site_sync() {
         $timeout += LF_SYNC_SHORT_TIMEOUT;
         wp_clear_scheduled_hook( $hook );
     }
-    write_to_log( $msg );
+    livefyre_write_to_log( $msg );
     wp_schedule_single_event( $timeout, $hook );
 
 }
 
-setup_sync_check();
+livefyre_setup_sync_check();
 
 ?>

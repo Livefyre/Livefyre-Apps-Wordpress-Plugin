@@ -32,7 +32,7 @@
     background: #FFF;
 }
 
-.fyreallowbutton {
+.fyrebutton, .fyreallowbutton {
     background-color: #fbfafa;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f7f6f5));
     background-image: -webkit-linear-gradient(top, #ffffff, #f7f6f5);
@@ -45,11 +45,19 @@
     border-radius: 2px;
     color: #808080;
     font-size: 12px;
-    float: right;
     margin-top: 7px;
     line-height: 18px;
     text-decoration: none;
     padding: 3px;
+}
+
+.fyrebutton:hover {
+    cursor:pointer;
+    color: #CC2200;
+}
+
+.fyreallowbutton {
+    float: right;
 }
 
 #fyreallowheader a {
@@ -60,24 +68,6 @@
 
 #fyreallowheader {
     display: inline;
-}
-
-.fyreimportbutton {
-    background-color: #fbfafa;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f7f6f5));
-    background-image: -webkit-linear-gradient(top, #ffffff, #f7f6f5);
-    background-image: -moz-linear-gradient(top, #ffffff, #f7f6f5);
-    background-image: -o-linear-gradient(top, #ffffff, #f7f6f5);
-    background-image: -ms-linear-gradient(top, #ffffff, #f7f6f5);
-    background-image: linear-gradient(top, #ffffff, #f7f6f5);
-    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#ffffff', EndColorStr='#f7f6f5');
-    border: 1px solid #E0DFDC;
-    border-radius: 2px;
-    color: #808080;
-    font-size: 12px;
-    line-height: 18px;
-    text-decoration: none;
-    padding: 3px;
 }
 
 #fyrebody #fyrebodycontent {
@@ -122,6 +112,7 @@
 
 #import_toggle_button {
     cursor:pointer;
+    color: #999999;
     width: 70px;
 }
 
