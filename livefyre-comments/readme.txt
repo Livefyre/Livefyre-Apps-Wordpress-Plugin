@@ -4,7 +4,7 @@ Donate link: http://livefyre.com/
 Tags: comments, widget, community, social, profile, moderation, engagement, twitter, facebook, conversation, avatars, email notification, spam protection, rich-text, sharing
 Requires at least: 2.8
 Tested up to: 3.5
-Stable tag: 4.0.3
+Stable tag: 4.0.4
 
 Livefyre Comments 3 replaces your default comments with real-time conversations. Our social integration features make it easy to capture all the conversations going on around your content across Twitter and Facebook, while pulling your friends into the conversation.
 
@@ -82,6 +82,9 @@ Visit the [Livefyre FAQ](http://support.livefyre.com) to access our entire Knowl
 support@livefyre.com with any questions you have.
 
 == Changelog ==
+= 4.0.4 =
+* Fixed multi-site blog registration.
+* Bumped up priority of the comments widget to support certain themes.
 = 4.0.3 =
 * Removed security plugins acting up with Raven.
 * Added some more CSS in the settings page.
