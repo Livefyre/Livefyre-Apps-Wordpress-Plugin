@@ -15,7 +15,7 @@ define( 'LF_SYNC_MAX_INSERTS', 25 );
 define( 'LF_SYNC_ACTIVITY', 'lf-activity' );
 define( 'LF_SYNC_MORE', 'more-data' );
 define( 'LF_SYNC_ERROR', 'error' );
-define( 'LF_PLUGIN_VERSION', '4.0.4' );
+define( 'LF_PLUGIN_VERSION', '4.0.5' );
 
 global $livefyre;
 
@@ -113,7 +113,7 @@ class Livefyre_core {
         $this->Admin = new Livefyre_Admin( $this );
         $this->Display = new Livefyre_Display( $this );
         $this->Federation = new Livefyre_Federation( $this );
-        $this->Livefyre_Logger = new Livefyre_Logger( );
+        $this->Livefyre_Logger = new Livefyre_Logger();
     }
 
 } //  Livefyre_core
