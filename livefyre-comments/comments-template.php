@@ -44,7 +44,7 @@
             }
             set_transient( $transient_key , $cached_html, 300 );
         }
-        echo '<div id="comments">' . $cached_html . '</div>';
+        echo '<div id="livefyre-comments">' . $cached_html . '</div>';
     }
 
     echo "<!-- Livefyre Comments Version: " . $livefyre->plugin_version."-->";

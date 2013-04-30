@@ -4,7 +4,7 @@ Plugin Name: Livefyre Realtime Comments
 Plugin URI: http://livefyre.com
 Description: Implements Livefyre realtime comments for WordPress
 Author: Livefyre, Inc.
-Version: 4.0.5
+Version: 4.0.6
 Author URI: http://livefyre.com/
 */
 
@@ -36,13 +36,13 @@ class Livefyre_Application {
         return $this->get_option( 'home' );
         
     }
-    
+
     function delete_option( $optionName ) {
     
         return delete_option( $optionName );
         
     }
-    
+
     function update_option( $optionName, $optionValue ) {
     
         return update_option( $optionName, $optionValue );
@@ -103,6 +103,7 @@ class Livefyre_Application {
      * $postId: The ID of the post to set the property on.
      */
     function handle_publish( $post_id ) {
+
         if ( $parent_id = wp_is_post_revision( $post_id ) ) {
             $post_id = $parent_id;
         }
@@ -120,6 +121,23 @@ class Livefyre_Application {
         if ( function_exists( 'wp_cache_clean_cache' ) ) {
             wp_cache_clean_cache( $file_prefix );
         }
+    }
+
+    function detect_default_comment() {
+        // Checks to see if the site only has the default WordPress comment
+        // If the site has 0 comments or only has the default comment, we skip the import
+        if ( wp_count_comments()->total_comments > 1) {
+            // If the site has more than one comment, show import button like normal
+            return False;
+        }
+        // We take all the comments from post id 1, because this post has the default comment if it was not deleted
+        $comments = get_comments('post_id=1');
+        if ( count( $comments ) == 0 || ( count( $comments ) == 1 && $comments[0]->comment_author == 'Mr WordPress' ) ) {
+            // If there are 0 approved comments or if there is only the default WordPress comment, return True
+            return True;
+        }
+        // If there is 1 comment but it is not the default comment, return False
+        return False;
     }
 
     function setup_activation( $Obj ) {
@@ -161,8 +179,8 @@ class Livefyre_Application {
 
         add_action( 'init', array( &$obj, 'run_check_import' ) );
         add_action( 'init', array( &$obj, 'run_check_activity_map_import' ) );
-        add_action( 'init', array( &$obj, 'run_begin' ) );
-    
+        add_action( 'init', array( &$obj, 'run_begin' ) );    
+
     }
     
     /* START: Public Plugin Only */
@@ -438,6 +456,9 @@ class Livefyre_Application {
     
     function update_comment_status( $app_comment_id, $status ) {
     
+        if ( get_comment( $app_comment_id ) == NULL ) {
+            return;
+        }
         // Livefyre says unapproved, WordPress says hold.
         $wp_status = ( $status == 'unapproved' ? 'hold' : $status );
         $args = array( $app_comment_id, $wp_status );
@@ -481,6 +502,7 @@ class Livefyre_Admin {
         add_action( 'admin_notices', array( &$this->lf_core->Import, 'admin_import_notice' ) );
         add_action( 'admin_init', array( &$this, 'site_options_init' ) );
         add_action( 'admin_init', array( &$this->lf_core->Admin, 'plugin_upgrade' ) );
+
         /*
          * Removing this for V2.0.1
         add_action( 'admin_init', array( &$this, 'network_options_init' ) );
@@ -1030,7 +1052,7 @@ class Livefyre_Display {
                 //to_initjs( $user = null, $display_name = null, $backplane = false, $jquery_ready = false, $include_source = true )
                 echo $conv->to_initjs( $backplane = $use_backplane );
             } else {
-                echo $conv->to_initjs_v3( 'comments', $initcfg, $use_backplane );
+                echo $conv->to_initjs_v3( 'livefyre-comments', $initcfg, $use_backplane );
             }
         }
 

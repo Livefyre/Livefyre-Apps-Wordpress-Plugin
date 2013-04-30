@@ -71,7 +71,7 @@ class Livefyre_Import {
             $this->ext->update_option('livefyre_import_message', $message);
             $this->ext->delete_option('livefyre_v3_notify_installed');
         } else {
-            $this->ext->update_option('livefyre_import_status', 'started');
+            $this->ext->update_option('livefyre_import_status', 'pending');
             $this->ext->delete_option('livefyre_v3_notify_installed');
         }
         
@@ -109,7 +109,7 @@ class Livefyre_Import {
             $i++;
         }
         $this->ext->update_option('livefyre_activity_id', $rowparts[0]);
-        $this->ext->update_option('livefyre_import_status', 'csv_uploaded');
+        $this->ext->update_option('livefyre_import_status', 'complete');
         $date_formatted = 'Completed on ' . date('d/m/Y') . ' at ' . date('h:i a');
         $this->ext->update_option('livefyre_import_message', $date_formatted);
         $this->ext->delete_option('livefyre_v3_notify_installed');
@@ -134,6 +134,11 @@ class Livefyre_Import {
     function check_import() {
 
         $this->lf_core->Livefyre_Logger->add( "Livefyre: Checking on an import." );
+        if ($this->ext->detect_default_comment() && $this->ext->get_option('livefyre_import_status', 'uninitialized') == 'uninitialized') {
+            $this->ext->update_option('livefyre_import_status', 'complete');
+            $this->ext->delete_option( 'livefyre_v3_notify_installed' );
+            return;
+        }
         // Make sure we're allowed to import comments
         if (!isset($_GET['livefyre_comment_import']) || !isset($_GET['offset'])) {
             return;
