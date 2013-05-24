@@ -15,7 +15,7 @@ define( 'LF_SYNC_MAX_INSERTS', 25 );
 define( 'LF_SYNC_ACTIVITY', 'lf-activity' );
 define( 'LF_SYNC_MORE', 'more-data' );
 define( 'LF_SYNC_ERROR', 'error' );
-define( 'LF_PLUGIN_VERSION', '4.0.3' );
+define( 'LF_PLUGIN_VERSION', '4.0.6' );
 
 global $livefyre;
 
@@ -113,7 +113,7 @@ class Livefyre_core {
         $this->Admin = new Livefyre_Admin( $this );
         $this->Display = new Livefyre_Display( $this );
         $this->Federation = new Livefyre_Federation( $this );
-        $this->Livefyre_Logger = new Livefyre_Logger( );
+        $this->Livefyre_Logger = new Livefyre_Logger();
     }
 
 } //  Livefyre_core
@@ -242,7 +242,6 @@ class Livefyre_Activation {
             $backfill_msg = $json_data->msg;
 
             $this->lf_core->Livefyre_Logger->add( "Livefyre: Backend Response: Status: " . $backfill_status . " Message: " . $backfill_msg . "." );
-            $this->lf_core->Raven->captureMessage( "Backfill success for site " . $site_id . " Status: " . $backfill_status . " Message: " . $backfill_msg );
             if ( $backfill_status == 'success' ) {
                 $backfill_msg = 'Request for Comments 2 upgrade has been sent';
             }
@@ -433,9 +432,12 @@ class Livefyre_Sync {
         $result[ 'activities-handled' ] = LF_SYNC_MAX_INSERTS - $inserts_remaining;
         $result[ 'last-activity-id' ] = $last_activity_id;
         if ( $last_activity_id ) {
-            $this->ext->update_option( 'livefyre_activity_id', $last_activity_id );
+            $activity_update = $this->ext->update_option( 'livefyre_activity_id', $last_activity_id );
+            if ( !$activity_update ) {
+                $this->lf_core->Livefyre_Logger->add( 'Livefyre: Activity ID failed to be rewritten' );
+            }
             $last_id_msg = 'Livefyre: Set last activity ID processed to ' . $last_activity_id;
-            $this->lf_core->Livefyre_Logger->add($last_id_msg);
+            $this->lf_core->Livefyre_Logger->add( $last_id_msg );
         }
         $this->schedule_sync( $timeout );
         return $result;
