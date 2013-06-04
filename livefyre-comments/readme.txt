@@ -4,7 +4,7 @@ Donate link: http://livefyre.com/
 Tags: comments, widget, community, social, profile, moderation, engagement, twitter, facebook, conversation, avatars, email notification, spam protection, rich-text, sharing
 Requires at least: 2.8
 Tested up to: 3.5
-Stable tag: 4.0.6
+Stable tag: 4.0.7
 
 Livefyre Comments 3 replaces your default comments with real-time conversations. Our social integration features make it easy to capture all the conversations going on around your content across Twitter and Facebook, while pulling your friends into the conversation.
 
@@ -82,9 +82,13 @@ Visit the [Livefyre FAQ](http://support.livefyre.com) to access our entire Knowl
 support@livefyre.com with any questions you have.
 
 == Changelog ==
+= 4.0.7 = 
+* Fix for legacy values of import status affecting the settings page
 = 4.0.6 =
 * Changed comments div name to livefyre-comments to avoid theme code conflicts.
-* Hid comment import for installs with no previous comments.
+* Check for comment before running update_comment_status in postback.
+* Skip comment import for sites with no comments.
+* More specific instructions for how to fix CloudFlare in conflicting plugins.
 = 4.0.5 =
 * Removed potential naming conflicts in the livefyre-api folder.
 * Fixed bug with LF JS not being put out to the page.

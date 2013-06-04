@@ -198,6 +198,13 @@ if (isset($_POST['textfield'])) {
 }
 
 $import_status = get_option('livefyre_import_status','uninitialized');
+// Handle legacy values
+if ( $import_status == 'csv_uploaded') {
+    $import_status = 'complete';
+}
+elseif ( $import_status == 'started' ) {
+    $import_status = 'pending';
+}
 // Start the animation only if the button was clicked
 if ( $import_status == 'pending' ) {
     // Only report status of the import

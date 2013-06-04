@@ -15,7 +15,7 @@ define( 'LF_SYNC_MAX_INSERTS', 25 );
 define( 'LF_SYNC_ACTIVITY', 'lf-activity' );
 define( 'LF_SYNC_MORE', 'more-data' );
 define( 'LF_SYNC_ERROR', 'error' );
-define( 'LF_PLUGIN_VERSION', '4.0.6' );
+define( 'LF_PLUGIN_VERSION', '4.0.7' );
 
 global $livefyre;
 
