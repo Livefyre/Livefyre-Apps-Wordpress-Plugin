@@ -35,6 +35,8 @@ if [[ -z $COMMUNITY && -z $ENTERPRISE ]]; then
     exit 1
 fi
 
+RUNPATH=$(pwd)
+
 PATHROOT=$( cd $(dirname $0) ; pwd -P )
 
 # Need to update all of the files to include the right version from the version file
@@ -136,7 +138,8 @@ for EXCLUDE in $EXCLUDES; do
 done
 
 # Get the plugin out of the directory before we destroy it
-mv -f $PLUGINNAME $PATHROOT
+echo mv -f $PLUGINNAME $RUNPATH
+mv -f $PLUGINNAME $RUNPATH
 
 popd
 
