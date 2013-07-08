@@ -1,6 +1,6 @@
 <?php
 
-include("Conversation.php");
+include( dirname(__FILE__) . '/Conversation.php' );
 
 class Livefyre_Article {
     private $id;

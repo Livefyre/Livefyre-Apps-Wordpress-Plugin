@@ -1,7 +1,7 @@
 <?php
 
 define('LFTOKEN_MAX_AGE', 86400);
-include('JWT.php');
+include( dirname(__FILE__) . '/JWT.php' );
 
 class Livefyre_Token {
     static function from_user($user, $max_age=LFTOKEN_MAX_AGE) {

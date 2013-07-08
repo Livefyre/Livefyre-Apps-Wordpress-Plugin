@@ -1,6 +1,6 @@
 <?php
 
-include("Token.php");
+include( dirname(__FILE__) . '/Token.php' );
 
 class Livefyre_User {
     private $uid;

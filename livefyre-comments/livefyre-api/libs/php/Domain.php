@@ -9,8 +9,8 @@ if ( !defined( 'LF_DEFAULT_PROFILE_DOMAIN' ) ) {
 
 define( 'LF_COOKIE_PREFIX', 'livefyre_' );
 
-include("User.php");
-include("Site.php");
+include( dirname(__FILE__) . '/User.php' );
+include( dirname(__FILE__) . '/Site.php' );
 
 class Livefyre_Domain {
     private $host;

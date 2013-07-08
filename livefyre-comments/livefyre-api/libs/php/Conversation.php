@@ -1,5 +1,5 @@
 <?php
-require_once('JWT.php');
+require_once( dirname(__FILE__) . '/JWT.php' );
 
 class Livefyre_Conversation {
     private $id;

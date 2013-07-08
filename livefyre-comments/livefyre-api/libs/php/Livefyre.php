@@ -1,3 +1,3 @@
 <?php
-include('Domain.php');
+include( dirname(__FILE__) . '/Domain.php' );
 ?>
