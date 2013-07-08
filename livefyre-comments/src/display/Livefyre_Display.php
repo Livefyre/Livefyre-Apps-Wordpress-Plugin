@@ -1,7 +1,7 @@
 <?php
 /*
 Author: Livefyre, Inc.
-Version: 4.0.5
+Version: 4.0.7
 Author URI: http://livefyre.com/
 */
 
@@ -36,8 +36,9 @@ class Livefyre_Display {
                 $lfsp_source_url = $this->ext->get_network_option( 'livefyre_lfsp_source_url', '' );
                 echo '<script type="text/javascript" src="' . $lfsp_source_url . '"></script>';
         }
-        echo '<script type="text/javascript" src="http://zor.' . get_option( 'livefyre_domain_name' ) . '/wjs/v3.0/javascripts/livefyre.js"></script>';
-        //echo $this->lf_core->lf_domain_object->source_js_v3();
+        echo '<script type="text/javascript" src="http://zor.'
+            . ( 1 == get_option( 'livefyre_environment', '0' ) ?  "livefyre.com" : get_option( 'livefyre_domain_name' ) )
+            . '/wjs/v3.0/javascripts/livefyre.js"></script>';
     }
     
     function lf_init_script() {
@@ -86,7 +87,7 @@ class Livefyre_Display {
                 }
             }
             // Do we need to add in some things for Enterprise?
-            echo $conv->to_initjs_v3( 'comments', $initcfg, $use_backplane );
+            echo $conv->to_initjs_v3( 'livefyre-comments', $initcfg );
         }
 
         if ( !is_single() ) {

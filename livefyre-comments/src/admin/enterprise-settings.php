@@ -1,7 +1,7 @@
 <?php
 /*
 Author: Livefyre, Inc.
-Version: 4.0.5
+Version: 4.0.7
 Author URI: http://livefyre.com/
 */
 
@@ -65,15 +65,15 @@ settings_toggle_more = function() {
             }
             global $wpdb;
             $db_prefix = $wpdb->base_prefix;
-            $no_comments_posts = $livefyre_settings->select_posts( 'post' );
-            $no_comments_pages = $livefyre_settings->select_posts( 'page' );
+            $comments_disabled_posts = $livefyre_settings->select_posts( 'post' );
+            $comments_disabled_pages = $livefyre_settings->select_posts( 'page' );
             ?>
 
             <div id="fyrestatus">
                 <?php
                 $plugins_count = count($bad_plugins);
-                $posts_count = count($no_comments_posts);
-                $pages_count = count($no_comments_pages);
+                $disabled_posts_count = count($comments_disabled_posts);
+                $disabled_pages_count = count($comments_disabled_pages);
 
                 $need_settings = 0;
                 if ( $this->ext->get_option( 'livefyre_domain_name', '' ) == ''
@@ -84,7 +84,7 @@ settings_toggle_more = function() {
                     $need_settings = 1;
                 }
 
-                $good_status = ( $posts_count + $pages_count + $plugins_count + $need_settings < 1 );
+                $good_status = ( $disabled_posts_count + $disabled_pages_count + $plugins_count + $need_settings < 1 );
                 $bad_status = $plugins_count >= 1 || $need_settings >= 1;
                 $status = Array('Warning, potential issues', 'yellow');
                 if( $bad_status ) {
@@ -100,9 +100,9 @@ settings_toggle_more = function() {
                     $status = Array('All systems go!', 'green');
                 }
                 echo '<h1><span class="statuscircle' .$status[1]. '"></span>Livefyre Status: <span>' .$status[0]. '</span></h1>';
-                echo "<h3>Using your " . get_option('livefyre_environment', 'development') . " environment.<h3>";
+                echo "<h3>Using your " . ( 1 == get_option('livefyre_environment', '0') ?  "production" : "development" ) . " environment.<h3>";
 
-                $total_errors = ( $plugins_count + $pages_count + $posts_count + $need_settings);
+                $total_errors = ( $plugins_count + $disabled_pages_count + $disabled_posts_count + $need_settings);
                 if ( $total_errors > 0 ) {
                     echo '<h2>' . $total_errors . (($total_errors == 1 ) ? ' issue requires' : ' issues require') . ' your attention, please see below</h2>';
                 }
@@ -136,7 +136,7 @@ settings_toggle_more = function() {
                     <ul>
                     <?php
                         foreach ( $bad_plugins as $plugin ) {
-                            $plugin_data = explode( ':', $plugin );
+                            $plugin_data = explode( ':', $plugin, 2 );
                             echo '<li><div class="plugincirclered"></div>' .$plugin_data[0]. ": <span>" .$plugin_data[1];?></span></li><?php
                         }
                     ?>
@@ -150,19 +150,19 @@ settings_toggle_more = function() {
                 </div>
 
                 <div id="fyreallowcomments">
-                    <?php echo '<h1>Allow Comments Status (' .($posts_count + $pages_count). ')</h1>';
-                    if ( $posts_count || $pages_count) {
+                    <?php echo '<h1>Allow Comments Status (' .($disabled_posts_count + $disabled_pages_count). ')</h1>';
+                    if ( $disabled_posts_count || $disabled_pages_count) {
                         ?>
                         <p>We've automagically found that you do not have the "Allow Comments" box in WordPress checked on the posts and pages listed below, which means that the Livefyre widget will not be present on them. 
                             To be sure that the Livefyre Comments 3 widget is visible on these posts or pages, simply click on the “enable” button next to each.</p>
                         <p>If you’d like to simply close commenting on any post or page with the Livefyre widget still present, you can do so from your Livefyre admin panel by clicking the "Livefyre Admin" link to the right, 
                             clicking “Conversations", and then clicking "Stream Settings."</p>
                         <?php
-                        if ( $posts_count ) {
-                            $livefyre_settings->display_no_allows( 'post', $no_comments_posts);
+                        if ( $disabled_posts_count ) {
+                            $livefyre_settings->display_no_allows( 'post', $comments_disabled_posts);
                         }
-                        if ( $pages_count ) {
-                            $livefyre_settings->display_no_allows( 'page', $no_comments_pages);
+                        if ( $disabled_pages_count ) {
+                            $livefyre_settings->display_no_allows( 'page', $comments_disabled_pages);
                         }
                     }
                     else {

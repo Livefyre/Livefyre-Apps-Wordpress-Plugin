@@ -1,7 +1,7 @@
 <?php
 /*
 Author: Livefyre, Inc.
-Version: 4.0.5
+Version: 4.0.7
 Author URI: http://livefyre.com/
 */
 
@@ -103,6 +103,7 @@ class Livefyre_Admin {
         register_setting( $settings_section, 'livefyre_domain_name' );
         register_setting( $settings_section, 'livefyre_domain_key' );
         register_setting( $settings_section, 'livefyre_auth_delegate_name' );
+        register_setting( $settings_section, 'livefyre_environment' );
         
         if( $this->returned_from_setup() ) {
             $this->ext->update_option( "livefyre_site_id", $_GET["site_id"] );
@@ -149,6 +150,13 @@ class Livefyre_Admin {
             $name,
             $section_name
         );
+
+        add_settings_field('livefyre_environment',  
+            'Production Credentials',  
+            array( &$this, 'environment_callback' ),
+            $name,
+            $section_name
+        ); 
         
     }
 
@@ -161,6 +169,16 @@ class Livefyre_Admin {
         */
         include( dirname(__FILE__) . LF_SITE_SETTINGS_PAGE);
     
+    }
+
+    function environment_callback() {
+       
+        $html = '<input type="checkbox" id="livefyre_environment" name="livefyre_environment" 
+          value="1"' . checked( 1, get_option( 'livefyre_environment' ), false ) . '/>';
+        $html .= '<label for="livefyre_environment">    Check this if you are using Production Credentials</label>';  
+          
+        echo $html;
+
     }
 
     function site_id_callback() {

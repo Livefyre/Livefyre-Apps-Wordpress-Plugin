@@ -1,12 +1,11 @@
 <?php
 /*
 Author: Livefyre, Inc.
-Version: 4.0.5
+Version: 4.0.7
 Author URI: http://livefyre.com/
 */
 
 require_once( dirname( __FILE__ ) . "/Livefyre_Settings.php" );
-
 $livefyre_settings = new Livefyre_Settings();
 
 global $wpdb;
@@ -122,12 +121,21 @@ if (isset($_POST['textfield'])) {
     return;
 }
 
-$import_status = get_option('livefyre_import_status','');
-if ( !in_array( $import_status, array( '', 'error', 'csv_uploaded' ) ) ) {
-    //only report status of the import
+$import_status = get_option('livefyre_import_status','uninitialized');
+
+// Handle legacy values
+if ( $import_status == 'csv_uploaded') {
+    $import_status = 'complete';
+}
+elseif ( $import_status == 'started' ) {
+    $import_status = 'pending';
+}
+
+// Start the animation only if the button was clicked
+if ( $import_status == 'pending' ) {
+    // Only report status of the import
     ?>
     <script type="text/javascript">
-        console.log('fdsalfjdfkldfs');
         livefyre_start_ajax(1000);
     </script>
     <?php
@@ -136,7 +144,7 @@ if ( !in_array( $import_status, array( '', 'error', 'csv_uploaded' ) ) ) {
 $deactivated_time = get_option( 'livefyre_deactivated', ': '.time() );
 $deactivated_time = explode(': ', $deactivated_time);
 if ( time() - $deactivated_time[1] >= 4838400 ) {
-    $import_status = '';
+    $import_status = 'uninitialized';
     update_option( 'livefyre_deactivated', '' );
 }
 
@@ -152,7 +160,8 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
             $bad_plugins = Array();
             $all_bad_plugins = Array(
                     'disqus-comment-system/disqus.php' => 'Disqus: Commenting plugin.',
-                    'cloudflare/cloudflare.php' => 'Cloudflare: Impacts the look of the widget on the page.',
+                    'cloudflare/cloudflare.php' => 'Cloudflare: May impact the look of the widget on the page. Be sure to turn off Rocket Loader in
+                    your <a href="https://support.cloudflare.com/entries/22088538-How-do-I-access-my-CloudFlare-Performance-Settings-" target="_blank">CloudFlare settings</a>!',
                     'spam-free-wordpress/tl-spam-free-wordpress.php' => 'Spam Free: Disables 3rd party commenting widgets.',
             );
             $need_deactivation = false;
@@ -174,12 +183,12 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                     $livefyre_settings->update_posts( $allow_id, false );
                 }
             }
-            global $wpdb;
             $db_prefix = $wpdb->base_prefix;
-            $no_comments_posts = $livefyre_settings->select_posts( 'post' );
-            $no_comments_pages = $livefyre_settings->select_posts( 'page' );
+            // Get all the posts with comments disabled
+            $comments_disabled_posts = $livefyre_settings->select_posts( 'post' );
+            // Get all the pages with comments disabled
+            $comments_disabled_pages = $livefyre_settings->select_posts( 'page' );
             ?>
-
             <div id="fyrestatus">
                 <?php
                 if ( get_option( 'livefyre_site_id', '' ) == '' ) {
@@ -194,22 +203,17 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                 <?php
                     return;
                 }
+                // Count of all activated conflicting plugins
                 $plugins_count = count($bad_plugins);
-                $posts_count = count($no_comments_posts);
-                $pages_count = count($no_comments_pages);
+                // Count of all posts with comments disabled
+                $disabled_posts_count = count($comments_disabled_posts);
+                // Count of all pages with comments disabled
+                $disabled_pages_count = count($comments_disabled_pages);
 
-                $good_status = ( $posts_count + $pages_count + $plugins_count < 1 ) && $import_status == 'csv_uploaded';
-                $bad_status = $plugins_count >= 1;
-                $status = Array('Warning, potential issues', 'yellow');
-                if( $bad_status ) {
-                    $status = Array('Error, conflicting plugins', 'red');
-                }
-                else if ( $good_status ) {
-                    $status = Array('All systems go!', 'green');
-                }
+                $status = $livefyre_settings->get_fyre_status( $plugins_count, $disabled_posts_count, $disabled_pages_count, $import_status );
                 echo '<h1><span class="statuscircle' .$status[1]. '"></span>Livefyre Status: <span>' .$status[0]. '</span></h1>';
 
-                $total_errors = ( $plugins_count + $pages_count + $posts_count + ($import_status != 'csv_uploaded' ? 1 : 0) );
+                $total_errors = $livefyre_settings->get_total_errors( $plugins_count, $disabled_posts_count, $disabled_pages_count, $import_status );
                 if ( $total_errors > 0 ) {
                     echo '<h2>' 
                     .$total_errors
@@ -220,6 +224,7 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
             </div>
 
             <?php
+
             if ( $upgrade_status == 'success' ) {
                 update_option( 'livefyre_backend_upgrade', 'sent' );
             ?>
@@ -233,7 +238,7 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
             <?php
             }
 
-            if( $import_status != 'csv_uploaded' ) {
+            if( $import_status != 'complete' ) {
             ?>
                 <div id="fyreimportstatus">
                     <?php
@@ -259,7 +264,7 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                         </div>
                     <?php
                     }
-                    else if ( $import_status == '' ) {
+                    else if ( $import_status == 'uninitialized' ) {
                         if ( wp_count_comments()->total_comments > 100000 ) {
                         ?>
                             <h1>Livefyre Import Status: <span>Pending</span></h1>
@@ -270,7 +275,7 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                         else {
                         ?>
                             <h1>Livefyre Import Status: <span>Uninitialized</span></h1>
-                            <p>You’ve gofsfasdfsdfsdaen imported into Livefyre yet, please click the 'Import Comments' button below.
+                            <p>You’ve got some comment data that hasn’t been imported into Livefyre yet, please click the 'Import Comments' button below.
                             As your comments are being imported the status will be displayed here.
                             If Livefyre is unable to import your data, you can still use the plugin, but your existing comments will not be displayed in the Livefyre comment widget. 
                             Please e-mail <a href="mailto:support@livefyre.com">support@livefyre.com</a> with any issues as we’d be more than happy to help you resolve them.</p>
@@ -307,7 +312,7 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                     <ul>
                     <?php
                         foreach ( $bad_plugins as $plugin ) {
-                            $plugin_data = explode( ':', $plugin );
+                            $plugin_data = explode( ':', $plugin, 2 );
                             echo '<li><div class="plugincirclered"></div>' .$plugin_data[0]. ": <span>" .$plugin_data[1];?></span></li><?php
                         }
                     ?>
@@ -321,19 +326,19 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                 </div>
 
                 <div id="fyreallowcomments">
-                    <?php echo '<h1>Allow Comments Status (' .($posts_count + $pages_count). ')</h1>';
-                    if ( $posts_count || $pages_count) {
+                    <?php echo '<h1>Allow Comments Status (' .($disabled_posts_count + $disabled_pages_count). ')</h1>';
+                    if ( $disabled_posts_count || $disabled_pages_count) {
                         ?>
                         <p>We've automagically found that you do not have the "Allow Comments" box in WordPress checked on the posts and pages listed below, which means that the Livefyre widget will not be present on them. 
                             To be sure that the Livefyre Comments 3 widget is visible on these posts or pages, simply click on the “enable” button next to each.</p>
                         <p>If you’d like to simply close commenting on any post or page with the Livefyre widget still present, you can do so from your Livefyre admin panel by clicking the "Livefyre Admin" link to the right, 
                             clicking “Conversations", and then clicking "Stream Settings."</p>
                         <?php
-                        if ( $posts_count ) {
-                            $livefyre_settings->display_no_allows( 'post', $no_comments_posts);
+                        if ( $disabled_posts_count ) {
+                            $livefyre_settings->display_no_allows( 'post', $comments_disabled_posts);
                         }
-                        if ( $pages_count ) {
-                            $livefyre_settings->display_no_allows( 'page', $no_comments_pages);
+                        if ( $disabled_pages_count ) {
+                            $livefyre_settings->display_no_allows( 'page', $comments_disabled_pages);
                         }
                     }
                     else {
@@ -342,7 +347,6 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                     ?>
                 </div>
             </div>
-
             <div id="fyresidepanel">
                 <div id="fyresidesettings">
                     <h1>Site Settings</h1>
@@ -392,7 +396,7 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                     </form>
                 </div>
                 <?php
-                if ( $import_status == 'csv_uploaded' ) {
+                if ( $import_status == 'complete' ) {
                 ?>
                     <div id="fyreimportsuccess">
                         <h1>Import Success</h1>

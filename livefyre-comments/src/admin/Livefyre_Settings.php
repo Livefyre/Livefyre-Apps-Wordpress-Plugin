@@ -1,7 +1,7 @@
 <?php
 /*
 Author: Livefyre, Inc.
-Version: 4.0.5
+Version: 4.0.7
 Author URI: http://livefyre.com/
 */
 
@@ -73,4 +73,23 @@ class Livefyre_Settings {
         <ul>
         <?php
     }
+
+    function get_fyre_status ( $plugins_count, $disabled_posts_count, $disabled_pages_count, $import_status ) {
+    
+        if ( $this->get_total_errors( $plugins_count, $disabled_posts_count, $disabled_pages_count, $import_status ) == 0 ) {
+            return Array('All systems go!', 'green');
+        }
+        if ( $plugins_count >= 1 ) {
+            return Array('Error, conflicting plugins', 'red');
+        }
+        return Array('Warning, potential issues', 'yellow');
+
+    }
+
+    function get_total_errors( $plugins_count, $disabled_posts_count, $disabled_pages_count, $import_status ) {
+
+        return ( $plugins_count + $disabled_pages_count + $disabled_posts_count + ( $import_status != 'complete' ? 1 : 0) );
+
+    }
+
 }
