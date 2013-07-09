@@ -364,6 +364,10 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                     <h1>Display Comments</h1>
                     <p class="lf_text">I would like comments displayed on:</p>
                     <?php
+
+                    $excludes = array( '_builtin' => false );
+                    $post_types = get_post_types( $args = $excludes );
+
                     if( isset( $_GET['save_display_settings']) ) {
                         if ( isset( $_GET['display_posts'] ) ) {
                             update_option( 'livefyre_display_posts', $_GET['display_posts'] );
@@ -376,6 +380,16 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                         }
                         else {
                             update_option( 'livefyre_display_pages', 'false' );
+                        }
+
+                        foreach ($post_types as $post_type ) {
+                            $post_type_name = 'livefyre_display_' .$post_type;
+                            if ( isset( $_GET[$post_type] ) ) {
+                                update_option( $post_type_name, $_GET[$post_type] );
+                            }
+                            else {
+                                update_option( $post_type_name, 'false' );
+                            }
                         }
                     }
 
@@ -392,6 +406,17 @@ $upgrade_status = get_option( 'livefyre_backend_upgrade', false );
                         <input type="hidden" name="page" value="livefyre" />
                         <input type="checkbox" class="checkbox" name="display_posts" value="true" <?php echo $posts_checkbox;?> />Posts<br />
                         <input type="checkbox" class="checkbox" name="display_pages" value="true" <?php echo $pages_checkbox;?> />Pages<br />
+                        <?php 
+                        foreach ($post_types as $post_type ) {
+                            $post_type_name = 'livefyre_display_' .$post_type;
+                            if ( get_option($post_type_name, 'true') == 'true' ) {
+                                $post_type_checkbox = 'checked="yes"';
+                            }
+                            ?>
+                            <input type="checkbox" class="checkbox" name=<?php echo '"' .$post_type. '"';?> value="true" <?php echo $post_type_checkbox;?> /><?php echo $post_type; ?><br />
+                            <?php
+                        }
+                        ?>
                         <input type="submit" class="fyrebutton" name="save_display_settings" value="Submit" />
                     </form>
                 </div>

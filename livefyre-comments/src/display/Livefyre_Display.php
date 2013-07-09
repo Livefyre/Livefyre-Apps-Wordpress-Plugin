@@ -135,11 +135,17 @@ class Livefyre_Display {
         /* Are comments open on this post/page? */
         $comments_open = ( $post->comment_status == 'open' );
 
-        $display = ( $display_posts || $display_pages )
+        $display = $display_posts || $display_pages;
+        $post_type = get_post_type();
+        if ( $post_type != 'post' && $post_type != 'page' ) {
+            
+            $post_type_name = 'livefyre_display_' .$post_type;            
+            $display = ( get_option( $post_type_name, 'true' ) == 'true' );
+        }
+
+        return $display
             && !is_preview()
             && $comments_open;
-
-        return $display;
 
     }
 
