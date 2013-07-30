@@ -1,7 +1,7 @@
 <?php
 /*
 Author: Livefyre, Inc.
-Version: 4.0.7
+Version: 4.1.0
 Author URI: http://livefyre.com/
 */
 
@@ -16,11 +16,12 @@ class Livefyre_Admin {
         $this->ext = $lf_core->ext;
         
         add_action( 'admin_menu', array( &$this, 'register_admin_page' ) );
+        add_action( 'admin_notices', array( &$this, 'lf_install_warning') );
+        add_action( 'admin_init', array( &$this->lf_core->Admin, 'plugin_upgrade' ) );
         add_action( 'admin_init', array( &$this, 'site_options_init' ) );
         add_action( 'network_admin_menu', array(&$this, 'register_network_admin_page' ) );
         add_action( 'admin_init', array( &$this, 'network_options_init' ) );
         add_action( 'network_admin_edit_save_network_options', array($this, 'do_save_network_options'), 10, 0);
-
     }
     
     function plugin_upgrade() {

@@ -102,6 +102,7 @@ class Livefyre_Conversation {
         // We have to build this string of JS in a weird way because we conditionally include
         // direct JS references, which isn't possible with json_encode
         $onload = '';
+        $strings = '';
         if ( is_array($el) ) {
             // This parameter can optionally be the $config array, must include key 'el'
             $config = $el;
@@ -119,6 +120,11 @@ class Livefyre_Conversation {
             if ( isset( $config['onload'] ) ) {
                 $onload = ', ' . $config['onload'];
                 unset( $config['onload'] );
+            }
+            if ( isset( $config['strings'] ) && $config['strings'] != '' ) {
+                $strings = ', strings: ' . $config['strings'];
+                $strings_community = $config['strings'];
+                unset( $config['strings'] );
             }
         }
         if ( !isset( $config['el'] ) ) {
@@ -141,7 +147,10 @@ class Livefyre_Conversation {
         }
         $fyre_config = '{}';
         if ( $network_name != LF_DEFAULT_PROFILE_DOMAIN ) {
-            $fyre_config = '{"network": "' . $network_name . '"' . $delegate_str . '}';
+            $fyre_config = '{"network": "' . $network_name . '"' . $delegate_str . $strings . '}';
+        }
+        elseif ( $network_name == LF_DEFAULT_PROFILE_DOMAIN && $strings ) {
+            $fyre_config = '{ strings: ' . $strings_community . '}';
         }
         return '<script type="text/javascript">' .
                 'var lf_config = ' . json_encode( array($js_config) ) . ';' . 

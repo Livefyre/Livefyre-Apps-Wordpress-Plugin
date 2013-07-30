@@ -5,7 +5,7 @@ Livefyre Realtime Comments Core Module
 This library is shared between all Livefyre plugins.
 
 Author: Livefyre, Inc.
-Version: 4.0.7
+Version: 4.1.0
 Author URI: http://livefyre.com/
 */
 

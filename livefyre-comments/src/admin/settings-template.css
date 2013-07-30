@@ -1,9 +1,9 @@
-#fyresettings #fyreheader{
+#fyreheader{
     height: 45px;
     background-image: url('images/header-bg.png');
 }
 
-#fyrebodycontent #fyrestatus {
+#fyrestatus {
     border-bottom: 1px solid #CCC;
     display: block;
     padding-top: 10px;
@@ -23,7 +23,7 @@
     font-weight: normal;
 }
 
-#fyrebody #fyresidepanel {
+#fyresidepanel {
     position: absolute;
     right: -281px;
     top: 0px;
@@ -32,21 +32,31 @@
     background: #FFF;
 }
 
-#fyrebody #fyrenetworksettingsmulti {
+#fyrenetworksettingsmulti {
     display: block;
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
 }
 
-#fyrebody #fyrenetworksettings {
+#fyrenetworksettings,
+#fyrecommunitysettings {
     display: block;
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
+    border-bottom: 1px solid #CCC;
 }
 
-#fyrebody #fyrenetworksettings h3, #fyrebody #fyrenetworksettingsmulti h3 {
+#fyrecommunitysettings h2 {
+    color: #4D4D4D;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+#fyrenetworksettings h3,
+#fyrenetworksettingsmulti h3,
+#fyrecommunitysettings h3 {
     color: #4D4D4D;
     font-size: 18px;
 }
@@ -111,7 +121,7 @@
     display: inline;
 }
 
-#fyrebody #fyrebodycontent {
+#fyrebodycontent {
     border-left: 1px solid #CCC;
     border-right: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
@@ -164,19 +174,17 @@
     width: 70px;
 }
 
-#toggle_text {
-    display: inline-block;
-}
-
-#import_toggle_text {
+#import_toggle_text,
+#settings_toggle_text {
     display: inline;
     padding-left: 5px;
 }
 
-#fyrebodycontent #fyreimportstatus {
+#fyreimportstatus {
     width: 97.8%;
     display: block;
     padding: 10px;
+    border-bottom: 1px solid #CCC;
 }
 
 #livefyre-import-text {
@@ -203,21 +211,19 @@
     color: #4C89B8;
 }
 
-#fyrepotentials #fyreallowcomments {
+#fyreallowcomments {
     border-left: 1px solid #CCC;
-    border-top: 1px solid #CCC;
     width: 47%;
     float: left;
     padding: 10px;
-    min-height: 544px;
+    min-height: 614px;
 }
 
-#fyrepotentials #fyreconflictplugs {
+#fyreconflictplugs {
     width: 48%;
     float: left;
     min-height: inherit;
     padding: 10px;
-    border-top: 1px solid #CCC;
 }
 
 #fyreconflictplugs li {
@@ -233,21 +239,47 @@
     color: #4D4D4D;
 }
 
-#fyresidepanel #fyresidesettings {
+#fyresidesettings {
     border-right: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
     padding: 10px;
 }
 
-#fyresidepanel #fyredisplayinfo {
+#fyrelanguages {
     border-right: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
     padding: 10px;
 }
 
-#fyredisplayinfo #fyredisplayform {
+#fyredisplayinfo {
+    border-right: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    padding: 10px;
+}
+
+#fyredisplayform,
+#fyrelanguagesform,
+#fyrecacheform {
     margin-top: 10px;
     margin-left: 5px;
+}
+
+#fyrecommunitysettings form select {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#fyresidepanel form select {
+    margin-top: 5px;
+}
+
+#cache_delete {
+    margin-top: 30px;
+    margin-bottom: 25px;
+}
+
+#fyreimportstatus .fyrebutton {
+    margin-bottom: 15px;
 }
 
 #fyredisplayinfo .checkbox {
@@ -273,13 +305,8 @@
     padding: 3px;
 }
 
-#fyresidepanel #fyredeactivation {
-    border-right: 1px solid #CCC;
-    border-bottom: 1px solid #CCC;
-    padding: 10px;
-}
-
-#fyresidepanel #fyreimportsuccess {
+#fyredeactivation,
+#fyreimportsuccess {
     border-right: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
     padding: 10px;
@@ -295,7 +322,8 @@
     color: #4D4D4D;
 }
 
-#fyresidepanel .lf_text {
+#fyresidepanel .lf_text,
+#fyrelanguages .lf_text {
     display: inline;
     font-size: 12px;
     color: #999999;
@@ -317,6 +345,10 @@
     background: red;
     width: 10px;
     height: 10px; 
+}
+
+.hidden {
+    display: none;
 }
 
 .statuscirclered {

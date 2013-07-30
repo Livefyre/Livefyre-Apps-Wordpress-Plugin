@@ -5,13 +5,13 @@ Livefyre Realtime Comments Core Module
 This library is shared between all Livefyre plugins.
 
 Author: Livefyre, Inc.
-Version: 4.0.7
+Version: 4.1.0
 Author URI: http://livefyre.com/
 */
 
 require_once( dirname( __FILE__ ) . '/Abst_Livefyre_Core.php');
 
-define( 'LF_PLUGIN_VERSION', '4.0.7' );
+define( 'LF_PLUGIN_VERSION', '4.1.0' );
 
 class Livefyre_WP_Core extends Abst_Livefyre_Core {
 
@@ -96,6 +96,7 @@ class Livefyre_WP_Core extends Abst_Livefyre_Core {
         require_once( dirname( __FILE__ ) . '/admin/Livefyre_Admin.php' );
         require_once( dirname( __FILE__ ) . '/Livefyre_Health_Check.php' );
         require_once( dirname( __FILE__ ) . '/Livefyre_Activation.php' );
+        require_once( dirname( __FILE__ ) . '/Livefyre_Utility.php' );
         require_once( dirname( __FILE__ ) . '/sync/Livefyre_Sync_Impl.php' );
 
         $this->Health_Check = new Livefyre_Health_Check( $this );
@@ -104,6 +105,7 @@ class Livefyre_WP_Core extends Abst_Livefyre_Core {
         $this->Import = new Livefyre_Import_Impl( $this );
         $this->Admin = new Livefyre_Admin( $this );
         $this->Display = new Livefyre_Display( $this );
+        $this->Livefyre_Utility = new Livefyre_Utility( $this );
         $this->Livefyre_Logger = new Livefyre_Logger();
     }
 

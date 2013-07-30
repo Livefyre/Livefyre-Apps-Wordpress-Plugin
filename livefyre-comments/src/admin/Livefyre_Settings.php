@@ -1,7 +1,7 @@
 <?php
 /*
 Author: Livefyre, Inc.
-Version: 4.0.7
+Version: 4.1.0
 Author URI: http://livefyre.com/
 */
 
@@ -90,6 +90,14 @@ class Livefyre_Settings {
 
         return ( $plugins_count + $disabled_pages_count + $disabled_posts_count + ( $import_status != 'complete' ? 1 : 0) );
 
+    }
+
+    function checkSelected( $option, $value ) {
+        
+        if ( get_option( $option, '' ) == $value ) {
+            return 'selected="selected"';
+        }
+        return '';
     }
 
 }

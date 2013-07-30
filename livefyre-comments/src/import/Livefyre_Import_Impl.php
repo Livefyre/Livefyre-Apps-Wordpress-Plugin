@@ -1,7 +1,7 @@
 <?php
 /*
 Author: Livefyre, Inc.
-Version: 4.0.7
+Version: 4.1.0
 Author URI: http://livefyre.com/
 */
 
@@ -154,7 +154,7 @@ class Livefyre_Import_Impl implements Livefyre_Import {
     function check_import() {
 
         $this->lf_core->Livefyre_Logger->add( "Livefyre: Checking on an import." );
-        if ($this->ext->get_option('livefyre_import_status', 'uninitialized') == 'uninitialized') {
+        if ($this->ext->detect_default_comment() && $this->ext->get_option('livefyre_import_status', 'uninitialized') == 'uninitialized') {
             $this->ext->update_option('livefyre_import_status', 'complete');
             $this->ext->delete_option( 'livefyre_v3_notify_installed' );
             return;

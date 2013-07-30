@@ -1,7 +1,7 @@
 <?php
 /*
 Author: Livefyre, Inc.
-Version: 4.0.7
+Version: 4.1.0
 Author URI: http://livefyre.com/
 */
 
@@ -65,7 +65,7 @@ class Livefyre_Sync_Impl implements Livefyre_Sync {
             $final_path_seg = $max_activity . '/';
         }
         $url = $this->site_rest_url() . '/sync/' . $final_path_seg;
-        $qstring = 'page_size=' . $inserts_remaining . '&sig_created=' . time();
+        $qstring = 'page_size=' . $inserts_remaining . '&plugin_version=' . LF_PLUGIN_VERSION . '&sig_created=' . time();
         $key = $this->ext->get_option( 'livefyre_site_key' );
         $url .= '?' . $qstring . '&sig=' . urlencode( getHmacsha1Signature( base64_decode( $key ), $qstring ) );
         $http_result = $this->lf_core->lf_domain_object->http->request( $url, array('timeout' => 120) );

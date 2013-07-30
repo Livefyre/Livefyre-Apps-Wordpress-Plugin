@@ -1,7 +1,7 @@
 <?php
 /*
 Author: Livefyre, Inc.
-Version: 4.0.7
+Version: 4.1.0
 Author URI: http://livefyre.com/
 */
 
@@ -17,7 +17,7 @@ class Livefyre_Display {
             add_action( 'wp_footer', array( &$this, 'lf_init_script' ) );
             add_action( 'wp_footer', array( &$this, 'lf_debug' ) );
             // Set comments_template filter to maximum value to always override the default commenting widget
-            add_filter( 'comments_template', array( &$this, 'livefyre_comments' ), 99 );
+            add_filter( 'comments_template', array( &$this, 'livefyre_comments' ), $this->lf_widget_priority() );
             add_filter( 'comments_number', array( &$this, 'livefyre_comments_number' ), 10, 2 );
         }
     
@@ -26,6 +26,12 @@ class Livefyre_Display {
     function livefyre_comments_off() {
     
         return ( $this->ext->get_option( 'livefyre_site_id', '' ) == '' );
+
+    }
+
+    function lf_widget_priority() {
+
+        return intval( $this->ext->get_option( 'livefyre_widget_priority', 99 ) );
 
     }
     
@@ -85,6 +91,10 @@ class Livefyre_Display {
                 if ( get_option( 'livefyre_auth_delegate_name', '' ) != '' ) {
                     $initcfg['delegate'] = get_option( 'livefyre_auth_delegate_name', '' );
                 }
+            }
+            else {
+                $language = get_option( 'livefyre_language', 'English' );
+                $initcfg['strings'] = $this->load_strings( $language );
             }
             // Do we need to add in some things for Enterprise?
             echo $conv->to_initjs_v3( 'livefyre-comments', $initcfg );
@@ -155,6 +165,15 @@ class Livefyre_Display {
         global $post;
         return '<span data-lf-article-id="' . $post->ID . '" data-lf-site-id="' . get_option( 'livefyre_site_id', '' ) . '" class="livefyre-commentcount">'.$count.'</span>';
 
+    }
+
+    function load_strings( $language ) {
+
+        if ( $language == 'English' ) {
+            return '';
+        }
+        echo file_get_contents( dirname(dirname(dirname( __FILE__ ))) . '/languages/' . $language );
+        return 'customStrings';
     }
     
 }

@@ -1,7 +1,7 @@
 <?php
 /*
 Author: Livefyre, Inc.
-Version: 4.0.7
+Version: 4.1.0
 Author URI: http://livefyre.com/
 */
 
@@ -211,6 +211,23 @@ class Livefyre_Application {
         $args = array( $app_comment_id, $wp_status );
         $this->without_wp_notifications( 'wp_set_comment_status', $args );
     
+    }
+
+    function detect_default_comment() {
+        // Checks to see if the site only has the default WordPress comment
+        // If the site has 0 comments or only has the default comment, we skip the import
+        if ( wp_count_comments()->total_comments > 1) {
+            // If the site has more than one comment, show import button like normal
+            return False;
+        }
+        // We take all the comments from post id 1, because this post has the default comment if it was not deleted
+        $comments = get_comments('post_id=1');
+        if ( count( $comments ) == 0 || ( count( $comments ) == 1 && $comments[0]->comment_author == 'Mr WordPress' ) ) {
+            // If there are 0 approved comments or if there is only the default WordPress comment, return True
+            return True;
+        }
+        // If there is 1 comment but it is not the default comment, return False
+        return False;
     }
 
 } // Livefyre_Application
