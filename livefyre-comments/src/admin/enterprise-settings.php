@@ -255,6 +255,26 @@ settings_toggle_more = function() {
                         <input type="submit" class="fyrebutton" name="save_display_settings" value="Submit" />
                     </form>
                 </div>
+                <div id="fyrelanguages">
+                    <?php
+                    if( isset( $_GET['lf_language']) ) {
+                        update_option( 'livefyre_language', $_GET['lf_language'] );
+                    }
+                    ?>
+                    <h1>Languages</h1>
+                    <p class="lf_text">I would like my language to be: </p>
+                    <form id="fyrelanguagesform" action="options-general.php?page=livefyre">
+                        <input type="hidden" name="page" value="livefyre" />
+                        <select name="lf_language">
+                            <option value="English" <?php echo $livefyre_settings->checkSelected('livefyre_language', 'English'); ?> >English</option>
+                            <option value="Spanish" <?php echo $livefyre_settings->checkSelected('livefyre_language', 'Spanish'); ?> >Spanish</option>
+                            <option value="French" <?php echo $livefyre_settings->checkSelected('livefyre_language', 'French'); ?> >French</option>
+                            <option value="Portuguese" <?php echo $livefyre_settings->checkSelected('livefyre_language', 'Portuguese'); ?> >Portuguese</option>
+                        </select><br />
+                        <input type="submit" class="fyrebutton" name="save_languages" value="Submit" />
+                    </form><br>
+                    <p class="lf_text">Note: If you are implementing your own custom strings, the selection in this section will be overwritten.</p>
+                </div>
             </div>
         </div>
     </div>

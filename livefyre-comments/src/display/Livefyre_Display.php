@@ -91,6 +91,14 @@ class Livefyre_Display {
                 if ( get_option( 'livefyre_auth_delegate_name', '' ) != '' ) {
                     $initcfg['delegate'] = get_option( 'livefyre_auth_delegate_name', '' );
                 }
+                if ( function_exists ( 'livefyre_strings_chooser') ) {
+                    $filename = livefyre_strings_chooser();
+                    $initcfg['strings'] = $this->load_custom_strings( $filename );
+                }
+                else {
+                    $language = get_option( 'livefyre_language', 'English' );
+                    $initcfg['strings'] = $this->load_strings( $language );
+                }
             }
             else {
                 $language = get_option( 'livefyre_language', 'English' );
@@ -173,6 +181,12 @@ class Livefyre_Display {
             return '';
         }
         echo file_get_contents( dirname(dirname(dirname( __FILE__ ))) . '/languages/' . $language );
+        return 'customStrings';
+    }
+
+    function load_custom_strings ( $filepath ) {
+
+        echo file_get_contents( $filepath );
         return 'customStrings';
     }
     
