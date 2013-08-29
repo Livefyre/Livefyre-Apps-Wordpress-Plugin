@@ -14,6 +14,7 @@ class Livefyre_Utility {
 
         add_action( 'init', array( &$this, 'set_activity_id' ) );
         add_action( 'init', array( &$this, 'show_activity_id' ) );
+        add_action( 'init', array( &$this, 'set_import_status' ) );
         add_action( 'init', array( &$this, 'set_widget_priority' ) );
         add_action( 'init', array( &$this, 'show_widget_priority' ) );
         add_action( 'init', array( &$this, 'lf_clear_cache' ) );
@@ -93,6 +94,30 @@ class Livefyre_Utility {
             echo json_encode( $result );
             exit;
         }
+    }
+
+    function set_import_status() {
+
+        if ( !( isset($_GET['lf_set_import_status']) ) ) {
+            return;
+        }
+        $import_code = $_GET['lf_set_import_status'];
+        $import_status = ( $import_code == 0 ) ? 'error' : 'complete';
+        $result = array(
+            'status' => 'ok',
+            'import_status' => $import_status
+        );
+        $success = $this->update_import_status( $import_status );
+        if ( !$success ) {
+            $result['status'] = 'error';
+        }
+        echo json_encode( $result );
+        exit;
+    }
+
+    function update_import_status( $status ) {
+
+        return $this->ext->update_option( "livefyre_import_status", $status );
     }
 
     function run_clear_cache() {

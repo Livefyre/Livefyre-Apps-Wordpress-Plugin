@@ -13,7 +13,7 @@ class Livefyre_Display {
         $this->ext = $lf_core->ext;
         
         if ( ! $this->livefyre_comments_off() ) {
-            add_action( 'wp_head', array( &$this, 'lf_embed_head_script' ) );
+            add_action( 'wp_enqueue_scripts', array( &$this, 'lf_embed_head_scripts' ) );
             add_action( 'wp_footer', array( &$this, 'lf_init_script' ) );
             add_action( 'wp_footer', array( &$this, 'lf_debug' ) );
             // Set comments_template filter to maximum value to always override the default commenting widget
@@ -34,17 +34,33 @@ class Livefyre_Display {
         return intval( $this->ext->get_option( 'livefyre_widget_priority', 99 ) );
 
     }
-    
-    function lf_embed_head_script() {
+
+    function lf_embed_head_scripts() {
         global $wp_query;
         $profile_sys = $this->ext->get_network_option( 'livefyre_profile_system', 'livefyre' );
         if ($profile_sys == 'lfsp') {
                 $lfsp_source_url = $this->ext->get_network_option( 'livefyre_lfsp_source_url', '' );
-                echo '<script type="text/javascript" src="' . $lfsp_source_url . '"></script>';
+                wp_enqueue_script('lfsp', $lfsp_source_url);
         }
-        echo '<script type="text/javascript" src="http://zor.'
-            . ( 1 == get_option( 'livefyre_environment', '0' ) ?  "livefyre.com" : $this->ext->get_network_option( 'livefyre_domain_name' ) )
-            . '/wjs/v3.0/javascripts/livefyre.js"></script>';
+        
+        $zor_source_url = 'http://zor.'
+        . ( 1 == get_option( 'livefyre_environment', '0' ) ?  "livefyre.com" : $this->ext->get_network_option( 'livefyre_domain_name', 'livefyre.com' ) )
+        . '/wjs/v3.0/javascripts/livefyre.js';
+        
+        wp_enqueue_script('zor', $zor_source_url, array(), null, false);
+
+        if ( function_exists ( 'livefyre_strings_chooser') ) {
+            $file_url = livefyre_strings_chooser();
+            wp_enqueue_script('lf_custom_strings', $file_url, array(), null, false);
+            return;
+        }
+
+        $language = get_option( 'livefyre_language', 'English' );
+        if ( $language == 'English' ) {
+            return;
+        }
+        wp_enqueue_script('lf_language', plugins_url('/languages/' . $language . '.js', dirname(dirname( __FILE__ ))), array(), null, false );
+        
     }
     
     function lf_init_script() {
@@ -93,7 +109,7 @@ class Livefyre_Display {
                 }
                 if ( function_exists ( 'livefyre_strings_chooser') ) {
                     $filename = livefyre_strings_chooser();
-                    $initcfg['strings'] = $this->load_custom_strings( $filename );
+                    $initcfg['strings'] = $this->load_strings( $filename );
                 }
                 else {
                     $language = get_option( 'livefyre_language', 'English' );
@@ -167,7 +183,6 @@ class Livefyre_Display {
 
     }
 
-
     function livefyre_comments_number( $count ) {
 
         global $post;
@@ -180,13 +195,6 @@ class Livefyre_Display {
         if ( $language == 'English' ) {
             return '';
         }
-        echo file_get_contents( dirname(dirname(dirname( __FILE__ ))) . '/languages/' . $language );
-        return 'customStrings';
-    }
-
-    function load_custom_strings ( $filepath ) {
-
-        echo file_get_contents( $filepath );
         return 'customStrings';
     }
     

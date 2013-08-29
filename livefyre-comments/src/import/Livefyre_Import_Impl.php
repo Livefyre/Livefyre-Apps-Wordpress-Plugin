@@ -264,7 +264,7 @@ class Livefyre_Import_Impl implements Livefyre_Import {
                     $newArticle .= '<created>' . preg_replace('/\s/', 'T', $post->post_date_gmt) . 'Z</created>';
                 }
                 $comment_array = get_approved_comments($post->ID);
-                $comment_array = array_filter($comment_array, array('Livefyre_Import', 'skip_trackback_filter'));
+                $comment_array = array_filter($comment_array, array('Livefyre_Import_Impl', 'skip_trackback_filter'));
                 foreach ($comment_array as $comment) {
                     $comment_content = $this->comment_data_filter($comment->comment_content);
                     if ($comment_content == "") {

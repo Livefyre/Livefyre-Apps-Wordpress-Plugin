@@ -40,8 +40,6 @@ Livefyre Comments 3 was designed from the ground-up for the social web, turning 
 - User Profiles:  Visit the other Livefyre Network sites where your community is commenting.
 - SEO Optimization: Comments 3 is Google crawl-able so you receive SEO credit for all comments, including those originating from Facebook & Twitter.
 
-
-
 =Admin Dashboard=
 
 Livefyre’s centralized dashboard allows you to track and monitor every interaction on your site from one location. 
@@ -57,26 +55,50 @@ Livefyre’s centralized dashboard allows you to track and monitor every interac
 - User Activity: See which community members are your top commenters and who you should reach out to invite them back to your site.
 - Moderation & Conversation Reports: Generate reports that give an overview of your moderation practices and see which posts are sparking the most conversations.
 
-
-
-
 For more info check out [Livefyre's full feature
-list](http://livefyre.com/features).
+list](http://livefyre.com/comments).
 
 == Installation ==
 
-1) Download the attached Livefyre Comments 3 plugin file (v4.0.0).
-2) Log in to your WP Admin panel and select "Plugins" from the Admin menu on the left.
-3) Deactivate any third party comment plugins you may have previously installed.
-4) Click "Add New" from the Plugins menu.
-5) Select "Upload" and choose the Livefyre-4_00.zip plugin file, and then click on the "Install Now" button.
-6) When the automated installation has completed, clicl "Activate Plugin."
-7) At the top of the Plugins screen you'll see a message box prompting you to "confirm your blog configuration with livefyre.com" - click on this link and sign in to your Livefyre account, or create a new account if needed.
-8) Once you Sign in or create a new account Livefyre will begin importing comments from your WP database to the Livefyre system. We always write your comments back to your database as they are made, so you don't have to worry about any re-imports or exports of your comments.
+1) Download the Livefyre Community Comments plugin file.
+2) Log in to your WP Admin panel and click on Plugins from the Admin menu on the left.
+3) Deactivate any third party comment plugins you may have previously installed from the Plugins menu.
+4) Click on Add New from the Plugins menu.
+5) Click on Upload and choose the Livefyre.zip plugin file, and then click Install Now.
+6) When the automated installation has completed, click Activate Plugin.
+7) At the top of the Plugins screen you'll see a message box prompting you to confirm your blog configuration with livefyre.com - click on this link and sign in to your Livefyre account, or create a new account if needed.
+8) Once you Sign in or create a new account Livefyre will begin importing comments from your WP database into the Livefyre system. We always write your comments back to your database as they are made, so you don't have to worry about any re-imports or exports of your comments.
 
-Our [Livefyre Comments 3 Knowledge Base](http://support.livefyre.com/customer/portal/articles/867218-how-to-install-livefyre-comments-3) has more information about installation.
+Our [Livefyre Comments 3 Knowledge Base](http://support.livefyre.com/customer/portal/articles/163187-how-do-i-install-community-comments-on-my-wordpress-blog-) has more information about installation.
 
 == FAQ ==
+= What is the difference between Community Comments and LiveComments?=
+
+[Livefyre Community Comments](http://www.livefyre.com/comments/) is our free comments plugin for bloggers and small publishers. [LiveComments](http://www.livefyre.com/streamhub/#liveComments) is part of our paid [StreamHub product suite](http://www.livefyre.com/streamhub/) for large publishers. Community Comments runs on the Livefyre network, so you will need a Livefyre account to leave a comment. Each our LiveComments customers run on their own custom network, so you will need an account with that network to leave a comment.  
+
+= Why doesn't my Livefyre plugin work? =
+
+The Livefyre Community Comments plugin depends on a couple different WordPress conventions to work properly. Here are the most common reasons why Livefyre commenting widget does not show up.
+
+1. You are lacking wp_footer() function in your footer.php of your WordPress theme.
+ You can add it to your theme by editing your footer.php file, then appending <?php wp_footer() ?> on a new line at the end of the file.
+
+2. Your theme is not using the comments_template() function to load comments.
+ The Livefyre Community Comments plugin hooks onto the comments_template() function to insert Community Comments onto the page. Look at the default theme to see how it is implemented and add it into your theme accordingly. You will need to add <?php comments_template() ?> where you want Community Comments to appear on the page.
+
+3. The post or page in question has comments disabled.
+ Community Comments will only show up on WordPress posts and pages that have comments enabled. If you go to the Livefyre Settings page in the WordPress admin, you will see a list of post and pages which have comments disabled.
+
+4. You have turned off "Display Posts" or "Display Pages" in the Livefyre Settings page.
+ There are options to enable or disable Community Comments on all posts or all pages. If you are missing comments on all your pages, please make sure the Display Pages is checked in the settings page. By default, comments are enabled on posts and pages.
+
+= What are all of these transient_livefyre values in my WordPress options table? =
+
+By default, the Community Comments plugin will cache the static HTML of the comment widget for every page and post Community Comments appears on into transient values in the WordPress options table for performance purposes. These values are temporary, and will be deleted by WordPress cron jobs periodically. You can turn off caching in the Livefyre Settings page, but doing so will incur a sizable performance penalty. You can also delete all transient_livefyre values in the Livefyre Settings page.
+
+= Can I change the language of the Community Comments module? =
+
+Yes. With new feature in v4.1.0, plugin site owners can now choose which language to display on the comment module. Currently, site owners can choose between English, French, Spanish, and Brazilian Portuguese.
 
 Visit the [Livefyre FAQ](http://support.livefyre.com) to access our entire Knowledge Base, or e-mail us at
 support@livefyre.com with any questions you have.
