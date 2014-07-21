@@ -162,6 +162,7 @@ class Livefyre_Display {
             is-single: <?php echo is_single() ? "true\n" : "false\n"; ?>
             display-posts: <?php echo esc_html($display_posts) . "\n"; ?>
             display-pages: <?php echo esc_html($display_pages) . "\n"; ?>
+            plugin-version: <?php echo esc_html(LF_PLUGIN_VERSION); ?>
             -->
         <?php
         
