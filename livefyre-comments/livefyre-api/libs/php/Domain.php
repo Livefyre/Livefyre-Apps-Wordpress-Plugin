@@ -7,6 +7,10 @@ if ( !defined( 'LF_DEFAULT_PROFILE_DOMAIN' ) ) {
     define( 'LF_DEFAULT_PROFILE_DOMAIN', 'livefyre.com' );
 }
 
+if ( !defined( 'LF_DEFAULT_PROTOCOL' ) ) {
+    define( 'LF_DEFAULT_PROTOCOL', 'http' );
+}
+
 define( 'LF_COOKIE_PREFIX', 'livefyre_' );
 
 include( dirname(__FILE__) . '/User.php' );
@@ -16,6 +20,7 @@ class Livefyre_Domain {
     private $host;
     private $key;
     private $livefyre_tld;
+    private $protocol;
     private $engage_app_name;
     
     public function __construct( $network, $key = null, $http_api = null, $options = null ) {
@@ -23,6 +28,11 @@ class Livefyre_Domain {
             $this->livefyre_tld = $options['livefyre_tld'];
         } else {
             $this->livefyre_tld = LF_DEFAULT_TLD;
+        }
+        if ( isset( $options['protocol'] ) ) {
+            $this->protocol = $options['protocol'];
+        } else {
+            $this->protocol = LF_DEFAULT_PROTOCOL;
         }
         if ( isset( $options['engage_app_name'] ) ) {
             $this->engage_app_name = $options['engage_app_name'];
@@ -133,7 +143,9 @@ class Livefyre_Domain {
     }
     
     public function source_js_v3() {
-        return '<script type="text/javascript" src="http://zor.' . $this->get_livefyre_tld() . '/wjs/v3.0/javascripts/livefyre.js"></script>';
+        return '<script type="text/javascript" src="'
+        . ($this->protocol === 'https' ? 'https://cdn.' . $this->get_livefyre_tld() . '/libs/fyre.conv.load.js' : 'http://zor.' . $this->get_livefyre_tld() . '/wjs/v3.0/javascripts/livefyre.js')
+        . '"></script>';
     }
     
     public function authenticate_js( $token_url = '', $cookie_path = '/', $token_cookie = null, $dname_cookie = null  ) {

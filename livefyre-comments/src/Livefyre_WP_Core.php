@@ -31,7 +31,8 @@ class Livefyre_WP_Core extends Abst_Livefyre_Core {
         $client_key = $this->ext->get_network_option( 'livefyre_domain_key', '' );
         $profile_domain = $this->ext->get_network_option( 'livefyre_domain_name', LF_DEFAULT_PROFILE_DOMAIN );
         $dopts = array(
-            'livefyre_tld' => LF_DEFAULT_TLD
+            'livefyre_tld' => LF_DEFAULT_TLD,
+            'protocol' => ($_SERVER['SERVER_PORT'] == 443) ? "https" : "http"
         );
         $uses_default_tld = (strpos(LF_DEFAULT_TLD, 'livefyre.com') === 0);
         $this->lf_domain_object = new Livefyre_Domain( $profile_domain, $client_key, null, $dopts);
@@ -42,11 +43,12 @@ class Livefyre_WP_Core extends Abst_Livefyre_Core {
         );
         $this->debug_mode = false;
         $this->top_domain = ( $profile_domain == LF_DEFAULT_PROFILE_DOMAIN ? LF_DEFAULT_TLD : $profile_domain );
+        $this->protocol = $dopts['protocol'];
         $this->http_url = ( $uses_default_tld ? "http://www." . LF_DEFAULT_TLD : "http://" . LF_DEFAULT_TLD );
         $this->api_url = "http://api.$this->top_domain";
         $this->quill_url = "http://quill.$this->top_domain";
         $this->admin_url = "http://admin.$this->top_domain";
-        $this->assets_url = "http://zor." . LF_DEFAULT_TLD;
+        $this->assets_url = "$this->protocol://" . ($this->protocol === 'https' ? 'cdn' : 'zor') . "." . LF_DEFAULT_TLD;
         $this->bootstrap_url = "http://bootstrap.$this->top_domain";
         
         // for non-production environments, we use a dev url and prefix the path with env name

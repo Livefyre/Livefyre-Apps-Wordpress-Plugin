@@ -42,11 +42,11 @@ class Livefyre_Display {
                 $lfsp_source_url = $this->ext->get_network_option( 'livefyre_lfsp_source_url', '' );
                 wp_enqueue_script('lfsp', $lfsp_source_url);
         }
-        
-        $zor_source_url = 'http://zor.'
+
+        $zor_source_url = ($this->lf_core->protocol === 'https' ? 'https://cdn.' : 'http://zor.')
         . ( 1 == get_option( 'livefyre_environment', '0' ) ?  "livefyre.com" : $this->ext->get_network_option( 'livefyre_domain_name', 'livefyre.com' ) )
-        . '/wjs/v3.0/javascripts/livefyre.js';
-        
+        . ($this->lf_core->protocol === 'https' ? '/libs/fyre.conv.load.js' : '/wjs/v3.0/javascripts/livefyre.js');
+
         wp_enqueue_script('zor', $zor_source_url, array(), null, false);
 
         if ( function_exists ( 'livefyre_strings_chooser') ) {
@@ -124,7 +124,8 @@ class Livefyre_Display {
             echo $conv->to_initjs_v3( 'livefyre-comments', $initcfg );
         }
 
-        if ( !is_single() ) {
+        // This endpoint doesn't appear to be available on https yet
+        if ( !is_single() && $this->lf_core->protocol !== 'https') {
             echo '<script type="text/javascript" data-lf-domain="' . $network . '" id="ncomments_js" src="'.$this->lf_core->assets_url.'/wjs/v1.0/javascripts/CommentCount.js"></script>';
         }
 
