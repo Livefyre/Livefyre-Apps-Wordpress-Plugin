@@ -1,5 +1,5 @@
 <?php
-if(file_exists(LFAPPS__PLUGIN_PATH . '/../vip-init.php' )) 
+if(function_exists('vip_safe_wp_remote_get'))
     require_once( LFAPPS__PLUGIN_PATH . '/../vip-init.php' );
 
 /*
@@ -13,7 +13,7 @@ class LFAPPS_Http_Extension {
      *
      */
     public function request( $url, $args = array() ) {
-        if(file_exists(LFAPPS__PLUGIN_PATH . '/../vip-init.php' )) {
+        if(function_exists('vip_safe_wp_remote_get')) {
             if ( isset( $args[ 'data' ] ) ) {
                 $args[ 'body' ] = $args[ 'data' ];
                 unset( $args[ 'data' ] );

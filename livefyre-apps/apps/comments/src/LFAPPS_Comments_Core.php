@@ -47,7 +47,7 @@ class LFAPPS_Comments_Core {
             $environment = '';
         }
         
-        $existing_blogname = $this->ext->get_option( 'livefyre_blogname', false );
+        $existing_blogname = Livefyre_Apps::get_option( 'livefyre_blogname', false );
         if ( $existing_blogname ) {
             $site_id = $existing_blogname;
         } else {

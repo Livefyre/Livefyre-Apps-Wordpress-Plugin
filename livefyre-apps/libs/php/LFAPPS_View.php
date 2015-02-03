@@ -13,11 +13,6 @@ if ( ! class_exists( 'LFAPPS_View' ) ) {
          * @param string $app optional app name (render view from app folder)
          */
         public static function render($view, $data=array(), $app=null) {
-            if(is_array($data)) {
-                foreach($data as $dname=>$dval) {
-                    $$dname = $dval;
-                }
-            }
             if(is_null($app)) {
                 $view_path = LFAPPS__PLUGIN_PATH . 'views/';        
                 if(file_exists($view_path . 'header.php')) {
@@ -54,13 +49,7 @@ if ( ! class_exists( 'LFAPPS_View' ) ) {
          * @param string $app optional app name (render view from app folder)
          * @param boolean $return TRUE to return the content or FALSE to print in buffer
          */
-        public static function render_partial($view, $data=array(), $app=null, $return=false) {
-            if(is_array($data)) {
-                foreach($data as $dname=>$dval) {
-                    $$dname = $dval;
-                }
-            }
-            
+        public static function render_partial($view, $data=array(), $app=null, $return=false) {    
             $view_path = '';
             if(is_null($app)) {
                 $view_path = LFAPPS__PLUGIN_PATH . 'views/';                

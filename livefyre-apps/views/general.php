@@ -113,7 +113,7 @@
                                         <?php
                                         $icon_src = Livefyre_Apps::is_app_enabled('comments') ? 'lf-comments-icon.png' : 'lf-comments-icon-grey.png';
                                         ?>
-                                        <img id="lfapps_comments_icon" src="<?php echo LFAPPS__PLUGIN_URL . 'assets/img/' . $icon_src; ?>"/>                                        
+                                        <img id="lfapps_comments_icon" src="<?php echo esc_attr(LFAPPS__PLUGIN_URL) . 'assets/img/' . esc_attr($icon_src); ?>"/>                                        
                                     </label> 
                                     <div class="lfapps-appmgt-controls">
                                         <input id="lfapps_comments_enable" name="lfapps_comments_enable" type="checkbox" value="true" <?php echo Livefyre_Apps::is_app_enabled('comments') ? 'checked' : ''; ?>>
@@ -128,7 +128,7 @@
                                         <?php
                                         $icon_src = Livefyre_Apps::is_app_enabled('sidenotes') ? 'lf-sidenotes-icon.png' : 'lf-sidenotes-icon-grey.png';
                                         ?>
-                                        <img id="lfapps_sidenotes_icon" src="<?php echo LFAPPS__PLUGIN_URL . 'assets/img/' . $icon_src; ?>"/>                                        
+                                        <img id="lfapps_sidenotes_icon" src="<?php echo esc_attr(LFAPPS__PLUGIN_URL) . 'assets/img/' . esc_attr($icon_src); ?>"/>                                        
                                     </label>
                                     <div class="lfapps-appmgt-controls">
                                         <input id="lfapps_sidenotes_enable" name="lfapps_sidenotes_enable" type="checkbox" value="true" <?php echo Livefyre_Apps::is_app_enabled('sidenotes') ? 'checked' : ''; ?>>
@@ -143,7 +143,7 @@
                                         <?php
                                         $icon_src = Livefyre_Apps::is_app_enabled('blog') ? 'lf-blog-icon.png' : 'lf-blog-icon-grey.png';
                                         ?>
-                                        <img id="lfapps_blog_icon" src="<?php echo LFAPPS__PLUGIN_URL . 'assets/img/' . $icon_src; ?>"/>                                        
+                                        <img id="lfapps_blog_icon" src="<?php echo esc_attr(LFAPPS__PLUGIN_URL) . 'assets/img/' . esc_attr($icon_src); ?>"/>                                        
                                     </label>
                                     <div class="lfapps-appmgt-controls">
                                         <input id="lfapps_blog_enable" name="lfapps_blog_enable" type="checkbox" value="true" <?php echo Livefyre_Apps::is_app_enabled('blog') ? 'checked' : ''; ?>>
@@ -158,7 +158,7 @@
                                         <?php
                                         $icon_src = Livefyre_Apps::is_app_enabled('chat') ? 'lf-chat-icon.png' : 'lf-chat-icon-grey.png';
                                         ?>
-                                        <img id="lfapps_chat_icon" src="<?php echo LFAPPS__PLUGIN_URL . 'assets/img/' . $icon_src; ?>"/>                                        
+                                        <img id="lfapps_chat_icon" src="<?php echo esc_attr(LFAPPS__PLUGIN_URL) . 'assets/img/' . esc_attr($icon_src); ?>"/>                                        
                                     </label>
                                     <div class="lfapps-appmgt-controls">
                                         <input id="lfapps_chat_enable" name="lfapps_chat_enable" type="checkbox" value="true" <?php echo Livefyre_Apps::is_app_enabled('chat') ? 'checked' : ''; ?>>
@@ -214,35 +214,6 @@
                 </div>
             </div>
         </div>
-        <?php /*
-        <div class="postbox-container">
-            <div id="normal-sortables" class="meta-box-sortables ui-sortable">
-                <div id="referrers" class="postbox ">
-                    <div class="handlediv" title="Click to toggle"><br></div>
-                    <h3 class="hndle"><span><?php esc_html_e('Language', 'lfapps'); ?></span></h3>
-                    <form name="livefyre_language" id="livefyre_language" action="<?php echo esc_url(Livefyre_Apps_Admin::get_page_url('livefyre_apps')); ?>" method="POST">
-                        <?php wp_nonce_field( 'form-livefyre_language' ); ?>
-                        <div class='inside'>
-                            <p><?php esc_html_e('I would like my language to be:', 'lfapps'); ?></p>
-                            <select id='lf_language' name='lf_language'>
-                                <?php foreach(Livefyre_Apps::$languages as $lang_index=>$lang_name): ?>
-                                <?php $selected = Livefyre_Apps::get_option('livefyre_language') === $lang_index ? 'selected="selected"' : ''; ?>
-                                <option value='<?php echo esc_attr($lang_index); ?>' <?php echo esc_attr($selected); ?>><?php echo esc_html($lang_name); ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div id="major-publishing-actions">									
-                            <div id="publishing-action">
-                                <input type="hidden" name="livefyre_language" value=""/> 
-                                <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_html_e('Save Changes'); ?>">
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        */ ?>
     </div>        
 </div>
 

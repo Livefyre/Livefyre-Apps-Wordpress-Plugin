@@ -10,7 +10,6 @@ class LFAPPS_Comments_Display {
     function __construct( $lf_core ) {
         
         if (LFAPPS_Comments::comments_active()) {
-            //add_action( 'wp_enqueue_scripts', array( &$this, 'load_strings' ) );
             add_action( 'wp_footer', array( &$this, 'lf_init_script' ) );
             
             // Set comments_template filter to maximum value to always override the default commenting widget
@@ -175,19 +174,6 @@ class LFAPPS_Comments_Display {
 
         global $post;
         return '<span data-lf-article-id="' . esc_attr($post->ID) . '" data-lf-site-id="' . esc_attr(Livefyre_Apps::get_option( 'livefyre_site_id', '' )) . '" class="livefyre-commentcount">'.esc_html($count).'</span>';
-
-    }
-
-    /*
-     * Loads in JS variable to enable the widget to be internationalized.
-     *
-     */
-    function load_strings() {
-
-        $language = Livefyre_Apps::get_option( 'livefyre_language', 'English' );
-        
-        $lang_file = LFAPPS__PLUGIN_URL . "apps/comments/languages/" . $language . '.js';
-        wp_enqueue_script( 'livefyre-lang-js', esc_url( $lang_file ) );
 
     }
     
