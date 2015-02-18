@@ -65,9 +65,9 @@ class LFAPPS_Comments_Display {
             $siteKey = get_option('livefyre_apps-livefyre_site_key' );
             $network_key = get_option('livefyre_apps-livefyre_domain_key', '');
             $post = get_post();
-            $articleId = get_the_ID();
-            $title = get_the_title($articleId);
-            $url = get_permalink($articleId);
+            $articleId = sanitize_text_field( apply_filter( 'livefyre_article_id', get_the_ID() ) );
+            $title = sanitize_text_field( apply_filter( 'livefyre_article_title', get_the_title( $articleId ), get_the_ID() ) );
+            $url = sanitize_text_field( apply_filter(' livefyre_article_url', get_permalink( $articleId ), get_the_ID() ) );
             $tags = array();
             $posttags = get_the_tags( $wp_query->post->ID );
             if ( $posttags ) {
