@@ -192,7 +192,7 @@ class LFAPPS_Comments_Display {
     public static function init_shortcode($atts=array()) {
         if(isset($atts['article_id'])) {
             $articleId = $atts['article_id'];
-            $title = isset($pagename) ? $pagename : 'LiveComments (ID: ' . $atts['article_id'];
+            $title = isset($pagename) ? $pagename : 'Comments (ID: ' . $atts['article_id'];
             global $wp;
             $url = add_query_arg( $_SERVER['QUERY_STRING'], '', home_url( $wp->request ) );
             $tags = array();

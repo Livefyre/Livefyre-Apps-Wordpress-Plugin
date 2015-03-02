@@ -15,9 +15,9 @@ From Community to Enterprise, the Livefyre Apps Plugin infuses your website with
 
 Livefyre’s StreamHub platform helps brands, media companies and agencies engage consumers through a combination of real-time conversation, content, social curation and advertising. With StreamHub, brands can integrate real-time content into their websites, mobile apps, advertisements, jumbotrons and television broadcasts to increase viewer engagement, boost website traffic and drive revenue.
 
-*LiveComments™*
+*Comments™*
 
-Turn every piece of content into a real-time conversation with LiveComments™. Livefyre leads the market with a robust feature set including truly real-time posts, mobile compatibility, SEO optimized content, social login, listener count and a comment notifier. And with media-rich embedding options, users can post videos, songs, images and more, right into the comment stream.
+Turn every piece of content into a real-time conversation with Comments™. Livefyre leads the market with a robust feature set including truly real-time posts, mobile compatibility, SEO optimized content, social login, listener count and a comment notifier. And with media-rich embedding options, users can post videos, songs, images and more, right into the comment stream.
 
 *LiveBlog™*
 
@@ -37,7 +37,7 @@ Focused comments. In context. Anywhere on the page.
 
 Sidenotes inspires more focused conversations by allowing readers to engage directly with content — a quote, a paragraph, an image — anywhere on a page. By inviting readers to interact and share your content as they read, Sidenotes lowers the barrier for engagement, increases time on site and can boost conversational civility.
  
-Sidenotes is mobile-ready, SEO optimized, and is included with every subscription to LiveComments and Community Comments.
+Sidenotes is mobile-ready, SEO optimized, and is included with every subscription to Comments and Community Comments.
 
 = Community =
 

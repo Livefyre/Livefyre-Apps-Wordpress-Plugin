@@ -116,7 +116,7 @@
                                     <div class="lfapps-appmgt-controls">
                                         <input id="lfapps_comments_enable" name="livefyre_apps-apps[]" type="checkbox" value="comments" <?php echo Livefyre_Apps::is_app_enabled('comments') ? 'checked' : ''; ?>>
                                         <label for='lfapps_comments_enable'>
-                                            <span><?php esc_html_e('LiveComments™', 'lfapps'); ?></span>
+                                            <span><?php esc_html_e('Comments™', 'lfapps'); ?></span>
                                         </label>
                                         <p><a target="_blank" href="http://web.livefyre.com/comments/">Click here</a> for more information.</p>
                                     </div>
