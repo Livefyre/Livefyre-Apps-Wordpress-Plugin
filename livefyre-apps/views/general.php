@@ -146,7 +146,7 @@
                                     <div class="lfapps-appmgt-controls">
                                         <input id="lfapps_blog_enable" name="livefyre_apps-apps[]" type="checkbox" value="blog" <?php echo Livefyre_Apps::is_app_enabled('blog') ? 'checked' : ''; ?>>
                                         <label for='lfapps_blog_enable'>
-                                            <span><?php esc_html_e('LiveBlog™', 'lfapps'); ?></span>
+                                            <span><?php esc_html_e('Live Blog™', 'lfapps'); ?></span>
                                         </label>
                                         <p><a target="_blank" href="http://web.livefyre.com/streamhub/#liveBlog">Click here</a> for more information.</p>
                                     </div>

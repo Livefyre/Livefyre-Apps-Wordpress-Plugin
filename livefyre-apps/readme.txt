@@ -19,11 +19,11 @@ Livefyre’s StreamHub platform helps brands, media companies and agencies engag
 
 Turn every piece of content into a real-time conversation with Comments™. Livefyre leads the market with a robust feature set including truly real-time posts, mobile compatibility, SEO optimized content, social login, listener count and a comment notifier. And with media-rich embedding options, users can post videos, songs, images and more, right into the comment stream.
 
-*LiveBlog™*
+*Live Blog™*
 
 Become the live news source.
 
-Feature real-time updates and images from your site’s own editors when covering a live event and turn your site into an engaging news source. This is a great option for multiple editors who will be reporting from live events including product reveals, award programs, television premieres, sporting events and press conferences. For the new XBox launch, Gamespot hosted a LiveBlog™ that featured photos, live coverage and analysis from designated bloggers on-location. As a result of this engaging real-time coverage, there were over 30,000 listeners on the site during the announcement.
+Feature real-time updates and images from your site’s own editors when covering a live event and turn your site into an engaging news source. This is a great option for multiple editors who will be reporting from live events including product reveals, award programs, television premieres, sporting events and press conferences. For the new XBox launch, Gamespot hosted a Live Blog™ that featured photos, live coverage and analysis from designated bloggers on-location. As a result of this engaging real-time coverage, there were over 30,000 listeners on the site during the announcement.
 
 *LiveChat™*
 
