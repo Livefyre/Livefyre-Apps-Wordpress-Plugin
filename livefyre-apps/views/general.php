@@ -161,7 +161,7 @@
                                     <div class="lfapps-appmgt-controls">
                                         <input id="lfapps_chat_enable" name="livefyre_apps-apps[]" type="checkbox" value="chat" <?php echo Livefyre_Apps::is_app_enabled('chat') ? 'checked' : ''; ?>>
                                         <label for='lfapps_chat_enable'>
-                                            <span><?php esc_html_e('LiveChat™', 'lfapps'); ?></span>
+                                            <span><?php esc_html_e('Chat™', 'lfapps'); ?></span>
                                         </label>
                                         <p><a target="_blank" href="http://web.livefyre.com/streamhub/#liveChat">Click here</a> for more information.</p>
                                     </div>

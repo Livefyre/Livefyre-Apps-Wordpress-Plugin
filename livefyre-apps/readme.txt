@@ -25,7 +25,7 @@ Become the live news source.
 
 Feature real-time updates and images from your site’s own editors when covering a live event and turn your site into an engaging news source. This is a great option for multiple editors who will be reporting from live events including product reveals, award programs, television premieres, sporting events and press conferences. For the new XBox launch, Gamespot hosted a Live Blog™ that featured photos, live coverage and analysis from designated bloggers on-location. As a result of this engaging real-time coverage, there were over 30,000 listeners on the site during the announcement.
 
-*LiveChat™*
+*Chat™*
 
 Spark real-time conversation about live events.
 

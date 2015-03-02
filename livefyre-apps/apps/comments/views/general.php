@@ -44,7 +44,7 @@
                                         }
                                         ?>
                                         <input <?php echo $disabled ? 'disabled' : ''; ?> type="checkbox" id="<?php echo esc_attr($post_type_name); ?>" name="<?php echo esc_attr($post_type_name); ?>" value="true" <?php echo $checked; ?>/>
-                                        <label for="<?php echo esc_attr($post_type_name); ?>"><?php echo esc_html_e($post_type, 'lfapps-comments'); ?><?php echo $disabled ? ' <small><em>(LiveChat enabled.)</em></small>' : ''; ?></label><br/>
+                                        <label for="<?php echo esc_attr($post_type_name); ?>"><?php echo esc_html_e($post_type, 'lfapps-comments'); ?><?php echo $disabled ? ' <small><em>(Chat enabled.)</em></small>' : ''; ?></label><br/>
                                         <?php
                                     }
                                     ?>
@@ -52,7 +52,7 @@
                             </tr>
                             <tr>
                                 <td colspan='2'>
-                                    <?php esc_html_e('(Select the types of posts on which you wish to enable Comments. Note: Only LiveChat or Comments may be enabled for each of these options.)', 'lfapps-chat'); ?>
+                                    <?php esc_html_e('(Select the types of posts on which you wish to enable Comments. Note: Only Chat or Comments may be enabled for each of these options.)', 'lfapps-chat'); ?>
                                 </td>
                             </tr>
                             <tr>
