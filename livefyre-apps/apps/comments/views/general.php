@@ -53,11 +53,11 @@
                             <tr>
                                 <td colspan='2'>
                                     <?php esc_html_e('(Select the types of posts on which you wish to enable Comments. Note: Only Chat or Comments may be enabled for each of these options.)', 'lfapps-chat'); ?>
-                                </td>
                             </tr>
                             <tr>
-                                <td colspan='2' class="info">
-                                    <strong>Note:</strong>
+                                <td colspan='2'>
+                                    <br />
+                                    <strong>Comments Configuration Options:</strong>
                                     <p>There multiple other configuration options available for Comments and you can specify them by
                                     declaring "liveCommentsConfig" variable in your theme header. For example:</p>
                                     <blockquote class="code">
@@ -66,6 +66,8 @@
                                          </script>"); ?>                                            
                                     </blockquote>
                                     <p><a target="_blank" href="http://answers.livefyre.com/developers/app-integrations/comments/#convConfigObject">Click here</a> for a full explanation of Comments options.</p>
+                                    <strong>Comments String Customizations:</strong>
+                                    <p>String customizations are possible as well through applying WordPress filters. Information on how to implement this is <a target="_blank" href="http://answers.livefyre.com/developers/cms-plugins/wordpress/">found here</a>.</p>
                                 </td>
                             </tr>
                         </table>

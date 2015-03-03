@@ -55,8 +55,9 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan='2' class="info">
-                                    <strong>Note:</strong>
+                                <td colspan='2'>
+                                    <br />
+                                    <strong>Comments Configuration Options:</strong>
                                     <p>There multiple other configuration options available for Chat and you can specify them by
                                     declaring "liveChatConfig" variable in your theme header. For example:</p>
                                     <blockquote class="code">
@@ -65,6 +66,8 @@
                                          </script>"); ?>                                            
                                     </blockquote>
                                     <p><a target="_blank" href="http://answers.livefyre.com/developers/app-integrations/chat/#convConfigObject">Click here</a> for a full explanation of Chat options.</p>
+                                    <strong>Chat String Customizations:</strong>
+                                    <p>String customizations are possible as well through applying WordPress filters. Information on how to implement this is <a target="_blank" href="http://answers.livefyre.com/developers/cms-plugins/wordpress/">found here</a>.</p>
                                 </td>
                             </tr>
                         </table>
