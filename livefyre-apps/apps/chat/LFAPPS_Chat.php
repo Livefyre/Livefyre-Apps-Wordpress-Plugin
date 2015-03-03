@@ -85,11 +85,7 @@ if (!class_exists('LFAPPS_Chat')) {
 
                 $collectionMetaToken = $site->buildCollectionMetaToken($title, $articleId, $url, array("tags" => $tags, "type" => "livechat"));
                 $checksum = $site->buildChecksum($title, $url, $tags);
-
-                $strings = null;
-                if (get_option('livefyre_apps-livefyre_language', 'English') != 'English') {
-                    $strings = 'customStrings';
-                }
+                $strings = apply_filters( 'livefyre_custom_chat_strings', '' );
 
                 $livefyre_element = 'livefyre-chat';
                 $display_template = false;
@@ -107,7 +103,7 @@ if (!class_exists('LFAPPS_Chat')) {
         public static function init_shortcode($atts = array()) {
             if (isset($atts['article_id'])) {
                 $articleId = $atts['article_id'];
-                $title = isset($pagename) ? $pagename : 'LiveChat (ID: ' . $atts['article_id'];
+                $title = isset($pagename) ? $pagename : 'Chat (ID: ' . $atts['article_id'];
                 global $wp;
                 $url = add_query_arg($_SERVER['QUERY_STRING'], '', home_url($wp->request));
                 $tags = array();
@@ -141,11 +137,7 @@ if (!class_exists('LFAPPS_Chat')) {
 
             $collectionMetaToken = $site->buildCollectionMetaToken($title, $articleId, $url, array("tags" => $tags, "type" => "livechat"));
             $checksum = $site->buildChecksum($title, $url, $tags);
-
-            $strings = null;
-            if (get_option('livefyre_apps-livefyre_language', 'English') != 'English') {
-                $strings = 'customStrings';
-            }
+            $strings = apply_filters( 'livefyre_custom_chat_strings', '' );
 
             $livefyre_element = 'livefyre-chat-' . $articleId;
             $display_template = true;
@@ -239,7 +231,7 @@ if (!class_exists('LFAPPS_Chat')) {
             /* Are comments open on this post/page? */
             $comments_open = ( $post->comment_status == 'open' );
 
-            $display = $display_posts || $display_pages;
+            $display = $display_posts || $display_pages || Livefyre_Apps::is_app_enabled('chat');
             $post_type = get_post_type();
             if ($post_type != 'post' && $post_type != 'page') {
 
