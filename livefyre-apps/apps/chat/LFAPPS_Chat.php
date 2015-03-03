@@ -102,7 +102,7 @@ if (!class_exists('LFAPPS_Chat')) {
         public static function init_shortcode($atts = array()) {
             if (isset($atts['article_id'])) {
                 $articleId = $atts['article_id'];
-                $title = isset($pagename) ? $pagename : 'LiveChat (ID: ' . $atts['article_id'];
+                $title = isset($pagename) ? $pagename : 'Chat (ID: ' . $atts['article_id'];
                 global $wp;
                 $url = add_query_arg($_SERVER['QUERY_STRING'], '', home_url($wp->request));
                 $tags = array();
