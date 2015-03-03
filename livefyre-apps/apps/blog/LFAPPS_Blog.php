@@ -39,7 +39,7 @@ if ( ! class_exists( 'LFAPPS_Blog' ) ) {
             
             if(isset($atts['article_id'])) {
                 $articleId = $atts['article_id'];
-                $title = isset($pagename) ? $pagename : 'LiveComments (ID: ' . $atts['article_id'];
+                $title = isset($pagename) ? $pagename : 'Comments (ID: ' . $atts['article_id'];
                 global $wp;
                 $url = add_query_arg( $_SERVER['QUERY_STRING'], '', home_url( $wp->request ) );
                 $tags = array();
@@ -73,12 +73,7 @@ if ( ! class_exists( 'LFAPPS_Blog' ) ) {
 
             $collectionMetaToken = $site->buildCollectionMetaToken($title, $articleId, $url, array("tags"=>$tags, "type"=>"liveblog"));
             $checksum = $site->buildChecksum($title, $url, $tags);
-
-            $strings = null;
-            if ( get_option('livefyre_apps-livefyre_language', 'English') != 'English' ) {
-                $strings = 'customStrings';
-            }
-
+            $strings = apply_filters( 'livefyre_custom_blog_strings', '' );
             $livefyre_element = 'livefyre-blog-'.$articleId;
             return LFAPPS_View::render_partial('script', 
                     compact('siteId', 'siteKey', 'network', 'articleId', 'collectionMetaToken', 'checksum', 'strings', 'livefyre_element'), 
