@@ -85,12 +85,17 @@ if (!class_exists('LFAPPS_Chat')) {
 
                 $collectionMetaToken = $site->buildCollectionMetaToken($title, $articleId, $url, array("tags" => $tags, "type" => "livechat"));
                 $checksum = $site->buildChecksum($title, $url, $tags);
-                $strings = apply_filters( 'livefyre_custom_chat_strings', '' );
+
+                $strings = null;
+                if (get_option('livefyre_apps-livefyre_language', 'English') != 'English') {
+                    $strings = 'customStrings';
+                }
+
                 $livefyre_element = 'livefyre-chat';
                 $display_template = false;
                 LFAPPS_View::render_partial('script', compact('siteId', 'siteKey', 'network', 'articleId', 'collectionMetaToken', 'checksum', 'strings', 'livefyre_element', 'display_template'), 'chat');
 
-                $ccjs = '//cdn.livefyre.com/libs/commentcount/v1.0/commentcount.js';
+                $ccjs = LFAPPS__PROTOCOL . '://cdn.livefyre.com/libs/commentcount/v1.0/commentcount.js';
                 echo '<script type="text/javascript" data-lf-domain="' . esc_attr($network->getName()) . '" id="ncomments_js" src="' . esc_attr($ccjs) . '"></script>';
             }
         }
@@ -102,7 +107,7 @@ if (!class_exists('LFAPPS_Chat')) {
         public static function init_shortcode($atts = array()) {
             if (isset($atts['article_id'])) {
                 $articleId = $atts['article_id'];
-                $title = isset($pagename) ? $pagename : 'Chat (ID: ' . $atts['article_id'];
+                $title = isset($pagename) ? $pagename : 'LiveChat (ID: ' . $atts['article_id'];
                 global $wp;
                 $url = add_query_arg($_SERVER['QUERY_STRING'], '', home_url($wp->request));
                 $tags = array();
@@ -136,7 +141,12 @@ if (!class_exists('LFAPPS_Chat')) {
 
             $collectionMetaToken = $site->buildCollectionMetaToken($title, $articleId, $url, array("tags" => $tags, "type" => "livechat"));
             $checksum = $site->buildChecksum($title, $url, $tags);
-            $strings = apply_filters( 'livefyre_custom_chat_strings', '' );
+
+            $strings = null;
+            if (get_option('livefyre_apps-livefyre_language', 'English') != 'English') {
+                $strings = 'customStrings';
+            }
+
             $livefyre_element = 'livefyre-chat-' . $articleId;
             $display_template = true;
             return LFAPPS_View::render_partial('script', compact('siteId', 'siteKey', 'network', 'articleId', 'collectionMetaToken', 'checksum', 'strings', 'livefyre_element', 'display_template'), 'chat', true);
@@ -229,7 +239,7 @@ if (!class_exists('LFAPPS_Chat')) {
             /* Are comments open on this post/page? */
             $comments_open = ( $post->comment_status == 'open' );
 
-            $display = $display_posts || $display_pages || Livefyre_Apps::is_app_enabled('chat');
+            $display = $display_posts || $display_pages;
             $post_type = get_post_type();
             if ($post_type != 'post' && $post_type != 'page') {
 

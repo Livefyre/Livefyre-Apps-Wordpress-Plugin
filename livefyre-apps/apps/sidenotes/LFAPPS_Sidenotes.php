@@ -49,7 +49,7 @@ if ( ! class_exists( 'LFAPPS_Sidenotes' ) ) {
          * Add assets required by Livefyre Sidenotes
          */
         public static function load_resources() {
-            wp_register_script('Livefyre.js', '//cdn.livefyre.com/Livefyre.js');
+            wp_register_script('Livefyre.js', LFAPPS__PROTOCOL . '://cdn.livefyre.com/Livefyre.js');
             wp_enqueue_script('Livefyre.js');
         }
         
@@ -117,7 +117,7 @@ if ( ! class_exists( 'LFAPPS_Sidenotes' ) ) {
             /* Are comments open on this post/page? */
             $comments_open = ( $post->comment_status == 'open' );
 
-            $display = $display_posts || $display_pages || Livefyre_Apps::is_app_enabled('sidenotes');
+            $display = $display_posts || $display_pages;
             $post_type = get_post_type();
             if ( $post_type != 'post' && $post_type != 'page' ) {
 
