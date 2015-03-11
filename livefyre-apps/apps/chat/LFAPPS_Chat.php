@@ -69,9 +69,9 @@ if (!class_exists('LFAPPS_Chat')) {
                 $siteKey = get_option('livefyre_apps-livefyre_site_key');
                 $network_key = get_option('livefyre_apps-livefyre_domain_key', '');
                 $post = get_post();
-                $articleId = get_the_ID();
-                $title = get_the_title($articleId);
-                $url = get_permalink($articleId);
+                $articleId = apply_filters('livefyre_article_id', get_the_ID());
+                $title = get_the_title(get_the_ID());
+                $url = get_permalink(get_the_ID());
                 $tags = array();
                 $posttags = get_the_tags($wp_query->post->ID);
                 if ($posttags) {
@@ -114,9 +114,9 @@ if (!class_exists('LFAPPS_Chat')) {
             } else {
                 global $post;
                 if (get_the_ID() !== false) {
-                    $articleId = $post->ID;
-                    $title = get_the_title($articleId);
-                    $url = get_permalink($articleId);
+                    $articleId = apply_filters('livefyre_article_id', $post->ID );
+                    $title = get_the_title($post->ID);
+                    $url = get_permalink($post->ID);
                     $tags = array();
                     $posttags = get_the_tags($post->ID);
                     if ($posttags) {

@@ -46,9 +46,9 @@ if ( ! class_exists( 'LFAPPS_Blog' ) ) {
             } else {
                 global $post;
                 if(get_the_ID() !== false) {
-                    $articleId = $post->ID;
-                    $title = get_the_title($articleId);
-                    $url = get_permalink($articleId);
+                    $articleId = apply_filters('livefyre_article_id', $post->ID );
+                    $title = get_the_title($post->ID);
+                    $url = get_permalink($post->ID);
                     $tags = array();
                     $posttags = get_the_tags( $post->ID );
                     if ( $posttags ) {

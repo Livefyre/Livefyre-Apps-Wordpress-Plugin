@@ -27,7 +27,8 @@ if($display_template) {
         articleId: "<?php echo esc_js($articleId); ?>",
         el: "<?php echo esc_js($livefyre_element); ?>",
         collectionMeta: "<?php echo esc_js($collectionMetaToken); ?>",
-        checksum: "<?php echo esc_js($checksum); ?>"
+        checksum: "<?php echo esc_js($checksum); ?>",
+        <?php echo isset( $strings ) ? 'strings: ' . esc_js( $strings ) : ''; ?>
     };
     if(typeof(liveCommentsConfig) !== 'undefined') {
         convConfigComments<?php echo esc_js($articleId); ?> = lf_extend(liveCommentsConfig, convConfigComments<?php echo esc_js($articleId); ?>);
