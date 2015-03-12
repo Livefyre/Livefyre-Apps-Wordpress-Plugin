@@ -165,19 +165,6 @@ if (!class_exists('LFAPPS_Chat')) {
             return '<span data-lf-article-id="' . esc_attr($post->ID) . '" data-lf-site-id="' . esc_attr(get_option('livefyre_apps-livefyre_site_id', '')) . '" class="livefyre-commentcount">' . (int) $count . '</span>';
         }
 
-        /*
-         * Loads in JS variable to enable the widget to be internationalized.
-         *
-         */
-
-        public static function load_strings() {
-
-            $language = get_option('livefyre_apps-livefyre_language', 'English');
-
-            $lang_file = LFAPPS__PLUGIN_URL . "apps/comments/languages/" . $language . '.js';
-            wp_enqueue_script('livefyre-lang-js', esc_url($lang_file));
-        }
-
         /**
          * First time load set default Livefyre Comments options
          * + import previous Livefyre plugin options
