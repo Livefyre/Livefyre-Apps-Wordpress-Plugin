@@ -33,7 +33,6 @@ if (!class_exists('LFAPPS_Chat')) {
          */
         private static function init_hooks() {
             if (LFAPPS_Chat::chat_active()) {
-                add_action('wp_enqueue_scripts', array('LFAPPS_Chat', 'load_strings'));
                 add_action('wp_footer', array('LFAPPS_Chat', 'init_script'));
 
                 // Set comments_template filter to maximum value to always override the default commenting widget
@@ -69,9 +68,9 @@ if (!class_exists('LFAPPS_Chat')) {
                 $siteKey = get_option('livefyre_apps-livefyre_site_key');
                 $network_key = get_option('livefyre_apps-livefyre_domain_key', '');
                 $post = get_post();
-                $articleId = get_the_ID();
-                $title = get_the_title($articleId);
-                $url = get_permalink($articleId);
+                $articleId = apply_filters('livefyre_article_id', get_the_ID());
+                $title = apply_filters('livefyre_collection_title', get_the_title(get_the_ID()));
+                $url = apply_filters('livefyre_collection_url', get_permalink(get_the_ID()));
                 $tags = array();
                 $posttags = get_the_tags($wp_query->post->ID);
                 if ($posttags) {
@@ -85,7 +84,7 @@ if (!class_exists('LFAPPS_Chat')) {
 
                 $collectionMetaToken = $site->buildCollectionMetaToken($title, $articleId, $url, array("tags" => $tags, "type" => "livechat"));
                 $checksum = $site->buildChecksum($title, $url, $tags);
-                $strings = apply_filters( 'livefyre_custom_chat_strings', '' );
+                $strings = apply_filters( 'livefyre_custom_chat_strings', null );
 
                 $livefyre_element = 'livefyre-chat';
                 $display_template = false;
@@ -110,9 +109,9 @@ if (!class_exists('LFAPPS_Chat')) {
             } else {
                 global $post;
                 if (get_the_ID() !== false) {
-                    $articleId = $post->ID;
-                    $title = get_the_title($articleId);
-                    $url = get_permalink($articleId);
+                    $articleId = apply_filters('livefyre_article_id', get_the_ID());
+                    $title = apply_filters('livefyre_collection_title', get_the_title(get_the_ID()));
+                    $url = apply_filters('livefyre_collection_url', get_permalink(get_the_ID()));
                     $tags = array();
                     $posttags = get_the_tags($post->ID);
                     if ($posttags) {
@@ -137,7 +136,7 @@ if (!class_exists('LFAPPS_Chat')) {
 
             $collectionMetaToken = $site->buildCollectionMetaToken($title, $articleId, $url, array("tags" => $tags, "type" => "livechat"));
             $checksum = $site->buildChecksum($title, $url, $tags);
-            $strings = apply_filters( 'livefyre_custom_chat_strings', '' );
+            $strings = apply_filters( 'livefyre_custom_chat_strings', null );
 
             $livefyre_element = 'livefyre-chat-' . $articleId;
             $display_template = true;
