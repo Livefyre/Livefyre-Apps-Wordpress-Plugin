@@ -19,7 +19,8 @@ if($display_template) {
 }
 ?>
 <script type="text/javascript">
-    var networkConfig = {
+    var networkConfigComments = {
+        <?php echo isset( $strings ) ? 'strings: ' . json_encode($strings) . ',' : ''; ?>
         network: "<?php echo esc_js($network->getName()); ?>"
     };
     var convConfigComments<?php echo esc_js($articleId); ?> = {
@@ -35,7 +36,7 @@ if($display_template) {
 
     Livefyre.require(['<?php echo Livefyre_Apps::get_package_reference('fyre.conv'); ?>'], function(ConvComments) {
         load_livefyre_auth();
-        new ConvComments(networkConfig, [convConfigComments<?php echo esc_js($articleId); ?>], function(commentsWidget) {
+        new ConvComments(networkConfigComments, [convConfigComments<?php echo esc_js($articleId); ?>], function(commentsWidget) {
         }());
     });
 </script>

@@ -4,7 +4,8 @@ if($display_template) {
 }
 ?>
 <script type="text/javascript">
-    var networkConfig = {
+    var networkConfigChat = {
+        <?php echo isset( $strings ) ? 'strings: ' . json_encode($strings) . ',' : ''; ?>
         network: "<?php echo esc_js($network->getName()); ?>"
     };
     var convConfigChat<?php echo esc_js($articleId); ?> = {
@@ -21,7 +22,7 @@ if($display_template) {
 
     Livefyre.require(['<?php echo Livefyre_Apps::get_package_reference('fyre.conv'); ?>'], function(ConvChat) {
         load_livefyre_auth();
-        new ConvChat(networkConfig, [convConfigChat<?php echo esc_js($articleId); ?>], function(chatWidget) {
+        new ConvChat(networkConfigChat, [convConfigChat<?php echo esc_js($articleId); ?>], function(chatWidget) {
         }());
     });
 </script>

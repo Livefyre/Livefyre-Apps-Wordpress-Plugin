@@ -58,7 +58,7 @@
                                             <input id="wp_auth_type_wordpress" name="livefyre_apps-auth_type" type="radio" value="wordpress" <?php echo get_option('livefyre_apps-auth_type') === 'wordpress' ? 'checked' : ''; ?>>
                                             <label for='wp_auth_type_wordpress'><?php esc_html_e('Native Wordpress', 'lfapps'); ?></label>
                                             <input id="wp_auth_type_custom" name="livefyre_apps-auth_type" type="radio" value="custom" <?php echo get_option('livefyre_apps-auth_type') === 'custom' ? 'checked' : ''; ?>>
-                                            <label for='wp_auth_type_custom'><?php esc_html_e('Custom', 'lfapps'); ?></label>
+                                            <label for='wp_auth_type_custom'><?php esc_html_e('Custom/LFEP', 'lfapps'); ?></label>
                                             <input id="wp_auth_type_delegate" name="livefyre_apps-auth_type" type="radio" value="auth_delegate" <?php echo get_option('livefyre_apps-auth_type') === 'auth_delegate' ? 'checked' : ''; ?>>
                                             <label for='wp_auth_type_delegate'><?php esc_html_e('Legacy Delegate', 'lfapps'); ?></label>
                                         </td>
@@ -78,6 +78,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <p><i>Hooking in LFEP is documented <a href="http://docs.livefyre.com/developers/identity-integration/enterprise-profiles/">here.</a></i></p>
                             <?php if(get_option('livefyre_apps-package_type') === 'community'): ?>
                             <div class="lfapps-community-signup">
                                 <p><?php esc_html_e('New to Livefyre or forgotten your Site ID/Key?', 'lfapps'); ?><br/>
@@ -116,7 +117,7 @@
                                     <div class="lfapps-appmgt-controls">
                                         <input id="lfapps_comments_enable" name="livefyre_apps-apps[]" type="checkbox" value="comments" <?php echo Livefyre_Apps::is_app_enabled('comments') ? 'checked' : ''; ?>>
                                         <label for='lfapps_comments_enable'>
-                                            <span><?php esc_html_e('LiveComments™', 'lfapps'); ?></span>
+                                            <span><?php esc_html_e('Comments™', 'lfapps'); ?></span>
                                         </label>
                                         <p><a target="_blank" href="http://web.livefyre.com/comments/">Click here</a> for more information.</p>
                                     </div>
@@ -146,7 +147,7 @@
                                     <div class="lfapps-appmgt-controls">
                                         <input id="lfapps_blog_enable" name="livefyre_apps-apps[]" type="checkbox" value="blog" <?php echo Livefyre_Apps::is_app_enabled('blog') ? 'checked' : ''; ?>>
                                         <label for='lfapps_blog_enable'>
-                                            <span><?php esc_html_e('LiveBlog™', 'lfapps'); ?></span>
+                                            <span><?php esc_html_e('Live Blog™', 'lfapps'); ?></span>
                                         </label>
                                         <p><a target="_blank" href="http://web.livefyre.com/streamhub/#liveBlog">Click here</a> for more information.</p>
                                     </div>
@@ -161,7 +162,7 @@
                                     <div class="lfapps-appmgt-controls">
                                         <input id="lfapps_chat_enable" name="livefyre_apps-apps[]" type="checkbox" value="chat" <?php echo Livefyre_Apps::is_app_enabled('chat') ? 'checked' : ''; ?>>
                                         <label for='lfapps_chat_enable'>
-                                            <span><?php esc_html_e('LiveChat™', 'lfapps'); ?></span>
+                                            <span><?php esc_html_e('Chat™', 'lfapps'); ?></span>
                                         </label>
                                         <p><a target="_blank" href="http://web.livefyre.com/streamhub/#liveChat">Click here</a> for more information.</p>
                                     </div>
