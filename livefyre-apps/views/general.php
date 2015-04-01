@@ -78,7 +78,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <p><i>Hooking in LFEP is documented <a href="http://docs.livefyre.com/developers/identity-integration/enterprise-profiles/">here.</a></i></p>
+                            <p class="enterprise-only"><i>Hooking in LFEP is documented <a href="http://docs.livefyre.com/developers/identity-integration/enterprise-profiles/">here.</a></i></p>
                             <?php if(get_option('livefyre_apps-package_type') === 'community'): ?>
                             <div class="lfapps-community-signup">
                                 <p><?php esc_html_e('New to Livefyre or forgotten your Site ID/Key?', 'lfapps'); ?><br/>
