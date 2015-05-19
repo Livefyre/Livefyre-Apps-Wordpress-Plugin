@@ -5,7 +5,7 @@ Tags: comments, widget, plugin, community, social, profile,
 moderation, engagement, twitter, facebook, conversation
 Requires at least: 3.9
 Tested up to: 4.1
-Stable tag: 1.0
+Stable tag: 1.1
 
 From Community to Enterprise, the Livefyre Apps Plugin infuses your website with real-time social content to increase engagement and drive traffic.
 

@@ -13,7 +13,7 @@ Author URI: http://www.livefyre.com/
  */
 define('LFAPPS__PLUGIN_PATH', dirname( __FILE__ ) . DIRECTORY_SEPARATOR);
 define('LFAPPS__PLUGIN_URL', plugin_dir_url( __FILE__ ));
-define('LFAPPS__VERSION', '1.0');
+define('LFAPPS__VERSION', '1.1');
 define('LFAPPS__PROTOCOL', isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http');
 /**
  * Load Main Class
