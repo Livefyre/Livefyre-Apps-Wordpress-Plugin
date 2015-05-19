@@ -83,6 +83,9 @@ support@livefyre.com.
 * Fixed https bug.
 * Fixed app selection bug.
 * Fixed broken link.
+= 1.1 =
+* Patch an issue with Chat colliding with Comments.
+* Patch issue with collections not updating when changed in Livefyre Settings
 
 == Upgrade Notice ==
 
