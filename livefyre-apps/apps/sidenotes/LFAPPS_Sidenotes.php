@@ -121,7 +121,7 @@ if ( ! class_exists( 'LFAPPS_Sidenotes' ) ) {
             /* Are comments open on this post/page? */
             $comments_open = ( $post->comment_status == 'open' );
 
-            $display = $display_posts || $display_pages;
+            $display = $display_posts || $display_pages || Livefyre_Apps::is_app_enabled('sidenotes');
             $post_type = get_post_type();
             if ( $post_type != 'post' && $post_type != 'page' ) {
 
@@ -130,7 +130,6 @@ if ( ! class_exists( 'LFAPPS_Sidenotes' ) ) {
             }
 
             return $display
-                && Livefyre_Apps::is_app_enabled('sidenotes')
                 && !is_preview()
                 && $comments_open;
         }
