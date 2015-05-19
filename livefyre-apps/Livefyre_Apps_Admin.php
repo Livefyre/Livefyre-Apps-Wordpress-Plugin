@@ -11,7 +11,14 @@ if ( ! class_exists( 'Livefyre_Apps_Admin' ) ) {
     
         public static function init() {
             if ( ! self::$initiated ) {
-                self::$initiated = true;                
+                self::$initiated = true;     
+                if(isset($_GET['type'])) {
+                    if($_GET['type'] === 'community' || $_GET['type'] === 'enterprise') {
+                        update_option('livefyre_apps-initial_modal_shown', true);
+                        update_option('livefyre_apps-package_type', sanitize_text_field($_GET['type']));
+                        wp_redirect(self::get_page_url('livefyre_apps') . '&settings-updated=environment_changed');
+                    }
+                }
                 self::init_hooks();     
                 self::init_apps();                 
             }
@@ -180,27 +187,8 @@ if ( ! class_exists( 'Livefyre_Apps_Admin' ) ) {
                 update_option('livefyre_apps-livefyre_site_id', sanitize_text_field( $_GET["site_id"] ));
                 update_option('livefyre_apps-livefyre_site_key', sanitize_text_field( $_GET["secretkey"] ));
             }
-            
-            if(isset($_GET['type'])) {
-                if($_GET['type'] === 'community' || $_GET['type'] === 'enterprise') {
-                    update_option('livefyre_apps-initial_modal_shown', true);
-                    update_option('livefyre_apps-package_type', sanitize_text_field($_GET['type']));
-                    wp_redirect(self::get_page_url('livefyre_apps') . '&msg=environment_changed');
-                }
-            }
-            
-            if(isset($_GET['msg'])) {
-                if($_GET['msg'] === 'environment_changed') {                   
-                    Livefyre_Apps::$form_saved = true;
-                    Livefyre_Apps::$form_saved_msg = 'Livefyre Environment has been changed!';
-                }
-            }
-            
+                        
             LFAPPS_View::render('general');
-        }
-        
-        public static function menu_activity_stream() {            
-            LFAPPS_View::render('activity_stream');
         }
     }   
 }

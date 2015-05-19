@@ -4,8 +4,10 @@
     <div id="setting-error-settings_updated" class="updated settings-error"> 
         <?php if(Livefyre_Apps::$form_saved_msg): ?>
             <p><strong><?php esc_html_e(Livefyre_Apps::$form_saved_msg); ?></strong></p>
+        <?php elseif(isset($_GET['settings-updated']) && $_GET['settings-updated'] == 'environment_changed'): ?>
+            <p><strong><?php esc_html_e('Livefyre Environment has been changed!'); ?></strong></p>
         <?php else: ?>
-            <p><strong><?php esc_html_e('Settings saved.'); ?></strong></p>
+            <p><strong><?php esc_html_e('Settings updated!'); ?></strong></p>
         <?php endif; ?>        
     </div>
     <?php endif; ?>

@@ -65,9 +65,9 @@ class LFAPPS_Comments_Display {
             $siteKey = get_option('livefyre_apps-livefyre_site_key' );
             $network_key = get_option('livefyre_apps-livefyre_domain_key', '');
             $post = get_post();
-            $articleId = get_the_ID();
-            $title = get_the_title($articleId);
-            $url = get_permalink($articleId);
+            $articleId = apply_filters('livefyre_article_id', get_the_ID());
+            $title = apply_filters('livefyre_collection_title', get_the_title(get_the_ID()));
+            $url = apply_filters('livefyre_collection_url', get_permalink(get_the_ID()));
             $tags = array();
             $posttags = get_the_tags( $wp_query->post->ID );
             if ( $posttags ) {
@@ -80,12 +80,8 @@ class LFAPPS_Comments_Display {
             $site = $network->getSite($siteId, $siteKey);
             
             $collectionMetaToken = $site->buildCollectionMetaToken($title, $articleId, $url, array("tags"=>$tags, "type"=>"livecomments"));
-            $checksum = $site->buildChecksum($title, $url, $tags);
-            
-            $strings = null;
-            if ( get_option('livefyre_apps-livefyre_language', 'English') != 'English' ) {
-                $strings = 'customStrings';
-            }
+            $checksum = $site->buildChecksum($title, $url, $tags, 'livecomments');
+            $strings = apply_filters( 'livefyre_custom_comments_strings', null );
             
             $livefyre_element = 'livefyre-comments';
             $display_template = false;
@@ -93,7 +89,7 @@ class LFAPPS_Comments_Display {
                     compact('siteId', 'siteKey', 'network', 'articleId', 'collectionMetaToken', 'checksum', 'strings', 'livefyre_element', 'display_template'), 
                     'comments');   
             
-            $ccjs = '//cdn.livefyre.com/libs/commentcount/v1.0/commentcount.js';
+            $ccjs = LFAPPS__PROTOCOL . '://cdn.livefyre.com/libs/commentcount/v1.0/commentcount.js';
             echo '<script type="text/javascript" data-lf-domain="' . esc_attr( $network->getName() ) . '" id="ncomments_js" src="' . esc_attr( $ccjs ) . '"></script>';
             
         }
@@ -156,11 +152,12 @@ class LFAPPS_Comments_Display {
         $post_type = get_post_type();
         if ( $post_type != 'post' && $post_type != 'page' ) {
             
-            $post_type_name = 'livefyre_display_' .$post_type;            
+            $post_type_name = 'livefyre_display_' .$post_type;
             $display = ( get_option('livefyre_apps-'. $post_type_name, 'true' ) == 'true' );
         }
 
         return $display
+            && Livefyre_Apps::is_app_enabled('comments')
             && !is_preview()
             && $comments_open;
 
@@ -197,16 +194,16 @@ class LFAPPS_Comments_Display {
     public static function init_shortcode($atts=array()) {
         if(isset($atts['article_id'])) {
             $articleId = $atts['article_id'];
-            $title = isset($pagename) ? $pagename : 'LiveComments (ID: ' . $atts['article_id'];
+            $title = isset($pagename) ? $pagename : 'Comments (ID: ' . $atts['article_id'];
             global $wp;
             $url = add_query_arg( $_SERVER['QUERY_STRING'], '', home_url( $wp->request ) );
             $tags = array();
         } else {
             global $post;
             if(get_the_ID() !== false) {
-                $articleId = $post->ID;
-                $title = get_the_title($articleId);
-                $url = get_permalink($articleId);
+                $articleId = apply_filters('livefyre_article_id', get_the_ID());
+                $title = apply_filters('livefyre_collection_title', get_the_title(get_the_ID()));
+                $url = apply_filters('livefyre_collection_url', get_permalink(get_the_ID()));
                 $tags = array();
                 $posttags = get_the_tags( $post->ID );
                 if ( $posttags ) {
@@ -230,12 +227,8 @@ class LFAPPS_Comments_Display {
         $site = $network->getSite($siteId, $siteKey);
 
         $collectionMetaToken = $site->buildCollectionMetaToken($title, $articleId, $url, array("tags"=>$tags, "type"=>"livecomments"));
-        $checksum = $site->buildChecksum($title, $url, $tags);
-
-        $strings = null;
-        if ( get_option('livefyre_apps-livefyre_language', 'English') != 'English' ) {
-            $strings = 'customStrings';
-        }
+        $checksum = $site->buildChecksum($title, $url, $tags, 'livecomments');
+        $strings = apply_filters( 'livefyre_custom_comments_strings', null );
 
         $livefyre_element = 'livefyre-comments-'.$articleId;
         $display_template = true;

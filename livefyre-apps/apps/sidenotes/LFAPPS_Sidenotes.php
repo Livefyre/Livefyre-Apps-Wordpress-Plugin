@@ -49,7 +49,7 @@ if ( ! class_exists( 'LFAPPS_Sidenotes' ) ) {
          * Add assets required by Livefyre Sidenotes
          */
         public static function load_resources() {
-            wp_register_script('Livefyre.js', 'http://cdn.livefyre.com/Livefyre.js');
+            wp_register_script('Livefyre.js', LFAPPS__PROTOCOL . '://cdn.livefyre.com/Livefyre.js');
             wp_enqueue_script('Livefyre.js');
         }
         
@@ -71,7 +71,7 @@ if ( ! class_exists( 'LFAPPS_Sidenotes' ) ) {
             }
             
             if(get_option('livefyre_apps-livefyre_sidenotes_selectors', '') === '' || get_option('livefyre_apps-livefyre_sidenotes_selectors') === 'true') {
-                update_option('livefyre_apps-livefyre_sidenotes_selectors', '#livefyre-sidenotes-wrap p:not(:has(img)),#livefyre-sidenotes-wrap > p img, #livefyre-sidenotes-wrap > ul > li');
+                update_option('livefyre_apps-livefyre_sidenotes_selectors', '#livefyre-sidenotes-wrap p:not(:has(img)),#livefyre-sidenotes-wrap > p:not(.fyre) img, #livefyre-sidenotes-wrap > ul > li, #livefyre-sidenotes-wrap > ol > li');
             }
             
             if(get_option('livefyre_apps-livefyre_sidenotes_version', '') === '') {
@@ -130,6 +130,7 @@ if ( ! class_exists( 'LFAPPS_Sidenotes' ) ) {
             }
 
             return $display
+                && Livefyre_Apps::is_app_enabled('sidenotes')
                 && !is_preview()
                 && $comments_open;
         }

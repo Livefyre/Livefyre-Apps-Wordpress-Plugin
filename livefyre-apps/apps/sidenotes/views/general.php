@@ -15,8 +15,7 @@
                 <div class="handlediv" title="Click to toggle"><br></div>
                 <h3 class="hndle"><span><?php esc_html_e('Livefyre Sidenotes Settings', 'lfapps-sidenotes'); ?></span></h3>
                 <form name="livefyre_sidenotes_general" id="livefyre_sidenotes_general" action="options.php" method="POST">
-                    <?php @settings_fields('livefyre_apps_settings_sidenotes'); ?>
-                    <?php @do_settings_fields('livefyre_apps_settings_sidenotes'); ?>
+                    <?php settings_fields('livefyre_apps_settings_sidenotes'); ?>
                     <div class='inside'>
                         <table cellspacing="0" class="lfapps-form-table">
                             <tr>
@@ -80,9 +79,9 @@
                                 </td>
                             </tr>  
                             <tr>
-                                <td colspan='2' class="info">
-                                    <strong>Note:</strong>
-                                    <p>There multiple other configuration options available for Livefyre Sidenotes and you can specify them by
+                                <td colspan='2'>
+                                    <strong>Sidenotes Configuration Options:</strong>
+                                    <p>There are multiple other configuration options available for Livefyre Sidenotes and you can specify them by
                                     declaring "livefyreSidenotesConfig" variable in your theme header. For example:</p>
                                     <blockquote class="code">
                                     <?php echo esc_html("<script>
@@ -90,6 +89,8 @@
                                          </script>"); ?>                                            
                                     </blockquote>
                                     <p><a target="_blank" href="http://answers.livefyre.com/developers/app-integrations/sidenotes/">Click here</a> for a full explanation of Livefyre Sidenotes options.</p>
+                                    <strong>Sidenotes String Customizations:</strong>
+                                    <p>String customizations are possible as well through applying WordPress filters. Information on how to implement this is <a target="_blank" href="http://answers.livefyre.com/developers/cms-plugins/wordpress/">found here</a>.</p>
                                 </td>
                             </tr>
                             <?php endif; ?>                            
@@ -97,7 +98,7 @@
                     </div>
                     <div id="major-publishing-actions">									
                         <div id="publishing-action">
-                            <?php @submit_button(); ?>
+                            <?php submit_button(); ?>
                         </div>
                         <div class="clear"></div>
                     </div>
