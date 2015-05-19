@@ -26,7 +26,7 @@ $strings = apply_filters( 'livefyre_custom_sidenotes_strings', null );
 $conv_config_str = json_encode($conv_config);
 ?>
 <script type="text/javascript">
-Livefyre.require(['<?php echo Livefyre_Apps::get_package_reference('sidenotes'); ?>'], function (Sidenotes) {
+Livefyre.require(['<?php echo LFAPPS_Sidenotes::get_package_reference(); ?>'], function (Sidenotes) {
     load_livefyre_auth();
     var convConfigSidenotes = <?php echo $conv_config_str; ?>;
     convConfigSidenotes['network'] = "<?php echo esc_js($network_name); ?>";

@@ -20,7 +20,7 @@ if($display_template) {
         convConfigChat<?php echo esc_js($articleId); ?> = lf_extend(liveChatConfig, convConfigChat<?php echo esc_js($articleId); ?>);
     }
 
-    Livefyre.require(['<?php echo Livefyre_Apps::get_package_reference('fyre.conv'); ?>'], function(ConvChat) {
+    Livefyre.require(['<?php echo LFAPPS_Chat::get_package_reference(); ?>'], function(ConvChat) {
         load_livefyre_auth();
         new ConvChat(networkConfigChat, [convConfigChat<?php echo esc_js($articleId); ?>], function(chatWidget) {
         }());
