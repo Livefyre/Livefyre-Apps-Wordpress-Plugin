@@ -52,8 +52,8 @@
                                 </td>
                             </tr>
                             <tr>                               
+                                <?php esc_html_e('(Select the types of posts on which you wish to enable Comments. Note: Only Chat or Comments may be enabled for each of these options.)', 'lfapps-chat'); ?>
                                 <?php 
-                                    <?php esc_html_e('(Select the types of posts on which you wish to enable Comments. Note: Only Chat or Comments may be enabled for each of these options.)', 'lfapps-chat'); ?>
                                 $available_versions = Livefyre_Apps::get_available_package_versions('fyre.conv'); 
                                 if(empty($available_versions)) {
                                     $available_versions = array(LFAPPS_Comments::$default_package_version);
