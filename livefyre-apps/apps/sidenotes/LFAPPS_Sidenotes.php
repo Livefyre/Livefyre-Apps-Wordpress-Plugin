@@ -73,10 +73,6 @@ if ( ! class_exists( 'LFAPPS_Sidenotes' ) ) {
             if(get_option('livefyre_apps-livefyre_sidenotes_selectors', '') === '' || get_option('livefyre_apps-livefyre_sidenotes_selectors') === 'true') {
                 update_option('livefyre_apps-livefyre_sidenotes_selectors', '#livefyre-sidenotes-wrap p:not(:has(img)),#livefyre-sidenotes-wrap > p:not(.fyre) img, #livefyre-sidenotes-wrap > ul > li, #livefyre-sidenotes-wrap > ol > li');
             }
-            
-            if(get_option('livefyre_apps-livefyre_sidenotes_version', '') === '') {
-                update_option('livefyre_apps-livefyre_sidenotes_version', 'latest');
-            }         
         }
         
         /**
@@ -121,7 +117,7 @@ if ( ! class_exists( 'LFAPPS_Sidenotes' ) ) {
             /* Are comments open on this post/page? */
             $comments_open = ( $post->comment_status == 'open' );
 
-            $display = $display_posts || $display_pages;
+            $display = $display_posts || $display_pages || Livefyre_Apps::is_app_enabled('sidenotes');
             $post_type = get_post_type();
             if ( $post_type != 'post' && $post_type != 'page' ) {
 
@@ -130,7 +126,6 @@ if ( ! class_exists( 'LFAPPS_Sidenotes' ) ) {
             }
 
             return $display
-                && Livefyre_Apps::is_app_enabled('sidenotes')
                 && !is_preview()
                 && $comments_open;
         }
@@ -141,34 +136,6 @@ if ( ! class_exists( 'LFAPPS_Sidenotes' ) ) {
          */
         public static function sidenotes_active() {
             return ( Livefyre_Apps::active());
-        }
-        
-        /**
-         * Get the Livefyre.require package reference name and version
-         * @return string
-         */
-        public static function get_package_reference() {
-            $option_version = get_option('livefyre_apps-livefyre_sidenotes_version');
-            $available_versions = Livefyre_Apps::get_available_package_versions('sidenotes'); 
-            if(empty($available_versions)) {
-                $available_versions = array(LFAPPS_Sidenotes::$default_package_version);
-            }
-            $required_version = Livefyre_Apps::get_package_reference();
-            if(is_null($required_version)) {
-                if($option_version == 'latest') {
-                    //get latest version
-                    $latest_version = array_pop($available_versions);
-                    if(strpos($latest_version, '.') !== false) {
-                        $required_version = substr($latest_version, 0, strpos($latest_version, '.'));
-                    } else {
-                        $required_version = $latest_version;
-                    }
-                } else {
-                    $required_version = $option_version;
-                }
-            }
-            
-            return 'sidenotes#'.$required_version;
         }
     }
 }

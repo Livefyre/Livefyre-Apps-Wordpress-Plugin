@@ -20,9 +20,8 @@
                     <div class='inside'>
                         <table cellspacing="0" class="lfapps-form-table">
                             <tr>
-                                <th align="left" scope="row" style="width: 40%">
+                                <th align="left" scope="row">
                                     <?php esc_html_e('Enable Chat on', 'lfapps-chat'); ?>
-                                    <span class="info"><?php esc_html_e('(Select the types of posts on which you wish to enable LiveChat. Note: Only LiveChat or LiveComments may be enabled for each of these options.)', 'lfapps-chat'); ?></span>
                                 </th>
                                 <td align="left" valign="top">
                                     <?php
@@ -50,31 +49,11 @@
                                     ?>
                                 </td>
                             </tr>
-                            <tr>                               
-                                <?php
+                            <tr>
+                                <td colspan='2'>
                                     <?php esc_html_e('(Select the types of posts on which you wish to enable Chat. Note: Only Chat or Comments may be enabled for each of these options.)', 'lfapps-chat'); ?>
-                                $available_versions = Livefyre_Apps::get_available_package_versions('fyre.conv');
-                                if (empty($available_versions)) {
-                                    $available_versions = array(LFAPPS_Chat::$default_package_version);
-                                }
-                                $available_versions['latest'] = 'latest';
-                                $available_versions = array_reverse($available_versions);
-                                ?>
-                                <th align="left" scope="row">
-                                    <?php esc_html_e('Package version', 'lfapps-chat'); ?><br/>
-                                    <span class="info"><?php esc_html_e('(If necessary you can revert back to an older version if available)', 'lfapps-chat'); ?></span>
-                                </th>
-                                <td align="left" valign="top">
-                                    <select name="livefyre_apps-livefyre_chat_version">
-                                        <?php foreach ($available_versions as $available_version): ?>
-                                            <?php $selected_version = get_option('livefyre_apps-livefyre_chat_version', 'latest') == $available_version ? 'selected="selected"' : ''; ?>
-                                            <option value="<?php echo esc_attr($available_version); ?>" <?php echo esc_html($selected_version); ?>>
-                                                <?php echo ucfirst(esc_html($available_version)); ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
                                 </td>
-                            </tr>  
+                            </tr>
                             <tr>
                                 <td colspan='2'>
                                     <br />

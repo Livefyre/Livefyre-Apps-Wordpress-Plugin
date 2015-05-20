@@ -43,7 +43,7 @@ class Site {
 		return JWT::encode(array_merge($collectionMeta, $options), $this->_key);
 	}
 
-	public function buildChecksum($title, $url, $tags = "", $type) {
+	public function buildChecksum($title, $url, $tags = "") {
 		if (filter_var($this->_IDNA->encode($url), FILTER_VALIDATE_URL) === false) {
 			throw new \InvalidArgumentException("provided url is not a valid url");
 		}
@@ -51,7 +51,7 @@ class Site {
 			throw new \InvalidArgumentException("title length should be under 255 char");
 		}
 
-		$checksum = array("tags" => $tags, "title" => $title, "url" => $url, "type" => $type);
+		$checksum = array("tags" => $tags, "title" => $title, "url" => $url);
 		return md5(str_replace('\/','/',json_encode($checksum)));
 	}
 

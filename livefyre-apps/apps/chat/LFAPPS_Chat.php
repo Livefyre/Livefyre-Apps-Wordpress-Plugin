@@ -17,7 +17,7 @@ use Livefyre\Livefyre;
 if (!class_exists('LFAPPS_Chat')) {
 
     class LFAPPS_Chat {
-        public static $default_package_version = '3.0.0';
+
         private static $initiated = false;
 
         public static function init() {
@@ -33,7 +33,6 @@ if (!class_exists('LFAPPS_Chat')) {
          */
         private static function init_hooks() {
             if (LFAPPS_Chat::chat_active()) {
-                add_action('wp_enqueue_scripts', array('LFAPPS_Chat', 'load_strings'));
                 add_action('wp_footer', array('LFAPPS_Chat', 'init_script'));
 
                 // Set comments_template filter to maximum value to always override the default commenting widget
@@ -84,7 +83,7 @@ if (!class_exists('LFAPPS_Chat')) {
                 $site = $network->getSite($siteId, $siteKey);
 
                 $collectionMetaToken = $site->buildCollectionMetaToken($title, $articleId, $url, array("tags" => $tags, "type" => "livechat"));
-                $checksum = $site->buildChecksum($title, $url, $tags, 'livechat');
+                $checksum = $site->buildChecksum($title, $url, $tags);
                 $strings = apply_filters( 'livefyre_custom_chat_strings', null );
 
                 $livefyre_element = 'livefyre-chat';
@@ -136,7 +135,7 @@ if (!class_exists('LFAPPS_Chat')) {
             $site = $network->getSite($siteId, $siteKey);
 
             $collectionMetaToken = $site->buildCollectionMetaToken($title, $articleId, $url, array("tags" => $tags, "type" => "livechat"));
-            $checksum = $site->buildChecksum($title, $url, $tags, 'livechat');
+            $checksum = $site->buildChecksum($title, $url, $tags);
             $strings = apply_filters( 'livefyre_custom_chat_strings', null );
 
             $livefyre_element = 'livefyre-chat-' . $articleId;
@@ -166,19 +165,6 @@ if (!class_exists('LFAPPS_Chat')) {
             return '<span data-lf-article-id="' . esc_attr($post->ID) . '" data-lf-site-id="' . esc_attr(get_option('livefyre_apps-livefyre_site_id', '')) . '" class="livefyre-commentcount">' . (int) $count . '</span>';
         }
 
-        /*
-         * Loads in JS variable to enable the widget to be internationalized.
-         *
-         */
-
-        public static function load_strings() {
-
-            $language = get_option('livefyre_apps-livefyre_language', 'English');
-
-            $lang_file = LFAPPS__PLUGIN_URL . "apps/comments/languages/" . $language . '.js';
-            wp_enqueue_script('livefyre-lang-js', esc_url($lang_file));
-        }
-
         /**
          * First time load set default Livefyre Comments options
          * + import previous Livefyre plugin options
@@ -186,9 +172,6 @@ if (!class_exists('LFAPPS_Chat')) {
         private static function set_default_options() {
             //set default display options
             //self::set_display_options();
-            if(get_option('livefyre_apps-livefyre_chat_version', '') === '') {
-                update_option('livefyre_apps-livefyre_chat_version', 'latest');
-            }            
         }
 
         /**
@@ -215,8 +198,6 @@ if (!class_exists('LFAPPS_Chat')) {
                     $display = true;
                 }
                 update_option('livefyre_apps-'.$post_type_name_chat, $display);
-                
-                var_dump('LFAPPS_CHAT: ' . $post_type_name_chat . '-' . $display);
             }
         }
 
@@ -236,17 +217,14 @@ if (!class_exists('LFAPPS_Chat')) {
             /* Are comments open on this post/page? */
             $comments_open = ( $post->comment_status == 'open' );
 
-            $display = $display_posts || $display_pages;
+            $display = $display_posts || $display_pages || Livefyre_Apps::is_app_enabled('chat');
             $post_type = get_post_type();
             if ($post_type != 'post' && $post_type != 'page') {
 
                 $post_type_name = 'livefyre_chat_display_' . $post_type;
                 $display = ( get_option('livefyre_apps-'.$post_type_name, 'true') == 'true' );
             }
-            return $display 
-                && Livefyre_Apps::is_app_enabled('chat')
-                && !is_preview()
-                && $comments_open;
+            return $display && !is_preview() && $comments_open;
         }
 
         /*
@@ -267,33 +245,6 @@ if (!class_exists('LFAPPS_Chat')) {
             return ( Livefyre_Apps::active());
         }
 
-        /**
-         * Get the Livefyre.require package reference name and version
-         * @return string
-         */
-        public static function get_package_reference() {
-            $option_version = get_option('livefyre_apps-livefyre_chat_version');
-            $available_versions = Livefyre_Apps::get_available_package_versions('fyre.conv'); 
-            if(empty($available_versions)) {
-                $available_versions = array(LFAPPS_Chat::$default_package_version);
-            }
-            $required_version = Livefyre_Apps::get_package_reference();
-            if(is_null($required_version)) {
-                if($option_version == 'latest') {
-                    //get latest version
-                    $latest_version = array_pop($available_versions);
-                    if(strpos($latest_version, '.') !== false) {
-                        $required_version = substr($latest_version, 0, strpos($latest_version, '.'));
-                    } else {
-                        $required_version = $latest_version;
-                    }
-                } else {
-                    $required_version = $option_version;
-                }
-            }
-            
-            return 'fyre.conv#'.$required_version;
-        }
     }
 
 }
