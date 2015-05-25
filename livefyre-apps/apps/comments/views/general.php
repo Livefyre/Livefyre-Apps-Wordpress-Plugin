@@ -38,7 +38,7 @@
                                         if(get_option($post_type_name) == '1' || get_option($post_type_name) == 'true') {
                                             $checked = 'checked';
                                         } 
-                                        $post_type_name_chat = 'livefyre_apps-livefyre_chat_display_' .$post_type;
+                                        $post_type_name_chat = 'livefyre_chat_display_' .$post_type;
                                         $disabled = false;
                                         if(isset($used_types[$post_type_name_chat])) {
                                             $disabled = true;
