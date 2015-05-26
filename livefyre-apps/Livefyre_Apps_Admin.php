@@ -155,6 +155,10 @@ if ( ! class_exists( 'Livefyre_Apps_Admin' ) ) {
             register_setting('livefyre_apps_settings_chat', 'livefyre_apps-livefyre_chat_version');
             
             //LiveBlog
+            foreach ($post_types as $post_type ) {
+                $post_type_name = 'livefyre_apps-livefyre_blog_display_' .$post_type;
+                register_setting('livefyre_apps_settings_blog', $post_type_name);
+            } 
             register_setting('livefyre_apps_settings_blog', 'livefyre_apps-livefyre_blog_version');
             
             //Sidenotes

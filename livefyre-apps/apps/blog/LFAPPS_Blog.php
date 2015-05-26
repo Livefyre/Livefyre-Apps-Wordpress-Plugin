@@ -44,7 +44,9 @@ if ( ! class_exists( 'LFAPPS_Blog' ) ) {
         }
         
         public static function init_shortcode($atts=array()) {
-            
+            if(!self::show_blog()) {
+                return;
+            }
             if(isset($atts['article_id'])) {
                 $articleId = $atts['article_id'];
                 $title = isset($pagename) ? $pagename : 'Comments (ID: ' . $atts['article_id'];
@@ -122,6 +124,34 @@ if ( ! class_exists( 'LFAPPS_Blog' ) ) {
             }
             
             return 'fyre.conv#'.$required_version;
+        }
+        
+        /*
+         * Handles the toggles on the settings page that decide which post types should be shown.
+         * Also prevents comments from appearing on non single items and previews.
+         *
+         */
+
+        public static function show_blog() {
+
+            global $post;
+            /* Is this a post and is the settings checkbox on? */
+            $display_posts = ( is_single() && get_option('livefyre_apps-livefyre_blog_display_post'));
+            /* Is this a page and is the settings checkbox on? */
+            $display_pages = ( is_page() && get_option('livefyre_apps-livefyre_blog_display_page'));
+            /* Are comments open on this post/page? */
+            $comments_open = ( $post->comment_status == 'open' );
+
+            $display = $display_posts || $display_pages;
+            $post_type = get_post_type();
+            if ($post_type != 'post' && $post_type != 'page') {
+
+                $post_type_name = 'livefyre_blog_display_' . $post_type;
+                $display = ( get_option('livefyre_apps-'.$post_type_name, 'true') == 'true' );
+            }
+            return $display 
+                && Livefyre_Apps::is_app_enabled('blog')
+                && !is_preview();
         }
     }
 }

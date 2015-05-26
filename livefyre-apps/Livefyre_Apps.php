@@ -11,6 +11,7 @@ require_once LFAPPS__PLUGIN_PATH . 'libs/php/Livefyre/Utils/JWT.php';
 
 require_once LFAPPS__PLUGIN_PATH . 'libs/php/LFAPPS_View.php';
 require_once(LFAPPS__PLUGIN_PATH . "libs/php/LFAPPS_JWT.php");
+require_once(LFAPPS__PLUGIN_PATH . "libs/php/LFAPPS_Http_Extension.php");
 
 use Livefyre\Livefyre;
 
