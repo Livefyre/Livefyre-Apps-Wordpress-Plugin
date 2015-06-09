@@ -148,6 +148,9 @@ if ( ! class_exists( 'LFAPPS_Blog' ) ) {
 
                 $post_type_name = 'livefyre_blog_display_' . $post_type;
                 $display = ( get_option('livefyre_apps-'.$post_type_name, 'true') == 'true' );
+                if($post_type === false) {
+                    $display = true;
+                }
             }
             return $display 
                 && Livefyre_Apps::is_app_enabled('blog')
