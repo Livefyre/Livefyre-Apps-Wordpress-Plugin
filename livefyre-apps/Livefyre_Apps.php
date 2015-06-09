@@ -3,12 +3,21 @@
 if(!defined('LFAPPS__PLUGIN_PATH')) 
     die('Bye');
 
-require_once LFAPPS__PLUGIN_PATH . 'libs/php/Livefyre/Livefyre.php';
-require_once LFAPPS__PLUGIN_PATH . 'libs/php/Livefyre/Core/Network.php';
-require_once LFAPPS__PLUGIN_PATH . 'libs/php/Livefyre/Core/Site.php';
-require_once LFAPPS__PLUGIN_PATH . 'libs/php/Livefyre/Utils/IDNA.php';
-require_once LFAPPS__PLUGIN_PATH . 'libs/php/Livefyre/Utils/JWT.php';
-
+if(!class_exists('Livefyre\Livefyre')) {
+    require_once LFAPPS__PLUGIN_PATH . 'libs/php/Livefyre/Livefyre.php';
+}
+if(!class_exists('Livefyre\Core\Network')) {
+    require_once LFAPPS__PLUGIN_PATH . 'libs/php/Livefyre/Core/Network.php';
+}
+if(!class_exists('Livefyre\Core\Site')) {
+    require_once LFAPPS__PLUGIN_PATH . 'libs/php/Livefyre/Core/Site.php';
+}
+if(!class_exists('Livefyre\Utils\IDNA')) {
+    require_once LFAPPS__PLUGIN_PATH . 'libs/php/Livefyre/Utils/IDNA.php';
+}
+if(!class_exists('Livefyre\Utils\JWT')) {
+    require_once LFAPPS__PLUGIN_PATH . 'libs/php/Livefyre/Utils/JWT.php';
+}
 require_once LFAPPS__PLUGIN_PATH . 'libs/php/LFAPPS_View.php';
 require_once(LFAPPS__PLUGIN_PATH . "libs/php/LFAPPS_JWT.php");
 require_once(LFAPPS__PLUGIN_PATH . "libs/php/LFAPPS_Http_Extension.php");
