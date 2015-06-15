@@ -9,7 +9,6 @@ class LFAPPS_Comments_Display {
      */
     function __construct( $lf_core ) {
         if (LFAPPS_Comments::comments_active()) {
-            //add_action( 'wp_enqueue_scripts', array( &$this, 'load_strings' ) );
             add_action( 'wp_footer', array( &$this, 'lf_init_script' ) );
             
             // Set comments_template filter to maximum value to always override the default commenting widget
@@ -96,33 +95,6 @@ class LFAPPS_Comments_Display {
     }
 
     /*
-     * Debug script that will point customers to what could be potential issues.
-     *
-     */
-    function lf_debug() {
-        return false;
-        global $post;
-        $post_type = get_post_type( $post );
-        $article_id = $post->ID;
-        $site_id = get_option('livefyre_apps-livefyre_site_id', '' );
-        $display_posts = get_option('livefyre_apps-livefyre_display_posts', 'true' );
-        $display_pages = get_option('livefyre_apps-livefyre_display_pages', 'true' );
-        echo "\n";
-        ?>
-            <!-- LF DEBUG
-            site-id: <?php echo esc_html($site_id) . "\n"; ?>
-            article-id: <?php echo esc_html($article_id) . "\n"; ?>
-            post-type: <?php echo esc_html($post_type) . "\n"; ?>
-            comments-open: <?php echo esc_html(comments_open() ? "true\n" : "false\n"); ?>
-            is-single: <?php echo is_single() ? "true\n" : "false\n"; ?>
-            display-posts: <?php echo esc_html($display_posts) . "\n"; ?>
-            display-pages: <?php echo esc_html($display_pages) . "\n"; ?>
-            -->
-        <?php
-        
-    }
-
-    /*
      * The template for the Livefyre div element.
      *
      */
@@ -130,7 +102,7 @@ class LFAPPS_Comments_Display {
         if(class_exists('LFAPPS_Chat') && !self::livefyre_show_comments() && LFAPPS_Chat::show_chat()) {
             return LFAPPS_Chat::comments_template();
         }
-        return dirname( __FILE__ ) . '/comments-template.php';        
+        return dirname( __FILE__ ) . '/views/comments-template.php';        
     }
 
     /*
@@ -174,19 +146,6 @@ class LFAPPS_Comments_Display {
 
     }
 
-    /*
-     * Loads in JS variable to enable the widget to be internationalized.
-     *
-     */
-    function load_strings() {
-
-        $language = get_option('livefyre_apps-livefyre_language', 'English' );
-        
-        $lang_file = LFAPPS__PLUGIN_URL . "apps/comments/languages/" . $language . '.js';
-        wp_enqueue_script( 'livefyre-lang-js', esc_url( $lang_file ) );
-
-    }
-    
     /**
      * Run shortcode [livecomments]
      * @param array $atts array of attributes passed to shortcode

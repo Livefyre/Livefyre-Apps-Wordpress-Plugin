@@ -21,7 +21,7 @@ define( 'LFAPPS_AMETA_PREFIX', 'livefyre_amap_' );
 define( 'LFAPPS_DEFAULT_HTTP_LIBRARY', 'LFAPPS_Http_Extension' );
 define( 'LFAPPS_NOTIFY_SETTING_PREFIX', 'livefyre_notify_' );
 
-require_once( dirname( __FILE__ ) . "/src/LFAPPS_Comments_Core.php" );
+require_once( dirname( __FILE__ ) . "/LFAPPS_Comments_Core.php" );
 
 if ( ! class_exists( 'LFAPPS_Comments' ) ) {
     class LFAPPS_Comments {
