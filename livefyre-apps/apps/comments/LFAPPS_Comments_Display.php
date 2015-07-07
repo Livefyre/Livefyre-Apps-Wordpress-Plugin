@@ -141,8 +141,8 @@ class LFAPPS_Comments_Display {
      */
     function livefyre_comments_number( $count ) {
 
-        global $post;
-        return '<span data-lf-article-id="' . esc_attr($post->ID) . '" data-lf-site-id="' . esc_attr(get_option('livefyre_apps-livefyre_site_id', '' )) . '" class="livefyre-commentcount">'.esc_html($count).'</span>';
+        $articleId = apply_filters('livefyre_article_id', get_the_ID());
+        return '<span data-lf-article-id="' . esc_attr($articleId) . '" data-lf-site-id="' . esc_attr(get_option('livefyre_apps-livefyre_site_id', '' )) . '" class="livefyre-commentcount">'.esc_html($count).'</span>';
 
     }
 
