@@ -44,7 +44,7 @@ class LFAPPS_Comments_Sync_Impl implements LFAPPS_Comments_Sync {
         $key = get_option('livefyre_apps-livefyre_site_key' );
         $url .= '?' . $qstring . '&sig=' . urlencode( getHmacsha1Signature( base64_decode( $key ), $qstring ) );
         $http = new LFAPPS_Http_Extension;
-        $http_result = $http->request( $url, array('timeout' => 120) );
+        // $http_result = $http->request( $url, array('timeout' => 120) );
         if (is_array( $http_result ) && isset($http_result['response']) && $http_result['response']['code'] == 200) {
             $str_comments = $http_result['body'];
         } else {
