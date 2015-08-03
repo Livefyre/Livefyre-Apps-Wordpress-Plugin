@@ -36,7 +36,14 @@ if($display_template) {
 
     Livefyre.require(['<?php echo LFAPPS_Comments::get_package_reference(); ?>'], function(ConvComments) {
         load_livefyre_auth();
-        new ConvComments(networkConfigComments, [convConfigComments<?php echo esc_js($articleId); ?>], function(commentsWidget) {
-        }());
+        new ConvComments(networkConfigComments,
+                        [convConfigComments<?php echo esc_js($articleId); ?>],
+                        function(commentsWidget) {
+                            console.log(commentsWidget);
+                            commentsWidget.on('initialRenderComplete', function() {
+                                alert("Initial Render Complete!");
+                            });
+                        }
+        );
     });
 </script>
