@@ -247,7 +247,8 @@ class LFAPPS_Comments_Import_Impl implements LFAPPS_Comments_Import {
 
         $args = array('data' => array('message' => $message, 'method' => 'POST'));
         $url = $this->lf_core->http_url . '/site/' . get_option('livefyre_apps-livefyre_site_id');
-        $this->lf_core->lf_domain_object->http->request($url . '/error', $args);
+        $http = new LFAPPS_Http_Extension;
+        $http->request($url . '/error', $args);
     }
 
     function unicode_code_to_utf8($unicode_list) {

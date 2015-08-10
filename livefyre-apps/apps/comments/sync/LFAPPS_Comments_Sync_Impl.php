@@ -220,7 +220,8 @@ class LFAPPS_Comments_Sync_Impl implements LFAPPS_Comments_Sync {
     function livefyre_report_error( $message ) { 
 
         $args = array( 'data' => array( 'message' => $message, 'method' => 'POST' ) );
-        $this->lf_core->lf_domain_object->http->request( $this->site_rest_url() . '/error', $args );
+        $http = new LFAPPS_Http_Extension;
+        $http->request( $this->site_rest_url() . '/error', $args );
 
     }
 

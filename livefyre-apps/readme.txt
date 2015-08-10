@@ -1,11 +1,11 @@
-=== Livefyre Apps ===
+﻿=== Livefyre Apps ===
 Contributors: Livefyre
 Donate link: http://livefyre.com/
 Tags: comments, widget, plugin, community, social, profile,
 moderation, engagement, twitter, facebook, conversation
 Requires at least: 3.9
 Tested up to: 4.1
-Stable tag: 1.1
+Stable tag: 1.2
 
 From Community to Enterprise, the Livefyre Apps Plugin infuses your website with real-time social content to increase engagement and drive traffic.
 
@@ -48,6 +48,28 @@ Livefyre Community Comments replaces your default comments with real-time conver
 *Sidenotes*
 
 Livefyre Sidenotes inspires focused conversations by allowing users to engage directly with content — a quote, a paragraph, an image — anywhere on a page. By allowing readers to interact with and share your content as they read, Sidenotes lowers the barrier for engagement, increases time on site and boosts conversational civility.
+
+== Livefyre JavaScript Events ==
+
+Livefyre Apps allows you to listen to events that occur within the Livefyre widgets, such as widget initialized or comment posted. 
+
+To do this you must add a piece of JavaScript code which tells Livefyre Apps to listen for the given events. Here is an example of a comment posted even listener for the LiveComments widget:
+
+<script type="text/javascript">
+    LFAPPS.add_jsevent_listener('livecomments', 'commentPosted', function(data) {
+        console.log("commentPosted", data);
+    });
+</script>
+
+The function "LFAPPS.add_jsevent_listener" takes in the following parameters:
+* widget name (possible values: "livecomments", "livechat", "liveblog", "sidenotes")
+* event name - you can get the event names from the below links (sidenotes have different event names compared to comments)
+* callback function - this function must take in the "data" parameter which will differer depending on the event triggered. You can use this data object to determine the event details. 
+
+Comments, Blog & Chat - http://answers.livefyre.com/developers/reference/javascript-events/
+Sidenotes - http://answers.livefyre.com/developers/app-integrations/sidenotes/#AppEvents
+
+N.B: Make sure that you run the "LFAPPS.add_jsevent_listener" function after lfapps.js script has been called. Best place is the footer of the webpage. 
 
 == Installation ==
 

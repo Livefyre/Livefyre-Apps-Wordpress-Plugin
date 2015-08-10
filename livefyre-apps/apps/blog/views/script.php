@@ -18,7 +18,17 @@
 
     Livefyre.require(['<?php echo LFAPPS_Blog::get_package_reference(); ?>'], function(ConvBlog) {
         load_livefyre_auth();
-        new ConvBlog(networkConfigBlog, [convConfigBlog<?php echo esc_js($articleId); ?>], function(blogWidget) {            
-        }());
+        new ConvBlog(networkConfigBlog, [convConfigBlog<?php echo esc_js($articleId); ?>], function(blogWidget) {  
+            if(typeof blogWidget !== "undefined") {
+                var liveblog_listeners = LFAPPS.get_app_jsevent_listeners('liveblog');
+                if(liveblog_listeners.length > 0) {
+                    for(var i in liveblog_listeners) {
+                        var liveblog_listener = liveblog_listeners[i];
+
+                        blogWidget.on(liveblog_listener.event_name, liveblog_listener.callback);
+                    }
+                }
+            }
+        });
     });
 </script>
