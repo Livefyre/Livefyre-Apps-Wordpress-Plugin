@@ -1,32 +1,28 @@
-var LFAPPS = {};
+var Livefyre = Livefyre || {};
+Livefyre.LFAPPS = Livefyre.LFAPPS || {};
 
-var lf_extend = function(a, b) {
+Livefyre.LFAPPS.eventListeners = [];
+
+Livefyre.LFAPPS.lfExtend = function(a, b) {
     for(var key in b)
         if(b.hasOwnProperty(key))
             a[key] = b[key];
     return a;
 };
 
-/*
- * Javascript Event Listeners
- */
-
-//init new jsevents array
-LFAPPS.jsevent_listeners = [];
-
-//add new listener for a specific app, event_name and callback
-LFAPPS.add_jsevent_listener = function(app, event_name, callback) {
-    LFAPPS.jsevent_listeners.push({app:app, event_name:event_name, callback:callback});
+//add new listener for a specific app, eventName and callback
+Livefyre.LFAPPS.addEventListener = function(app, eventName, callback) {
+    Livefyre.LFAPPS.eventListeners.push({app:app, eventName:eventName, callback:callback});
 };
 
 //get jsevent listeners for a specific app
-LFAPPS.get_app_jsevent_listeners = function(app) {
+Livefyre.LFAPPS.getAppEventListeners = function(app) {
     var events = [];
-    if(LFAPPS.jsevent_listeners.length > 0) {
-        for(var i in LFAPPS.jsevent_listeners) {
-            var event_obj = LFAPPS.jsevent_listeners[i];
-            if(event_obj.app === app) {
-                events.push(event_obj);
+    if(Livefyre.LFAPPS.eventListeners.length > 0) {
+        for(var i = 0; i<Livefyre.LFAPPS.eventListeners.length; i++) {
+            var eventObj = Livefyre.LFAPPS.eventListeners[i];
+            if(eventObj.app === app) {
+                events.push(eventObj);
             }
         }
     }
