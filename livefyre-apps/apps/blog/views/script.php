@@ -13,19 +13,18 @@
     };
     
     if(typeof(liveBlogConfig) !== 'undefined') {
-        convConfigBlog<?php echo esc_js($articleId); ?> = lf_extend(liveBlogConfig, convConfigBlog<?php echo esc_js($articleId); ?>);
+        convConfigBlog<?php echo esc_js($articleId); ?> = lfExtend(liveBlogConfig, convConfigBlog<?php echo esc_js($articleId); ?>);
     }
 
     Livefyre.require(['<?php echo LFAPPS_Blog::get_package_reference(); ?>'], function(ConvBlog) {
         load_livefyre_auth();
         new ConvBlog(networkConfigBlog, [convConfigBlog<?php echo esc_js($articleId); ?>], function(blogWidget) {  
             if(typeof blogWidget !== "undefined") {
-                var liveblog_listeners = LFAPPS.get_app_jsevent_listeners('liveblog');
-                if(liveblog_listeners.length > 0) {
-                    for(var i in liveblog_listeners) {
-                        var liveblog_listener = liveblog_listeners[i];
-
-                        blogWidget.on(liveblog_listener.event_name, liveblog_listener.callback);
+                var liveblogListeners = Livefyre.LFAPPS.getAppEventListeners('liveblog');
+                if(liveblogListeners.length > 0) {
+                    for(var i=0; i<liveblogListeners.length; i++) {
+                        var liveblogListener = liveblogListeners[i];
+                        blogWidget.on(liveblogListener.event_name, liveblogListener.callback);
                     }
                 }
             }

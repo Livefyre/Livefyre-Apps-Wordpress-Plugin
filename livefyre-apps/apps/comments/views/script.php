@@ -31,7 +31,7 @@ if ($display_template) {
         checksum: "<?php echo esc_js($checksum); ?>"
     };
     if (typeof (liveCommentsConfig) !== 'undefined') {
-        convConfigComments<?php echo esc_js($articleId); ?> = lf_extend(liveCommentsConfig, convConfigComments<?php echo esc_js($articleId); ?>);
+        convConfigComments<?php echo esc_js($articleId); ?> = Livefyre.LFAPPS.lfExtend(liveCommentsConfig, convConfigComments<?php echo esc_js($articleId); ?>);
     }
 
     Livefyre.require(['<?php echo LFAPPS_Comments::get_package_reference(); ?>'], function (ConvComments) {
@@ -39,14 +39,11 @@ if ($display_template) {
         new ConvComments(networkConfigComments,
                 [convConfigComments<?php echo esc_js($articleId); ?>],
                 function (commentsWidget) {
-                    if (typeof commentsWidget !== "undefined") {
-                        var livecomments_listeners = LFAPPS.get_app_jsevent_listeners('livecomments');
-                        if (livecomments_listeners.length > 0) {
-                            for (var i in livecomments_listeners) {
-                                var livecomments_listener = livecomments_listeners[i];
-
-                                commentsWidget.on(livecomments_listener.event_name, livecomments_listener.callback);
-                            }
+                    var livecommentsListeners = Livefyre.LFAPPS.getAppEventListeners('livecomments');
+                    if (livecommentsListeners.length > 0) {
+                        for (var i = 0; i<livecommentsListeners.length; i++) {
+                            var livecommentsListener = livecommentsListeners[i];
+                            commentsWidget.on(livecommentsListener.eventName, livecommentsListener.callback);
                         }
                     }
                 }
