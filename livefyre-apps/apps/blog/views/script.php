@@ -13,7 +13,7 @@
     };
     
     if(typeof(liveBlogConfig) !== 'undefined') {
-        convConfigBlog<?php echo esc_js($articleId); ?> = lfExtend(liveBlogConfig, convConfigBlog<?php echo esc_js($articleId); ?>);
+        convConfigBlog<?php echo esc_js($articleId); ?> = Livefyre.LFAPPS.lfExtend(liveBlogConfig, convConfigBlog<?php echo esc_js($articleId); ?>);
     }
 
     Livefyre.require(['<?php echo LFAPPS_Blog::get_package_reference(); ?>'], function(ConvBlog) {
