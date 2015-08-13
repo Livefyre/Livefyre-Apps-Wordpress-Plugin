@@ -90,46 +90,10 @@ class LFAPPS_Comments_Core {
         require_once( dirname( __FILE__ ) . '/LFAPPS_Comments_Display.php' );
         require_once( dirname( __FILE__ ) . '/import/LFAPPS_Comments_Import_Impl.php' );
         require_once( dirname( __FILE__ ) . '/LFAPPS_Comments_Activation.php' );
-        require_once( dirname( __FILE__ ) . '/sync/LFAPPS_Comments_Sync_Impl.php' );
 
         $this->Activation = new LFAPPS_Comments_Activation( $this );
-        // $this->Sync = new LFAPPS_Comments_Sync_Impl( $this );
         $this->Import = new LFAPPS_Comments_Import_Impl( $this );
         $this->Display = new LFAPPS_Comments_Display( $this );
     }
 
 } //  Livefyre_core
-
-
-if(!function_exists('getHmacsha1Signature')) {
-    function getHmacsha1Signature($key, $data) {
-            //convert binary hash to BASE64 string
-        return base64_encode(hmacsha1($key, $data));
-    }
-}
-
-// encrypt a base string w/ HMAC-SHA1 algorithm
-if(!function_exists('hmacsha1')) {
-    function hmacsha1($key,$data) {
-        $blocksize=64;
-        $hashfunc='sha1';
-        if (strlen($key)>$blocksize) {
-            $key=pack('H*', $hashfunc($key));
-        }
-        $key=str_pad($key,$blocksize,chr(0x00));
-        $ipad=str_repeat(chr(0x36),$blocksize);
-        $opad=str_repeat(chr(0x5c),$blocksize);
-        $hmac = pack( 'H*',$hashfunc( ($key^$opad).pack( 'H*',$hashfunc( ($key^$ipad).$data ) ) ) );
-        return $hmac;
-    }
-}
-
-if(!function_exists('xor_these')) {
-    function xor_these($first, $second) {
-        $results=array();
-        for ($i=0; $i < strlen($first); $i++) {
-            array_push($results, $first[$i]^$second[$i]);
-        }
-        return implode($results);
-    }
-}
