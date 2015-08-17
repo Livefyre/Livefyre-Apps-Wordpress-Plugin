@@ -31,14 +31,6 @@ deploy_org:
 	# .org push
 	echo "Starting .org deploy."
 
-	mkdir temp-org-svn
-	pushd $(PWD)/temp-org-svn
-		svn co http://plugins.svn.wordpress.org/livefyre-apps/
-	# 	svn diff
-		# bash regex on readme
-		# bash regex on livefyre-apps.php
-		# push to org?
-	popd
 
 clean:
 	rm -rf temp-org-svn
