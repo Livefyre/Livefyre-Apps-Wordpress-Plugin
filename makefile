@@ -15,16 +15,15 @@ deploy_vip:
 	# VIP push
 	echo "Starting VIP deploy."
 	mkdir temp-vip-svn
-	( cd temp-vip-svn; svn co https://vip-review-svn.wordpress.com/plugins/livefyre/ .; cp -r ../livefyre-apps/* .; svn diff > difff.txt; mv difff.txt ../; )
+	( cd temp-vip-svn; svn co https://vip-review-svn.wordpress.com/plugins/livefyre/ .; cp -r ../livefyre-apps/* .; svn diff > wp-vip-diff.txt; mv wp-vip-diff.txt ../; )
 		# bash regex on readme
 		# bash regex on livefyre-apps.php
 		# cp -r ../livefyre-apps/* .
 		# svn diff > livefyre-apps-vip-diff.txt
 		# email somewhere?
-	if [ -s wp-vip-diff.txt ] then
-		#email it to people
-	else
+	if [ ! -s wp-vip-diff.txt ] then
 		echo "There is nothing different in your local."
+		exit 1
 	fi
 
 deploy_org:
