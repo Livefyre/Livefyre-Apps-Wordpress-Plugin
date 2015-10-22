@@ -40,8 +40,7 @@ if ( ! class_exists( 'Livefyre_Apps_Admin' ) ) {
             add_menu_page('Livefyre Apps', 'Livefyre Apps', 'manage_options', 'livefyre_apps', array('Livefyre_Apps_Admin', 'menu_general'), LFAPPS__PLUGIN_URL."assets/img/livefyre-icon_x16.png"); 
             //community authentication page (invisible and only handles data sent back from livefyre.com)
             add_submenu_page( null, 'Livefyre', 'Livefyre', "manage_options", 'livefyre', array('Livefyre_Apps_Admin', 'menu_general'));
-            add_submenu_page( 'livefyre_apps', 'Activity Stream', 'Activity Stream', "manage_options", 'livefyre_activity_stream', array('Livefyre_Apps_Admin', 'menu_activity_stream'));
-           
+            
         }
         
         

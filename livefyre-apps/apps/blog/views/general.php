@@ -70,8 +70,8 @@
                                 </td>
                             </tr>   
                             <tr>
-                                <td colspan='2' class="info">
-                                    <strong>Note:</strong>
+                                <td colspan='2'>
+                                    <strong>Liveblog Configuration Options::</strong>
                                     <p>There multiple configuration options available for LiveBlog and you can specify them by
                                         declaring "liveBlogConfig" variable in your theme header. For example:</p>
                                     <blockquote class="code">
@@ -80,8 +80,8 @@
                                           </script>"); ?>                                           
                                     </blockquote>
                                     <p><a target="_blank" href="http://answers.livefyre.com/developers/app-integrations/live-blog/#convConfigObject">Click here</a> for a full explanation of Live Blog options.</p>
-                                    <strong>Live Blog String Customizations:</strong>
-                                    <p>String customizations are possible as well through applying WordPress filters. Information on how to implement this is <a target="_blank" href="http://answers.livefyre.com/developers/cms-plugins/wordpress/">found here</a>.</p>
+                                    <strong>Live Blog Customizations:</strong>
+                                    <p>Additional customizations are possible through applying WordPress filters. Information on how to implement these are <a target="_blank" href="http://answers.livefyre.com/developers/cms-plugins/wordpress/">found here</a>.</p>
                                 </td>
                             </tr>
                         </table>

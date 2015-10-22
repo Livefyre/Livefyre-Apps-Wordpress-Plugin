@@ -32,14 +32,14 @@ Livefyre.require(['<?php echo LFAPPS_Sidenotes::get_package_reference(); ?>'], f
     convConfigSidenotes['network'] = "<?php echo esc_js($network_name); ?>";
     <?php echo isset( $strings ) ? "convConfigSidenotes['strings'] = " . json_encode($strings) . ';' : ''; ?>
     if(typeof(livefyreSidenotesConfig) !== 'undefined') {
-        convConfigSidenotes = lf_extend(convConfigSidenotes, livefyreSidenotesConfig);
+        convConfigSidenotes = Livefyre.LFAPPS.lfExtend(convConfigSidenotes, livefyreSidenotesConfig);
     }
-    var sidenotes_app = new Sidenotes(convConfigSidenotes);
-    var sidenotes_listeners = LFAPPS.get_app_jsevent_listeners('sidenotes');
-    if(sidenotes_listeners.length > 0) {
-        for(var i in sidenotes_listeners) {
-            var sidenotes_listener = sidenotes_listeners[i];
-            sidenotes_app.once(sidenotes_listener.event_name, sidenotes_listener.callback);
+    var sidenotesApp = new Sidenotes(convConfigSidenotes);
+    var sidenotesListeners = Livefyre.LFAPPS.getAppEventListeners('sidenotes');
+    if(sidenotesListeners.length > 0) {
+        for(var i=0; i<sidenotesListeners.length; i++) {
+            var sidenotesListener = sidenotesListeners[i];
+            sidenotesApp.once(sidenotesListener.eventName, sidenotesListener.callback);
         }
     }
 });

@@ -280,7 +280,7 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
             $versions = array();
             
             $http = new LFAPPS_Http_Extension;
-            $resp = $http->request($url, array( 'timeout' => 10 ));
+            $resp = $http->request($url, array( 'timeout' => 5 ));
             
             if (!is_wp_error( $resp ) ) {
                 $body = $resp['body'];
@@ -334,7 +334,7 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
             $url = 'https://'.$domain_part.'.bootstrap.fyre.co/api/v3.1/activity/?resource=urn:livefyre:umg.fyre.co&since=0';
             
             $http = new LFAPPS_Http_Extension;
-            $resp = $http->request($url, array( 'timeout' => 10, 'headers' => $header));
+            $resp = $http->request($url, array( 'timeout' => 5, 'headers' => $header));
             if(isset($resp['body'])) {
                 $body = json_decode($resp['body'], true);
                 return $body;
