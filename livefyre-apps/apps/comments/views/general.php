@@ -87,8 +87,8 @@
                                          </script>"); ?>                                            
                                     </blockquote>
                                     <p><a target="_blank" href="http://answers.livefyre.com/developers/app-integrations/comments/#convConfigObject">Click here</a> for a full explanation of Comments options.</p>
-                                    <strong>Comments String Customizations:</strong>
-                                    <p>String customizations are possible as well through applying WordPress filters. Information on how to implement this is <a target="_blank" href="http://answers.livefyre.com/developers/cms-plugins/wordpress/">found here</a>.</p>
+                                    <strong>Comments Customizations:</strong>
+                                    <p>Additional customizations are possible through applying WordPress filters. Information on how to implement these are <a target="_blank" href="http://answers.livefyre.com/developers/cms-plugins/wordpress/">found here</a>.</p>
                                 </td>
                             </tr>
                         </table>

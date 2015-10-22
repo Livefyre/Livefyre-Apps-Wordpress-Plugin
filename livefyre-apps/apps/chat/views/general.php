@@ -87,8 +87,8 @@
                                          </script>"); ?>                                            
                                     </blockquote>
                                     <p><a target="_blank" href="http://answers.livefyre.com/developers/app-integrations/chat/#convConfigObject">Click here</a> for a full explanation of Chat options.</p>
-                                    <strong>Chat String Customizations:</strong>
-                                    <p>String customizations are possible as well through applying WordPress filters. Information on how to implement this is <a target="_blank" href="http://answers.livefyre.com/developers/cms-plugins/wordpress/">found here</a>.</p>
+                                    <strong>Chat Customizations:</strong>
+                                    <p>Additional customizations are possible through applying WordPress filters. Information on how to implement these are <a target="_blank" href="http://answers.livefyre.com/developers/cms-plugins/wordpress/">found here</a>.</p>
                                 </td>
                             </tr>
                         </table>

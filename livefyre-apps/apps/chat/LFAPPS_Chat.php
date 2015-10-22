@@ -202,7 +202,6 @@ if (!class_exists('LFAPPS_Chat')) {
                 }
                 update_option('livefyre_apps-'.$post_type_name_chat, $display);
                 
-                var_dump('LFAPPS_CHAT: ' . $post_type_name_chat . '-' . $display);
             }
         }
 
