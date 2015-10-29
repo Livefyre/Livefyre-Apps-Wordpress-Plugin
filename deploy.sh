@@ -2,6 +2,15 @@
 # A modification of Dean Clatworthy's deploy script as found here: https://github.com/deanc/wordpress-plugin-git-svn
 # The difference is that this script lives in the plugin's git repo & doesn't require an existing SVN repo.
 
+# Let's begin...
+echo ".........................................."
+echo 
+echo "Preparing to deploy wordpress plugin"
+echo 
+echo ".........................................."
+echo 
+
+
 # main config
 PLUGINSLUG="livefyre-apps"
 CURRENTDIR=`pwd`
@@ -14,27 +23,25 @@ SVNTRUNK=$SVNURL"trunk/"
 SVNTAGS=$SVNURL"tags/"
 SVNUSER="Livefyre" # your svn username
 SVNPASSWORD=$LF_WP_ORG_PASSWORD
-TAG="1.2"
-SVNDEST="branches/$TAG"
+SVNDEST="trunk/"
 
-# git config
-GITPATH="$SVNPATH/$SVNDEST/" # this file should be in the base of your git repository
-GITREPO="https://github.com/Livefyre/Livefyre-Apps-Wordpress-Plugin.git"
-
-
-# Let's begin...
-echo ".........................................."
-echo 
-echo "Preparing to deploy wordpress plugin"
-echo 
-echo ".........................................."
-echo 
+GITREPO="https://github.com/Livefyre/Livefyre-Apps-Wordpress-Plugin.git" # git repo
 
 # Check if subversion is installed before getting all worked up
 if ! which svn >/dev/null; then
 	echo "You'll need to install subversion before proceeding. Exiting....";
 	exit 1;
 fi
+
+# Check version in readme.txt is the same as plugin file after translating both to unix line breaks to work around grep's failure to identify mac line breaks
+README_VERSION=`grep "^Stable tag:" readme.txt | awk -F' ' '{print $NF}'`
+echo "readme.txt version: $README_VERSION"
+MAINFILE_VERSION=`grep "^Version:" $MAINFILE | awk -F' ' '{print $NF}'`
+echo "$MAINFILE version: $MAINFILE_VERSION"
+if [ "$README_VERSION" != "$MAINFILE_VERSION" ]; then echo "Version in readme.txt & $MAINFILE don't match. Exiting...."; exit 1; fi
+echo "Versions match in readme.txt and $MAINFILE. Let's proceed..."
+TAG=$MAINFILE_VERSION
+if [ "$BUILDTO" == "trunk" ]; then SVNDEST="branches/$TAG/"; fi
 
 # For sanity reasons
 echo ".........................................."
@@ -47,6 +54,7 @@ echo "Path to git repo: $GITPATH"
 echo "Path to svn temp dir: $SVNPATH"
 echo "svn url: $SVNURL"
 echo "svn username: $SVNUSER"
+echo "svn destination: $SVNDEST"
 echo
 echo ".........................................."
 echo 
@@ -63,16 +71,6 @@ mkdir $SVNPATH/$SVNDEST/
 echo "Exporting the HEAD of master from git to the trunk of SVN"
 git clone --depth 1 $GITREPO $SVNPATH/$SVNDEST/
 
-# Check version in readme.txt is the same as plugin file after translating both to unix line breaks to work around grep's failure to identify mac line breaks
-README_VERSION=`grep "^Stable tag:" $GITPATH/readme.txt | awk -F' ' '{print $NF}'`
-echo "readme.txt version: $README_VERSION"
-MAINFILE_VERSION=`grep "^Version:" $GITPATH/$MAINFILE | awk -F' ' '{print $NF}'`
-echo "$MAINFILE version: $MAINFILE_VERSION"
-
-if [ "$README_VERSION" != "$MAINFILE_VERSION" ]; then echo "Version in readme.txt & $MAINFILE don't match. Exiting...."; exit 1; fi
-
-echo "Versions match in readme.txt and $MAINFILE. Let's proceed..."
-
 if git show-ref --tags --quiet --verify -- "refs/tags/$README_VERSION"
 	then 
 		echo "Version $README_VERSION already exists as git tag. Exiting...."; 
@@ -81,8 +79,8 @@ if git show-ref --tags --quiet --verify -- "refs/tags/$README_VERSION"
 		echo "Git version does not exist. Let's proceed..."
 fi
 
-echo "Moving down to $GITPATH"
-cd $GITPATH
+echo "Moving down to $SVNPATH/$SVNDEST"
+cd $SVNPATH/$SVNDEST
 echo "Tagging new version in git"
 git tag -a "$README_VERSION" -m "Tagging version $README_VERSION"
 
@@ -93,18 +91,18 @@ echo "Moving back up to $CURRENTDIR"
 cd $CURRENTDIR
 
 echo "Ignoring github specific files and deployment script"
-rm -rf $SVNPATH/$SVNDEST/{deploy.sh,install.sh,livefyre-wpvip-page.txt,makefile,README.md,.git,.gitignore}
+# rm -rf $SVNPATH/$SVNDEST/{deploy.sh,install.sh,livefyre-wpvip-page.txt,makefile,README.md,.git,.gitignore}
 
 echo "Adding local contents to remote branch"
-svn add $SVNPATH/$SVNDEST/
+# svn add $SVNPATH/$SVNDEST/
 
 echo "Checking in added changes"
-svn ci --username=$SVNUSER --password=$SVNPASSWORD $SVNPATH -m "Committing $SVNDEST" 
+# svn ci --username=$SVNUSER --password=$SVNPASSWORD $SVNPATH -m "Committing $SVNDEST" 
 
 echo "Moving version branch to trunk"
-svn move --username=$SVNUSER --password=$SVNPASSWORD $SVNURL/$SVNDEST $SVNTRUNK -m "Moving $SVNDEST to /trunk"
+# svn move --username=$SVNUSER --password=$SVNPASSWORD $SVNURL/$SVNDEST $SVNTRUNK -m "Moving $SVNDEST to /trunk"
 
 echo "SVN Tag & Commit"
-svn copy --username=$SVNUSER --password=$SVNPASSWORD $SVNTRUNK $SVNTAGS$TAG -m "Pushing /trunk into /tags/$TAG"
+# svn copy --username=$SVNUSER --password=$SVNPASSWORD $SVNTRUNK $SVNTAGS$TAG -m "Pushing /trunk into /tags/$TAG"
 
 echo "*** FIN ***"
