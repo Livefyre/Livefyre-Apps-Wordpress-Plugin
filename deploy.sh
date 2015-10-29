@@ -7,15 +7,19 @@ PLUGINSLUG="livefyre-apps"
 CURRENTDIR=`pwd`
 MAINFILE="livefyre-apps.php" # this should be the name of your main php file in the wordpress plugin
 
-# git config
-GITPATH="$CURRENTDIR/" # this file should be in the base of your git repository
-
 # svn config
-SVNPATH="/tmp/$PLUGINSLUG" # path to a temp SVN repo. No trailing slash required and don't add trunk.
+SVNPATH="TMP_$PLUGINSLUG" # path to a temp SVN repo. No trailing slash required and don't add trunk.
 SVNURL="http://plugins.svn.wordpress.org/livefyre-apps/" # Remote SVN repo on wordpress.org, with no trailing slash
+SVNTRUNK=$SVNURL"trunk/"
+SVNTAGS=$SVNURL"tags/"
 SVNUSER="Livefyre" # your svn username
 SVNPASSWORD=$LF_WP_ORG_PASSWORD
-SVNDEST="branches/1.2"
+TAG="1.2"
+SVNDEST="branches/$TAG"
+
+# git config
+GITPATH="$SVNPATH/$SVNDEST/" # this file should be in the base of your git repository
+GITREPO="https://github.com/Livefyre/Livefyre-Apps-Wordpress-Plugin.git"
 
 
 # Let's begin...
@@ -30,24 +34,6 @@ echo
 if ! which svn >/dev/null; then
 	echo "You'll need to install subversion before proceeding. Exiting....";
 	exit 1;
-fi
-
-# Check version in readme.txt is the same as plugin file after translating both to unix line breaks to work around grep's failure to identify mac line breaks
-NEWVERSION1=`grep "^Stable tag:" $GITPATH/$PLUGINSLUG/readme.txt | awk -F' ' '{print $NF}'`
-echo "readme.txt version: $NEWVERSION1"
-NEWVERSION2=`grep "^Version:" $GITPATH/$PLUGINSLUG/$MAINFILE | awk -F' ' '{print $NF}'`
-echo "$MAINFILE version: $NEWVERSION2"
-
-if [ "$NEWVERSION1" != "$NEWVERSION2" ]; then echo "Version in readme.txt & $MAINFILE don't match. Exiting...."; exit 1; fi
-
-echo "Versions match in readme.txt and $MAINFILE. Let's proceed..."
-
-if git show-ref --tags --quiet --verify -- "refs/tags/$NEWVERSION1"
-	then 
-		echo "Version $NEWVERSION1 already exists as git tag. Exiting...."; 
-		exit 1; 
-	else
-		echo "Git version does not exist. Let's proceed..."
 fi
 
 # For sanity reasons
@@ -65,45 +51,60 @@ echo
 echo ".........................................."
 echo 
 
-#cd $GITPATH
-#echo -e "Enter a commit message for this new version: \c"
-#read COMMITMSG
-#git commit -am "$COMMITMSG"
-
-#echo "Tagging new version in git"
-#git tag -a "$NEWVERSION1" -m "Tagging version $NEWVERSION1"
-
-#echo "Pushing latest commit to origin, with tags"
-#git push origin master
-#git push origin master --tags
-
 echo 
 echo "Creating local copy of SVN repo ..."
+mkdir $SVNPATH
 svn co $SVNURL $SVNPATH
 
 echo "Clearing svn repo so we can overwrite it"
 svn rm --force $SVNPATH/$SVNDEST/*
+mkdir $SVNPATH/$SVNDEST/
 
 echo "Exporting the HEAD of master from git to the trunk of SVN"
-git checkout-index -a -f --prefix=$SVNPATH/$SVNDEST/
+git clone --depth 1 $GITREPO $SVNPATH/$SVNDEST/
+
+# Check version in readme.txt is the same as plugin file after translating both to unix line breaks to work around grep's failure to identify mac line breaks
+README_VERSION=`grep "^Stable tag:" $GITPATH/readme.txt | awk -F' ' '{print $NF}'`
+echo "readme.txt version: $README_VERSION"
+MAINFILE_VERSION=`grep "^Version:" $GITPATH/$MAINFILE | awk -F' ' '{print $NF}'`
+echo "$MAINFILE version: $MAINFILE_VERSION"
+
+if [ "$README_VERSION" != "$MAINFILE_VERSION" ]; then echo "Version in readme.txt & $MAINFILE don't match. Exiting...."; exit 1; fi
+
+echo "Versions match in readme.txt and $MAINFILE. Let's proceed..."
+
+if git show-ref --tags --quiet --verify -- "refs/tags/$README_VERSION"
+	then 
+		echo "Version $README_VERSION already exists as git tag. Exiting...."; 
+		exit 1; 
+	else
+		echo "Git version does not exist. Let's proceed..."
+fi
+
+echo "Moving down to $GITPATH"
+cd $GITPATH
+echo "Tagging new version in git"
+git tag -a "$README_VERSION" -m "Tagging version $README_VERSION"
+
+echo "Pushing latest commit to origin, with tags"
+git push origin master --tags
+
+echo "Moving back up to $CURRENTDIR"
+cd $CURRENTDIR
 
 echo "Ignoring github specific files and deployment script"
-svn propset svn:ignore "deploy.sh install.sh livefyre-wpvip-page.txt makefile README.md .git .gitignore" "$SVNPATH/$SVNDEST/"
+rm -rf $SVNPATH/$SVNDEST/{deploy.sh,install.sh,livefyre-wpvip-page.txt,makefile,README.md,.git,.gitignore}
 
-echo "Changing directory to SVN and committing to trunk"
-cd $SVNPATH/$SVNDEST/
+echo "Adding local contents to remote branch"
+svn add $SVNPATH/$SVNDEST/
 
-# Add all new files that are not set to be ignored
-svn add *
-# svn commit --username=$SVNUSER --password$SVNPASSWORD -m "$COMMITMSG"
+echo "Checking in added changes"
+svn ci --username=$SVNUSER --password=$SVNPASSWORD $SVNPATH -m "Committing $SVNDEST" 
 
-# echo "Creating new SVN tag & committing it"
-# cd $SVNPATH
-# svn copy trunk/ tags/$NEWVERSION1/
-# cd $SVNPATH/tags/$NEWVERSION1
-# svn commit --username=$SVNUSER -m "Tagging version $NEWVERSION1"
+echo "Moving version branch to trunk"
+svn move --username=$SVNUSER --password=$SVNPASSWORD $SVNURL/$SVNDEST $SVNTRUNK -m "Moving $SVNDEST to /trunk"
 
-# echo "Removing temporary directory $SVNPATH"
-# rm -fr $SVNPATH/
+echo "SVN Tag & Commit"
+svn copy --username=$SVNUSER --password=$SVNPASSWORD $SVNTRUNK $SVNTAGS$TAG -m "Pushing /trunk into /tags/$TAG"
 
 echo "*** FIN ***"
