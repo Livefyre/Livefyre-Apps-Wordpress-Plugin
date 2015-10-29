@@ -41,7 +41,7 @@ echo "$MAINFILE version: $MAINFILE_VERSION"
 if [ "$README_VERSION" != "$MAINFILE_VERSION" ]; then echo "Version in readme.txt & $MAINFILE don't match. Exiting...."; exit 1; fi
 echo "Versions match in readme.txt and $MAINFILE. Let's proceed..."
 TAG=$MAINFILE_VERSION
-if [ "$BUILDTO" == "trunk" ]; then SVNDEST="branches/$TAG/"; fi
+if [ "$BUILDTO" == "branch" ]; then SVNDEST="branches/$TAG/"; fi
 
 # For sanity reasons
 echo ".........................................."
