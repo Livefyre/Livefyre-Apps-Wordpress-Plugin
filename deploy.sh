@@ -18,7 +18,7 @@ MAINFILE="livefyre-apps.php" # this should be the name of your main php file in 
 # svn config
 SVNPATH="TMP_$PLUGINSLUG" # path to a temp SVN repo. No trailing slash required and don't add trunk.
 SVNURL="http://plugins.svn.wordpress.org/livefyre-apps" # Remote SVN repo on wordpress.org, with no trailing slash
-SVNTRUNK=$SVNURL"trunk/"
+SVNTRUNK=$SVNURL"/trunk/"
 SVNTAGS=$SVNURL"/tags"
 SVNUSER="Livefyre" # your svn username
 SVNPASSWORD=$LF_WP_ORG_PASSWORD
@@ -39,7 +39,7 @@ echo "$MAINFILE version: $MAINFILE_VERSION"
 if [ "$README_VERSION" != "$MAINFILE_VERSION" ]; then echo "Version in readme.txt & $MAINFILE don't match. Exiting...."; exit 1; fi
 echo "Versions match in readme.txt and $MAINFILE. Let's proceed..."
 TAG=$MAINFILE_VERSION
-SVNDEST="branches/$TAG"
+SVNDEST="branches/$TAG/trunk"
 
 # For sanity reasons
 echo ".........................................."
