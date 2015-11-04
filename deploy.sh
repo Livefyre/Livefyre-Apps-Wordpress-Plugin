@@ -10,7 +10,6 @@ echo
 echo ".........................................."
 echo 
 
-
 # main config
 PLUGINSLUG="livefyre-apps"
 CURRENTDIR=`pwd`
@@ -41,7 +40,7 @@ echo "$MAINFILE version: $MAINFILE_VERSION"
 if [ "$README_VERSION" != "$MAINFILE_VERSION" ]; then echo "Version in readme.txt & $MAINFILE don't match. Exiting...."; exit 1; fi
 echo "Versions match in readme.txt and $MAINFILE. Let's proceed..."
 TAG=$MAINFILE_VERSION
-if [ "$BUILDTO" == "branch" ]; then SVNDEST="branches/$TAG/"; fi
+SVNDEST="branches/$TAG"
 
 # For sanity reasons
 echo ".........................................."
@@ -50,7 +49,6 @@ echo "Parameters:"
 echo "Plugin slug: $PLUGINSLUG"
 echo "Current directory: $CURRENTDIR"
 echo "Main plugin file: $MAINFILE"
-echo "Path to git repo: $GITPATH"
 echo "Path to svn temp dir: $SVNPATH"
 echo "svn url: $SVNURL"
 echo "svn username: $SVNUSER"
@@ -59,50 +57,45 @@ echo
 echo ".........................................."
 echo 
 
-echo 
+if git show-ref --tags --quiet --verify -- "refs/tags/$README_VERSION"
+	then 
+		echo "Version $README_VERSION already exists as git tag. Should be Exiting...."; 
+	else
+		echo "Git version does not exist. Let's proceed..."
+		echo "Tagging new version in git"
+		git tag -a "$README_VERSION" -m "Tagging version $README_VERSION"
+		echo "Pushing latest commit to origin, with tags"
+		git push origin master --tags
+fi
+
 echo "Creating local copy of SVN repo ..."
 mkdir $SVNPATH
 svn co $SVNURL $SVNPATH
 
 echo "Clearing svn repo so we can overwrite it"
-svn rm --force $SVNPATH/$SVNDEST/*
-mkdir $SVNPATH/$SVNDEST/
+svn rm --force $SVNPATH/$SVNDEST
+mkdir $SVNPATH/$SVNDEST
 
 echo "Exporting the HEAD of master from git to the trunk of SVN"
-git clone --depth 1 $GITREPO $SVNPATH/$SVNDEST/
-
-if git show-ref --tags --quiet --verify -- "refs/tags/$README_VERSION"
-	then 
-		echo "Version $README_VERSION already exists as git tag. Exiting...."; 
-		exit 1; 
-	else
-		echo "Git version does not exist. Let's proceed..."
-fi
-
-echo "Moving down to $SVNPATH/$SVNDEST"
-cd $SVNPATH/$SVNDEST
-echo "Tagging new version in git"
-git tag -a "$README_VERSION" -m "Tagging version $README_VERSION"
-
-echo "Pushing latest commit to origin, with tags"
-git push origin master --tags
+git clone --depth 1 $GITREPO $SVNPATH/$SVNDEST
 
 echo "Moving back up to $CURRENTDIR"
 cd $CURRENTDIR
 
 echo "Ignoring github specific files and deployment script"
-# rm -rf $SVNPATH/$SVNDEST/{deploy.sh,install.sh,livefyre-wpvip-page.txt,makefile,README.md,.git,.gitignore}
+rm -rf $SVNPATH/$SVNDEST/{deploy.sh,install.sh,livefyre-wpvip-page.txt,makefile,README.md,.git,.gitignore}
 
 echo "Adding local contents to remote branch"
-# svn add $SVNPATH/$SVNDEST/
+svn add $SVNPATH/$SVNDEST/
 
 echo "Checking in added changes"
-# svn ci --username=$SVNUSER --password=$SVNPASSWORD $SVNPATH -m "Committing $SVNDEST" 
+svn ci --username=$SVNUSER --password=$SVNPASSWORD $SVNPATH -m "Committing $SVNDEST" 
 
 echo "Moving version branch to trunk"
-# svn move --username=$SVNUSER --password=$SVNPASSWORD $SVNURL/$SVNDEST $SVNTRUNK -m "Moving $SVNDEST to /trunk"
+svn move --username=$SVNUSER --password=$SVNPASSWORD $SVNURL/$SVNDEST $SVNTRUNK -m "Moving $SVNDEST to /trunk"
 
 echo "SVN Tag & Commit"
-# svn copy --username=$SVNUSER --password=$SVNPASSWORD $SVNTRUNK $SVNTAGS$TAG -m "Pushing /trunk into /tags/$TAG"
+svn copy --username=$SVNUSER --password=$SVNPASSWORD $SVNTRUNK $SVNTAGS$TAG -m "Pushing /trunk into /tags/$TAG"
 
+rm -rf $SVNPATH
 echo "*** FIN ***"
