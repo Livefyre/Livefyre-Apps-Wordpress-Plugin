@@ -22,7 +22,6 @@ SVNTRUNK=$SVNURL"trunk/"
 SVNTAGS=$SVNURL"tags/"
 SVNUSER="Livefyre" # your svn username
 SVNPASSWORD=$LF_WP_ORG_PASSWORD
-SVNDEST="trunk/"
 
 GITREPO="https://github.com/Livefyre/Livefyre-Apps-Wordpress-Plugin.git" # git repo
 
@@ -93,10 +92,10 @@ echo "Checking in added changes"
 svn ci --username=$SVNUSER --password=$SVNPASSWORD $SVNPATH -m "Committing $SVNDEST" 
 
 echo "Moving version branch to trunk"
-svn move --username=$SVNUSER --password=$SVNPASSWORD $SVNURL/$SVNDEST/* $SVNTRUNK -m "Moving $SVNDEST/* to /trunk"
+echo svn move --username=$SVNUSER --password=$SVNPASSWORD $SVNURL/$SVNDEST $SVNTRUNK -m "Moving $SVNDEST/* to /trunk"
 
 echo "SVN Tag & Commit"
-svn copy --username=$SVNUSER --password=$SVNPASSWORD $SVNTRUNK/* $SVNTAGS$TAG -m "Pushing /trunk/* into /tags/$TAG"
+echo svn copy --username=$SVNUSER --password=$SVNPASSWORD $SVNTRUNK/* $SVNTAGS$TAG -m "Pushing /trunk/* into /tags/$TAG"
 
-rm -rf $SVNPATH
+# rm -rf $SVNPATH
 echo "*** FIN ***"
