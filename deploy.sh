@@ -72,8 +72,7 @@ echo "Creating local copy of SVN repo ..."
 mkdir $SVNPATH
 svn co $SVNURL $SVNPATH
 
-echo "Clearing svn repo so we can overwrite it"
-svn rm --force $SVNPATH/$SVNDEST
+
 mkdir $SVNPATH/branches/$TAG
 mkdir $SVNPATH/$SVNDEST
 
