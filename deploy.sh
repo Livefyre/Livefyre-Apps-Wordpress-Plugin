@@ -86,7 +86,7 @@ echo "Ignoring github specific files and deployment script"
 rm -rf $SVNPATH/$SVNDEST/{deploy.sh,install.sh,livefyre-wpvip-page.txt,makefile,README.md,.git,.gitignore}
 
 echo "Adding local contents to remote branch"
-svn add $SVNPATH/$SVNDEST/
+svn add $SVNPATH/branches/$TAG
 
 echo "Checking in added changes"
 svn ci --username=$SVNUSER --password=$SVNPASSWORD $SVNPATH -m "Committing $SVNDEST" 
