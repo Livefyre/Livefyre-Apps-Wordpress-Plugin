@@ -17,9 +17,9 @@ MAINFILE="livefyre-apps.php" # this should be the name of your main php file in 
 
 # svn config
 SVNPATH="TMP_$PLUGINSLUG" # path to a temp SVN repo. No trailing slash required and don't add trunk.
-SVNURL="http://plugins.svn.wordpress.org/livefyre-apps/" # Remote SVN repo on wordpress.org, with no trailing slash
+SVNURL="http://plugins.svn.wordpress.org/livefyre-apps" # Remote SVN repo on wordpress.org, with no trailing slash
 SVNTRUNK=$SVNURL"trunk/"
-SVNTAGS=$SVNURL"tags/"
+SVNTAGS=$SVNURL"/tags"
 SVNUSER="Livefyre" # your svn username
 SVNPASSWORD=$LF_WP_ORG_PASSWORD
 
@@ -92,10 +92,10 @@ echo "Checking in added changes"
 svn ci --username=$SVNUSER --password=$SVNPASSWORD $SVNPATH -m "Committing $SVNDEST" 
 
 echo "Moving version branch to trunk"
-echo svn move --username=$SVNUSER --password=$SVNPASSWORD $SVNURL/$SVNDEST $SVNTRUNK -m "Moving $SVNDEST/* to /trunk"
+echo svn move --username=$SVNUSER --password=$SVNPASSWORD $SVNURL/$SVNDEST/ $SVNTRUNK -m "Moving $SVNDEST/ to /trunk"
 
 echo "SVN Tag & Commit"
-echo svn copy --username=$SVNUSER --password=$SVNPASSWORD $SVNTRUNK/* $SVNTAGS$TAG -m "Pushing /trunk/* into /tags/$TAG"
+echo svn copy --username=$SVNUSER --password=$SVNPASSWORD $SVNTRUNK $SVNTAGS/$TAG -m "Pushing /trunk into /tags/$TAG"
 
 # rm -rf $SVNPATH
 echo "*** FIN ***"
