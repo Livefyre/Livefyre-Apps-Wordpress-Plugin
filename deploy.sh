@@ -74,6 +74,7 @@ svn co $SVNURL $SVNPATH
 
 echo "Clearing svn repo so we can overwrite it"
 svn rm --force $SVNPATH/$SVNDEST
+mkdir $SVNPATH/branches/$TAG
 mkdir $SVNPATH/$SVNDEST
 
 echo "Exporting the HEAD of master from git to the trunk of SVN"
