@@ -93,10 +93,10 @@ echo "Checking in added changes"
 svn ci --username=$SVNUSER --password=$SVNPASSWORD $SVNPATH -m "Committing $SVNDEST" 
 
 echo "Moving version branch to trunk"
-svn move --username=$SVNUSER --password=$SVNPASSWORD $SVNURL/$SVNDEST $SVNTRUNK -m "Moving $SVNDEST to /trunk"
+svn move --username=$SVNUSER --password=$SVNPASSWORD $SVNURL/$SVNDEST/* $SVNTRUNK -m "Moving $SVNDEST/* to /trunk"
 
 echo "SVN Tag & Commit"
-svn copy --username=$SVNUSER --password=$SVNPASSWORD $SVNTRUNK $SVNTAGS$TAG -m "Pushing /trunk into /tags/$TAG"
+svn copy --username=$SVNUSER --password=$SVNPASSWORD $SVNTRUNK/* $SVNTAGS$TAG -m "Pushing /trunk/* into /tags/$TAG"
 
 rm -rf $SVNPATH
 echo "*** FIN ***"
