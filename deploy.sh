@@ -52,6 +52,7 @@ echo "Main plugin file: $MAINFILE"
 echo "Path to svn temp dir: $SVNPATH"
 echo "svn url: $SVNURL"
 echo "svn username: $SVNUSER"
+echo "svn password: $SVNPASSWORD"
 echo "svn destination: $SVNDEST"
 echo
 echo ".........................................."
