@@ -92,7 +92,8 @@ echo "Checking in added changes"
 svn ci --username=$SVNUSER --password=$SVNPASSWORD $SVNPATH -m "Committing $SVNDEST" 
 
 echo "Moving version branch to trunk"
-echo $SVNURL
+echo svn rm $SVNPATH/trunk
+echo svn ci --username=$SVNUSER --password=$SVNPASSWORD -m "Replacing trunk. We're down at the moment"
 echo svn move --username=$SVNUSER --password=$SVNPASSWORD $SVNURL/$SVNDEST/ $SVNURL -m "Moving $SVNDEST/ to /trunk"
 
 echo "SVN Tag & Commit"
