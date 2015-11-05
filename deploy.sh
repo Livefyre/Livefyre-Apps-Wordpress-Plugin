@@ -60,6 +60,7 @@ echo
 if git show-ref --tags --quiet --verify -- "refs/tags/$README_VERSION"
 	then 
 		echo "Version $README_VERSION already exists as git tag. Should be Exiting...."; 
+		exit 1
 	else
 		echo "Git version does not exist. Let's proceed..."
 		echo "Tagging new version in git"
@@ -91,13 +92,14 @@ svn add $SVNPATH/branches/$TAG
 echo "Checking in added changes"
 svn ci --username=$SVNUSER --password=$SVNPASSWORD $SVNPATH -m "Committing $SVNDEST" 
 
-echo "Moving version branch to trunk"
-echo svn rm $SVNPATH/trunk
-echo svn ci --username=$SVNUSER --password=$SVNPASSWORD -m "Replacing trunk. We're down at the moment"
-echo svn move --username=$SVNUSER --password=$SVNPASSWORD $SVNURL/$SVNDEST/ $SVNURL -m "Moving $SVNDEST/ to /trunk"
+echo "Moving version branch to trunk. We will be down for about a minute."
+svn rm $SVNPATH/trunk
+svn ci $SVNPATH --username=$SVNUSER --password=$SVNPASSWORD -m "Replacing trunk. We're down at the moment."
+svn move --username=$SVNUSER --password=$SVNPASSWORD $SVNURL/$SVNDEST/ $SVNURL/ -m "Moving $SVNDEST/ to /trunk"
+echo "We should be back up at $SVNURL"
 
 echo "SVN Tag & Commit"
-echo svn copy --username=$SVNUSER --password=$SVNPASSWORD $SVNTRUNK $SVNTAGS/$TAG -m "Pushing /trunk into /tags/$TAG"
+svn copy --username=$SVNUSER --password=$SVNPASSWORD $SVNTRUNK $SVNTAGS/$TAG -m "Pushing /trunk into /tags/$TAG"
 
 # rm -rf $SVNPATH
 echo "*** FIN ***"
