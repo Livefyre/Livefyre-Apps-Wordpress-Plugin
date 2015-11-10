@@ -1,17 +1,17 @@
 <?php
 //Disallow direct access to this file
-if(!defined('LFAPPS__PLUGIN_PATH')) 
+if(!defined('LFAPPS__PLUGIN_PATH'))
     die('Bye');
 
 require_once LFAPPS__PLUGIN_PATH . 'libs/php/LFAPPS_View.php';
 
 if ( ! class_exists( 'Livefyre_Apps_Admin' ) ) {
-    class Livefyre_Apps_Admin {        
+    class Livefyre_Apps_Admin {
         private static $initiated = false;
     
         public static function init() {
             if ( ! self::$initiated ) {
-                self::$initiated = true;     
+                self::$initiated = true;
                 if(isset($_GET['type'])) {
                     if($_GET['type'] === 'community' || $_GET['type'] === 'enterprise') {
                         update_option('livefyre_apps-initial_modal_shown', true);
@@ -19,8 +19,8 @@ if ( ! class_exists( 'Livefyre_Apps_Admin' ) ) {
                         wp_redirect(self::get_page_url('livefyre_apps') . '&settings-updated=environment_changed');
                     }
                 }
-                self::init_hooks();     
-                self::init_apps();                 
+                self::init_hooks();
+                self::init_apps();
             }
         }
         
@@ -40,9 +40,7 @@ if ( ! class_exists( 'Livefyre_Apps_Admin' ) ) {
             add_menu_page('Livefyre Apps', 'Livefyre Apps', 'manage_options', 'livefyre_apps', array('Livefyre_Apps_Admin', 'menu_general'), LFAPPS__PLUGIN_URL."assets/img/livefyre-icon_x16.png"); 
             //community authentication page (invisible and only handles data sent back from livefyre.com)
             add_submenu_page( null, 'Livefyre', 'Livefyre', "manage_options", 'livefyre', array('Livefyre_Apps_Admin', 'menu_general'));
-            
         }
-        
         
         /**
          * Initialise Livefyre Apps that have been switched on (Admin Classes)

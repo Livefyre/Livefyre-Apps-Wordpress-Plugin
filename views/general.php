@@ -138,6 +138,21 @@
                                         <p><a target="_blank" href="http://web.livefyre.com/streamhub/#liveSidenotes">Click here</a> for more information.</p>
                                     </div>
                                 </div>
+                                <div class='lfapps-appmgt-box'>
+                                    <label for='lfapps_notifications_enable'>
+                                        <?php
+                                        $icon_src = Livefyre_Apps::is_app_enabled('notifications') ? 'lf-comments-icon.png' : 'lf-comments-icon-grey.png';
+                                        ?>
+                                        <img id="lfapps_comments_icon" src="<?php echo esc_url( LFAPPS__PLUGIN_URL . 'assets/img/' . $icon_src ); ?>"/>
+                                    </label>
+                                    <div class="lfapps-appmgt-controls">
+                                        <input id="lfapps_notifications_enable" name="livefyre_apps-apps[]" type="checkbox" value="notifications" <?php echo Livefyre_Apps::is_app_enabled('notifications') ? 'checked' : ''; ?>>
+                                        <label for='lfapps_notifications_enable'>
+                                            <span><?php esc_html_e('Notifications™', 'lfapps'); ?></span>
+                                        </label>
+                                        <p><a target="_blank" href="http://web.livefyre.com/streamhub/#liveSidenotes">Click here</a> for more information.</p>
+                                    </div>
+                                </div>
                                 <div class='lfapps-appmgt-box enterprise-only'>
                                     <label for='lfapps_blog_enable'>
                                         <?php

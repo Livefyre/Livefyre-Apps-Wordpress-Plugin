@@ -30,7 +30,8 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
             'comments'=>'LFAPPS_Comments',
             'sidenotes'=>'LFAPPS_Sidenotes',
             'blog'=>'LFAPPS_Blog',
-            'chat'=>'LFAPPS_Chat'
+            'chat'=>'LFAPPS_Chat',
+            'notifications'=>'LFAPPS_Notifications'
         );
         public static $languages = array(
             'English'=>'English',
@@ -109,6 +110,9 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
             
             wp_register_script('Livefyre.js', LFAPPS__PROTOCOL . '://cdn.livefyre.com/Livefyre.js', array(), LFAPPS__VERSION, false);
             wp_enqueue_script('Livefyre.js');
+
+            wp_register_script('timeline-jslib.js', LFAPPS__PLUGIN_URL . 'assets/js/timeline-jslib.js', array(), LFAPPS__VERSION, false);
+            wp_enqueue_script('timeline-jslib.js');
         }
         
         /**
@@ -121,7 +125,7 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
             }
             if(!get_option('livefyre_apps-livefyre_options_imported')) {
                 self::import_options();
-            }            
+            }
             
             //set default apps
             if(get_option('livefyre_apps-apps', 'none') === 'none') {
