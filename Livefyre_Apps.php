@@ -105,14 +105,24 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
         }
         
         public static function load_resources() {
+
             wp_register_script('lfapps.js', LFAPPS__PLUGIN_URL . 'assets/js/lfapps.js', array(), LFAPPS__VERSION, false);
             wp_enqueue_script('lfapps.js');
             
             wp_register_script('Livefyre.js', LFAPPS__PROTOCOL . '://cdn.livefyre.com/Livefyre.js', array(), LFAPPS__VERSION, false);
             wp_enqueue_script('Livefyre.js');
 
+
+
+            wp_register_script('react.js', LFAPPS__PROTOCOL . '://fb.me/react-with-addons-0.13.1.js', array(), LFAPPS__VERSION, false);
+            wp_enqueue_script('react.js');
+            wp_register_script('superagent.js', LFAPPS__PROTOCOL . '://cdnjs.cloudflare.com/ajax/libs/superagent/0.15.7/superagent.js', array(), LFAPPS__VERSION, false);
+            wp_enqueue_script('superagent.js');
             wp_register_script('timeline-jslib.js', LFAPPS__PLUGIN_URL . 'assets/js/timeline-jslib.js', array(), LFAPPS__VERSION, false);
             wp_enqueue_script('timeline-jslib.js');
+            wp_register_script('notifications.js', LFAPPS__PLUGIN_URL . 'assets/js/notifications.js', array('jquery', 'react.js'), LFAPPS__VERSION, false);
+            wp_enqueue_script('notifications.js');
+
         }
         
         /**

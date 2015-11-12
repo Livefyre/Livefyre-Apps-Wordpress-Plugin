@@ -11,7 +11,6 @@ if (!class_exists('LFAPPS_Notifications_Admin')) {
 
         public static function init() {
             if (!self::$initiated) {
-                echo "boosh!";
                 self::$initiated = true;
                 self::init_hooks();
             }
@@ -21,7 +20,6 @@ if (!class_exists('LFAPPS_Notifications_Admin')) {
          * Initialise WP hooks
          */
         private static function init_hooks() {
-            echo "boosh**";
             add_action('admin_menu', array('LFAPPS_Notifications_Admin', 'init_admin_menu'));
         }
 
@@ -29,7 +27,6 @@ if (!class_exists('LFAPPS_Notifications_Admin')) {
          * Initialise admin menu items
          */
         public static function init_admin_menu() {
-            echo "boosh?";
             add_submenu_page('livefyre_apps', 'Notifications', 'Notifications', "manage_options", 'livefyre_apps_notifications', array('LFAPPS_Notifications_Admin', 'menu_notifications'));
         }
 

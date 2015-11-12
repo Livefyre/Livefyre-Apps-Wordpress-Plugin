@@ -44,7 +44,9 @@ if ( ! class_exists( 'LFAPPS_Notifications' ) ) {
         }
         
         public static function init_shortcode($atts=array()) {
-            return;
+            return LFAPPS_View::render_partial('script', 
+                    compact(), 
+                    'notifications', true);
         }
                 
         /**
