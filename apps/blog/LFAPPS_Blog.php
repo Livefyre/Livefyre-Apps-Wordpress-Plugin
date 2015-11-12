@@ -87,7 +87,7 @@ if ( ! class_exists( 'LFAPPS_Blog' ) ) {
             $livefyre_element = 'livefyre-blog-'.$articleId;
             return LFAPPS_View::render_partial('script', 
                     compact('siteId', 'siteKey', 'network', 'articleId', 'collectionMetaToken', 'checksum', 'strings', 'livefyre_element'), 
-                    'blog', true);   
+                    'blog', true);
         }
                 
         /**
