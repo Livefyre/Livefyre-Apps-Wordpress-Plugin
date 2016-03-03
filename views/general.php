@@ -168,6 +168,21 @@
                                         <p><a target="_blank" href="http://web.livefyre.com/streamhub/#liveChat">Click here</a> for more information.</p>
                                     </div>
                                 </div>
+                                <div class='lfapps-appmgt-box enterprise-only'>
+                                    <label for='lfapps_designer_enable'>
+                                        <?php
+                                        $icon_src = Livefyre_Apps::is_app_enabled('designer') ? 'lf-chat-icon.png' : 'lf-chat-icon-grey.png';
+                                        ?>
+                                        <img id="lfapps_designer_icon" src="<?php echo esc_url( LFAPPS__PLUGIN_URL . 'assets/img/' . $icon_src ); ?>"/>
+                                    </label>
+                                    <div class="lfapps-appmgt-controls">
+                                        <input id="lfapps_designer_enable" name="livefyre_apps-apps[]" type="checkbox" value="designer" <?php echo Livefyre_Apps::is_app_enabled('designer') ? 'checked' : ''; ?>>
+                                        <label for='lfapps_designer_enable'>
+                                            <span><?php esc_html_e('Designer Apps', 'lfapps'); ?></span>
+                                        </label>
+                                        <p><a target="_blank" href="http://web.livefyre.com/streamhub/#liveChat">Click here</a> for more information.</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div id="major-publishing-actions">

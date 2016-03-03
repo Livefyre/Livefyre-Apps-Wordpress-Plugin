@@ -30,7 +30,8 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
             'comments'=>'LFAPPS_Comments',
             'sidenotes'=>'LFAPPS_Sidenotes',
             'blog'=>'LFAPPS_Blog',
-            'chat'=>'LFAPPS_Chat'
+            'chat'=>'LFAPPS_Chat',
+            'designer'=>'LFAPPS_Designer'
         );
         public static $languages = array(
             'English'=>'English',

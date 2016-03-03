@@ -18,7 +18,7 @@ class LFAPPS_Http_Extension {
                 $args[ 'body' ] = $args[ 'data' ];
                 unset( $args[ 'data' ] );
             }
-            return vip_safe_wp_remote_get( $url, $args );
+            return wpcom_vip_file_get_contents( $url, $args );
         } else {
             $http = new WP_Http;
             if ( isset( $args[ 'data' ] ) ) {
