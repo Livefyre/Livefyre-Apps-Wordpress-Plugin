@@ -171,7 +171,7 @@
                                 <div class='lfapps-appmgt-box enterprise-only'>
                                     <label for='lfapps_designer_enable'>
                                         <?php
-                                        $icon_src = Livefyre_Apps::is_app_enabled('designer') ? 'lf-chat-icon.png' : 'lf-chat-icon-grey.png';
+                                        $icon_src = Livefyre_Apps::is_app_enabled('designer') ? 'lf-visualization-icon.png' : 'lf-visualization-icon-grey.png';
                                         ?>
                                         <img id="lfapps_designer_icon" src="<?php echo esc_url( LFAPPS__PLUGIN_URL . 'assets/img/' . $icon_src ); ?>"/>
                                     </label>
