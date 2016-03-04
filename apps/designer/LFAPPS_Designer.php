@@ -44,6 +44,9 @@ if ( ! class_exists( 'LFAPPS_Designer' ) ) {
         }
         
         public static function init_shortcode($atts=array()) {
+            if(!self::show_designer()) {
+                return;
+            }
             $designerAppId = $atts['app_id'];
             return LFAPPS_View::render_partial('script', compact('designerAppId'), 'designer', true);
         }
@@ -90,7 +93,7 @@ if ( ! class_exists( 'LFAPPS_Designer' ) ) {
          *
          */
 
-        public static function show_desginer() {
+        public static function show_designer() {
 
             global $post;
             /* Is this a post and is the settings checkbox on? */
@@ -108,7 +111,7 @@ if ( ! class_exists( 'LFAPPS_Designer' ) ) {
                     $display = true;
                 }
             }
-            return $display 
+            return $display
                 && Livefyre_Apps::is_app_enabled('designer')
                 && !is_preview();
         }
