@@ -58,7 +58,7 @@
                                             <input id="wp_auth_type_wordpress" name="livefyre_apps-auth_type" type="radio" value="wordpress" <?php echo get_option('livefyre_apps-auth_type') === 'wordpress' ? 'checked' : ''; ?>>
                                             <label for='wp_auth_type_wordpress'><?php esc_html_e('Native Wordpress', 'lfapps'); ?></label>
                                             <input id="wp_auth_type_custom" name="livefyre_apps-auth_type" type="radio" value="custom" <?php echo get_option('livefyre_apps-auth_type') === 'custom' ? 'checked' : ''; ?>>
-                                            <label for='wp_auth_type_custom'><?php esc_html_e('Custom/LFEP', 'lfapps'); ?></label>
+                                            <label for='wp_auth_type_custom'><?php esc_html_e('Custom/Identity', 'lfapps'); ?></label>
                                             <input id="wp_auth_type_delegate" name="livefyre_apps-auth_type" type="radio" value="auth_delegate" <?php echo get_option('livefyre_apps-auth_type') === 'auth_delegate' ? 'checked' : ''; ?>>
                                             <label for='wp_auth_type_delegate'><?php esc_html_e('Legacy Delegate', 'lfapps'); ?></label>
                                         </td>
@@ -78,7 +78,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <p class="enterprise-only"><i>Hooking in LFEP is documented <a href="http://docs.livefyre.com/developers/identity-integration/enterprise-profiles/">here.</a></i></p>
+                            <p class="enterprise-only"><i>Hooking in Identity is documented <a href="http://docs.livefyre.com/developers/identity-integration/enterprise-profiles/">here.</a></i></p>
                             <?php if(get_option('livefyre_apps-package_type') === 'community'): ?>
                             <div class="lfapps-community-signup">
                                 <p><?php esc_html_e('New to Livefyre or forgotten your Site ID/Key?', 'lfapps'); ?><br/>
@@ -178,7 +178,7 @@
                                     <div class="lfapps-appmgt-controls">
                                         <input id="lfapps_designer_enable" name="livefyre_apps-apps[]" type="checkbox" value="designer" <?php echo Livefyre_Apps::is_app_enabled('designer') ? 'checked' : ''; ?>>
                                         <label for='lfapps_designer_enable'>
-                                            <span><?php esc_html_e('Designer Apps', 'lfapps'); ?></span>
+                                            <span><?php esc_html_e('Visualization Apps', 'lfapps'); ?></span>
                                         </label>
                                         <p><a target="_blank" href="http://web.livefyre.com/streamhub/#liveChat">Click here</a> for more information.</p>
                                     </div>

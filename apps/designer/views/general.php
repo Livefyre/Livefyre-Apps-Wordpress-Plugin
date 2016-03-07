@@ -14,15 +14,15 @@
         <div id="normal-sortables" class="meta-box-sortables ui-sortable">
             <div id="referrers" class="postbox ">
                 <div class="handlediv" title="Click to toggle"><br></div>
-                <h3 class="hndle"><span><?php esc_html_e('Designer Apps Settings', 'lfapps-designer'); ?></span></h3>
+                <h3 class="hndle"><span><?php esc_html_e('Visualization Apps Settings', 'lfapps-designer'); ?></span></h3>
                 <form name="livefyre_comments_designer" id="livefyre_designer_general" action="options.php" method="POST">
                     <?php settings_fields('livefyre_apps_settings_designer'); ?>
                     <div class='inside'>
                         <table cellspacing="0" class="lfapps-form-table">
                             <tr>
                                 <th align="left" scope="row" style="width: 40%">
-                                    <?php esc_html_e('Enable Designer Apps on', 'lfapps-designer'); ?>
-                                    <span class="info"><?php esc_html_e('(Select the types of posts on which you wish to enable the Designer Apps Shortcode)', 'lfapps-designer'); ?></span>
+                                    <?php esc_html_e('Enable Visualization Apps on', 'lfapps-designer'); ?>
+                                    <span class="info"><?php esc_html_e('(Select the types of posts on which you wish to enable the Visualization Apps Shortcode)', 'lfapps-designer'); ?></span>
                                 </th>
                                 <td align="left" valign="top">
                                     <?php
@@ -71,8 +71,8 @@
                             </tr>   
                             <tr>
                                 <td colspan='2'>
-                                    <strong>Designer Apps Configuration Options::</strong>
-                                    <p>You can configure your Designer Apps in the <a href="https://client-solutions.admin.fyre.co/v3/apps" target="_blank">Livefyre Studio</a></p>
+                                    <strong>Visualization Apps Configuration Options::</strong>
+                                    <p>You can configure your Visualization Apps in the <a href="https://client-solutions.admin.fyre.co/v3/apps" target="_blank">Livefyre Studio</a></p>
                                 </td>
                             </tr>
                         </table>
@@ -91,13 +91,13 @@
         <div id="normal-sortables" class="meta-box-sortables ui-sortable">
             <div id="referrers" class="postbox ">
                 <div class="handlediv" title="Click to toggle"><br></div>
-                <h3 class="hndle"><span><?php esc_html_e('Designer Apps Shortcode', 'lfapps-designer'); ?></span></h3>
+                <h3 class="hndle"><span><?php esc_html_e('Visualization Apps Shortcode', 'lfapps-designer'); ?></span></h3>
                 <div class='inside'>
-                    <p>To activate Designer Apps, you must add a shortcode to your content.</p>
+                    <p>To activate Visualization Apps, you must add a shortcode to your content.</p>
                     <p>The shortcode usage is pretty simple. Let's say we wish to generate a Designer App inside post content. We could enter something like this
                         inside the content editor:</p>
                     <p class='code'>[livefyre_designer app_id="123"]</p>
-                    <p><strong>Note: Designer Apps require that you provide a app id.</strong></p>
+                    <p><strong>Note: Visualization Apps require that you provide a app id.</strong></p>
                 </div> 
             </div>
         </div>

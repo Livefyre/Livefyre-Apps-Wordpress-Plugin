@@ -27,7 +27,7 @@ if (!class_exists('LFAPPS_Designer_Admin')) {
          * Initialise admin menu items
          */
         public static function init_admin_menu() {
-            add_submenu_page('livefyre_apps', 'Designer Apps', 'Designer Apps', "manage_options", 'livefyre_apps_designer', array('LFAPPS_Designer_Admin', 'menu_designer'));
+            add_submenu_page('livefyre_apps', 'Visualization Apps', 'Visualization Apps', "manage_options", 'livefyre_apps_designer', array('LFAPPS_Designer_Admin', 'menu_designer'));
         }
 
         /**
