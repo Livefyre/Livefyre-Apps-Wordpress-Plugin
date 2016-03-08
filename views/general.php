@@ -78,7 +78,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <p class="enterprise-only"><i>Hooking in Identity is documented <a href="http://docs.livefyre.com/developers/identity-integration/enterprise-profiles/">here.</a></i></p>
+                            <p class="enterprise-only"><i>Hooking in Identity is documented <a href="http://answers.livefyre.com/developers/identity-integration/livefyre-identity/ ">here.</a></i></p>
                             <?php if(get_option('livefyre_apps-package_type') === 'community'): ?>
                             <div class="lfapps-community-signup">
                                 <p><?php esc_html_e('New to Livefyre or forgotten your Site ID/Key?', 'lfapps'); ?><br/>
@@ -180,7 +180,7 @@
                                         <label for='lfapps_designer_enable'>
                                             <span><?php esc_html_e('Visualization Apps', 'lfapps'); ?></span>
                                         </label>
-                                        <p><a target="_blank" href="http://web.livefyre.com/streamhub/#liveChat">Click here</a> for more information.</p>
+                                        <p><a target="_blank" href="http://web.livefyre.com/visualization-apps/">Click here</a> for more information.</p>
                                     </div>
                                 </div>
                             </div>

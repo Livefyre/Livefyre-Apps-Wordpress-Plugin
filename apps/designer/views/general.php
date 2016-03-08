@@ -94,10 +94,10 @@
                 <h3 class="hndle"><span><?php esc_html_e('Visualization Apps Shortcode', 'lfapps-designer'); ?></span></h3>
                 <div class='inside'>
                     <p>To activate Visualization Apps, you must add a shortcode to your content.</p>
-                    <p>The shortcode usage is pretty simple. Let's say we wish to generate a Designer App inside post content. We could enter something like this
+                    <p>The shortcode usage is pretty simple. Let's say we wish to generate a Visualization App inside post content. We could enter something like this
                         inside the content editor:</p>
                     <p class='code'>[livefyre_designer app_id="123"]</p>
-                    <p><strong>Note: Visualization Apps require that you provide a app id.</strong></p>
+                    <p><strong>Note: You will need to swap out the App ID appropriately.  To find the App ID, go to:  https://studio.livefyre.com/lfspecialops.fyre.co/apps > Select the App you wish to render > Find the App ID in the Developer Info on the App details page.</strong></p>
                 </div> 
             </div>
         </div>
