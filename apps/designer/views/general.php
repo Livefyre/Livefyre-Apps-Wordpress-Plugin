@@ -97,7 +97,7 @@
                     <p>The shortcode usage is pretty simple. Let's say we wish to generate a Visualization App inside post content. We could enter something like this
                         inside the content editor:</p>
                     <p class='code'>[livefyre_designer app_id="123"]</p>
-                    <p><strong>Note: You will need to swap out the App ID appropriately.  To find the App ID, go to:  https://studio.livefyre.com/lfspecialops.fyre.co/apps > Select the App you wish to render > Find the App ID in the Developer Info on the App details page.</strong></p>
+                    <p><strong>Note:</strong> You will need to swap out the App ID appropriately.  To find the App ID, go to:  <a href="https://studio.livefyre.com/<?php echo get_option('livefyre_apps-livefyre_domain_name', 'livefyre.com');?>/apps">Livefyre Studio.</a> Select the App you wish to render > Find the App ID in the Developer Info on the App details page.</p>
                 </div> 
             </div>
         </div>
