@@ -32,12 +32,8 @@
                                     
                                     foreach ($post_types as $post_type ) {
                                         $post_type_name = 'livefyre_designer_display_' .$post_type;
-                                        $checked = '';
-                                        if(get_option('livefyre_apps-'.$post_type_name)) {
-                                            $checked = 'checked';
-                                        } 
                                         ?>
-                                        <input type="checkbox" id="<?php echo esc_attr('livefyre_apps-'.$post_type_name); ?>" name="<?php echo esc_attr('livefyre_apps-'.$post_type_name); ?>" value="true" <?php echo $checked; ?>/>
+                                        <input type="checkbox" id="<?php echo esc_attr('livefyre_apps-'.$post_type_name); ?>" name="<?php echo esc_attr('livefyre_apps-'.$post_type_name); ?>" value="true" <?php checked( get_option('livefyre_apps-'.$post_type_name), "true"); ?>/>
                                         <label for="<?php echo esc_attr('livefyre_apps-'.$post_type_name); ?>"><?php echo esc_html_e($post_type, 'lfapps-designer'); ?></label><br/>
                                         <?php
                                     }
@@ -62,7 +58,7 @@
                                     <select name="livefyre_apps-livefyre_designer_version">
                                         <?php foreach ($available_versions as $available_version): ?>
                                             <?php $selected_version = get_option('livefyre_apps-livefyre_designer_version', 'latest') == $available_version ? 'selected="selected"' : ''; ?>
-                                            <option value="<?php echo esc_attr($available_version); ?>" <?php echo esc_html($selected_version); ?>>
+                                            <option value="<?php echo esc_attr($available_version); ?>" <?php echo selected( get_option('livefyre_apps-livefyre_designer_version', 'latest'), $available_version); ?>>
                                                 <?php echo ucfirst(esc_html($available_version)); ?>
                                             </option>
                                         <?php endforeach; ?>
@@ -71,15 +67,26 @@
                             </tr>   
                             <tr>
                                 <td colspan='2'>
-                                    <strong>Visualization Apps Configuration Options::</strong>
-                                    <p>You can configure your Visualization Apps in the <a href="https://client-solutions.admin.fyre.co/v3/apps" target="_blank">Livefyre Studio</a></p>
+                                    <strong>Visualization Apps Configuration Options:</strong>
+                                    <p>You can configure your Visualization Apps in the <a href="https://<?php $exploded = explode(".", get_option('livefyre_apps-livefyre_domain_name')); echo $exploded[0]?>.admin.fyre.co/v3/apps" target="_blank">Livefyre Studio</a>.
+                                    Visualization Apps include:<br /> 
+                                    Media Wall<br />
+                                    Mosaic<br />
+                                    Carousel<br />
+                                    Feature Card<br />
+                                    Map<br />
+                                    Storify 2<br />
+                                    Post Button<br />
+                                    Poll<br />
+									Trending<br />
+                                    </p>
                                 </td>
                             </tr>
                         </table>
                     </div>
                     <div id="major-publishing-actions">									
                         <div id="publishing-action">
-                            <?php @submit_button(); ?>
+                            <?php submit_button(); ?>
                         </div>
                         <div class="clear"></div>
                     </div>
@@ -97,7 +104,8 @@
                     <p>The shortcode usage is pretty simple. Let's say we wish to generate a Visualization App inside post content. We could enter something like this
                         inside the content editor:</p>
                     <p class='code'>[livefyre_designer app_id="123"]</p>
-                    <p><strong>Note:</strong> You will need to swap out the App ID appropriately.  To find the App ID, go to:  <a href="https://studio.livefyre.com/<?php echo get_option('livefyre_apps-livefyre_domain_name', 'livefyre.com');?>/apps">Livefyre Studio.</a> Select the App you wish to render > Find the App ID in the Developer Info on the App details page.</p>
+                    <p><strong>Note:</strong> You will need to swap out the App ID appropriately.  To find the App ID, go to:  <a href="https://studio.livefyre.com/<?php echo get_option('livefyre_apps-livefyre_domain_name', 'livefyre.com');?>/apps">Livefyre Studio.</a> Select the App you wish to render > Find the App ID in the Developer Info on the App details page.</p><p>If you copy and paste the App ID into the Visual tab of the WP post page, it will copy over formatting that will prevent the post from loading. You must go into the Text tab to remove the formatting.</p>
+                	<p><strong>Note:</strong> After publishing an app, may take a couple minutes before it appears on the wordpress post</p>
                 </div> 
             </div>
         </div>

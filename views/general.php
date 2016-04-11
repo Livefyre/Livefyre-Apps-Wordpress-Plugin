@@ -116,7 +116,7 @@
                                         <img id="lfapps_comments_icon" src="<?php echo esc_url( LFAPPS__PLUGIN_URL . 'assets/img/' . $icon_src ); ?>"/>
                                     </label>
                                     <div class="lfapps-appmgt-controls">
-                                        <input id="lfapps_comments_enable" name="livefyre_apps-apps[]" type="checkbox" value="comments" <?php echo Livefyre_Apps::is_app_enabled('comments') ? 'checked' : ''; ?>>
+                                        <input id="lfapps_comments_enable" name="livefyre_apps-apps[]" type="checkbox" value="comments" <?php checked(Livefyre_Apps::is_app_enabled('comments'), true);?>>
                                         <label for='lfapps_comments_enable'>
                                             <span><?php esc_html_e('Comments™', 'lfapps'); ?></span>
                                         </label>
@@ -131,7 +131,7 @@
                                         <img id="lfapps_sidenotes_icon" src="<?php echo esc_url( LFAPPS__PLUGIN_URL . 'assets/img/' . $icon_src ); ?>"/>
                                     </label>
                                     <div class="lfapps-appmgt-controls">
-                                        <input id="lfapps_sidenotes_enable" name="livefyre_apps-apps[]" type="checkbox" value="sidenotes" <?php echo Livefyre_Apps::is_app_enabled('sidenotes') ? 'checked' : ''; ?>>
+                                        <input id="lfapps_sidenotes_enable" name="livefyre_apps-apps[]" type="checkbox" value="sidenotes" <?php checked(Livefyre_Apps::is_app_enabled('sidenotes'), true); ?>>
                                         <label for='lfapps_sidenotes_enable'>
                                             <span><?php esc_html_e('Sidenotes™', 'lfapps'); ?></span>
                                         </label>
@@ -146,7 +146,7 @@
                                         <img id="lfapps_blog_icon" src="<?php echo esc_url( LFAPPS__PLUGIN_URL . 'assets/img/' . $icon_src ); ?>"/>
                                     </label>
                                     <div class="lfapps-appmgt-controls">
-                                        <input id="lfapps_blog_enable" name="livefyre_apps-apps[]" type="checkbox" value="blog" <?php echo Livefyre_Apps::is_app_enabled('blog') ? 'checked' : ''; ?>>
+                                        <input id="lfapps_blog_enable" name="livefyre_apps-apps[]" type="checkbox" value="blog" <?php checked(Livefyre_Apps::is_app_enabled('blog'), true); ?>>
                                         <label for='lfapps_blog_enable'>
                                             <span><?php esc_html_e('Live Blog™', 'lfapps'); ?></span>
                                         </label>
@@ -161,7 +161,7 @@
                                         <img id="lfapps_chat_icon" src="<?php echo esc_url( LFAPPS__PLUGIN_URL . 'assets/img/' . $icon_src ); ?>"/>
                                     </label>
                                     <div class="lfapps-appmgt-controls">
-                                        <input id="lfapps_chat_enable" name="livefyre_apps-apps[]" type="checkbox" value="chat" <?php echo Livefyre_Apps::is_app_enabled('chat') ? 'checked' : ''; ?>>
+                                        <input id="lfapps_chat_enable" name="livefyre_apps-apps[]" type="checkbox" value="chat" <?php checked(Livefyre_Apps::is_app_enabled('chat'), true); ?>>
                                         <label for='lfapps_chat_enable'>
                                             <span><?php esc_html_e('Chat™', 'lfapps'); ?></span>
                                         </label>
@@ -176,7 +176,7 @@
                                         <img id="lfapps_designer_icon" src="<?php echo esc_url( LFAPPS__PLUGIN_URL . 'assets/img/' . $icon_src ); ?>"/>
                                     </label>
                                     <div class="lfapps-appmgt-controls">
-                                        <input id="lfapps_designer_enable" name="livefyre_apps-apps[]" type="checkbox" value="designer" <?php echo Livefyre_Apps::is_app_enabled('designer') ? 'checked' : ''; ?>>
+                                        <input id="lfapps_designer_enable" name="livefyre_apps-apps[]" type="checkbox" value="designer" <?php checked(Livefyre_Apps::is_app_enabled('designer'), true); ?>>
                                         <label for='lfapps_designer_enable'>
                                             <span><?php esc_html_e('Visualization Apps', 'lfapps'); ?></span>
                                         </label>
