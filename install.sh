@@ -20,7 +20,8 @@ if [[ -z $SERVER || -z $DESTPATH || -z $USERNAME ]]; then
 fi
 
 PLUGINNAME=livefyre-apps.zip
-make
+ssh $USERNAME@$SERVER "cd $DESTPATH; rm -rf ./*"
+make zip
 scp $PLUGINNAME $USERNAME@$SERVER:$DESTPATH
 sleep 1
 ssh $USERNAME@$SERVER "cd $DESTPATH; unzip -o $PLUGINNAME; rm $PLUGINNAME"
