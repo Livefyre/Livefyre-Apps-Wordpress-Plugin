@@ -126,15 +126,16 @@ if ( ! class_exists( 'Livefyre_Apps_Admin' ) ) {
          * Declare settings used in Livefyre Apps general options page
          */
         public static function init_settings() {
-            register_setting('livefyre_apps_settings_general', 'livefyre_apps-livefyre_domain_name');  
-            register_setting('livefyre_apps_settings_general', 'livefyre_apps-livefyre_domain_key'); 
-            register_setting('livefyre_apps_settings_general', 'livefyre_apps-livefyre_site_id'); 
-            register_setting('livefyre_apps_settings_general', 'livefyre_apps-livefyre_site_key');                          
-            register_setting('livefyre_apps_settings_general', 'livefyre_apps-auth_type');   
-            register_setting('livefyre_apps_settings_general', 'livefyre_apps-livefyre_auth_delegate_name');   
-            register_setting('livefyre_apps_settings_general', 'livefyre_apps-livefyre_environment');   
+            register_setting('livefyre_apps_settings_general', 'livefyre_apps-livefyre_domain_name');
+            register_setting('livefyre_apps_settings_general', 'livefyre_apps-livefyre_domain_key');
+            register_setting('livefyre_apps_settings_general', 'livefyre_apps-livefyre_site_id');
+            register_setting('livefyre_apps_settings_general', 'livefyre_apps-livefyre_site_key');
+            register_setting('livefyre_apps_settings_general', 'livefyre_apps-auth_type');
+            register_setting('livefyre_apps_settings_general', 'livefyre_apps-livefyre_auth_delegate_name');
+            register_setting('livefyre_apps_settings_general', 'livefyre_apps-livefyre_environment');
                         
             register_setting('livefyre_apps_settings_apps', 'livefyre_apps-apps');
+            register_setting('livefyre_apps_settings_activity_stream', )
             
             //LiveComments
             $excludes = array( '_builtin' => false );

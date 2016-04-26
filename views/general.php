@@ -195,7 +195,28 @@
                 </div>
             </div>
         </div>
-    </div>
+        <div class="postbox-container">
+            <div id="normal-sortables" class="meta-box-sortables ui-sortable">
+                <div id="referrers" class="postbox ">
+                    <div class="handlediv" title="Click to toggle"><br></div>
+                    <h3 class="hndle"><span><?php esc_html_e('Livefyre Activity Stream', 'lfapps'); ?></span></h3>
+                    <form name="livefyre_apps_activity_stream" id="livefyre_apps_activity_stream" action="options.php" method="POST">
+                        <?php settings_fields('livefyre_apps_activity_stream'); ?>
+                        <div class='inside'>
+                            <input id="livefyre_activity_stream" name="livefyre_apps-activity_stream" type="checkbox" value="off" <?php checked(get_option('livefyre_apps-activity_stream'), "true"); ?>>
+                            <label for="livefyre_environment"><?php esc_html_e('Check this if you are using Production Credentials', 'lfapps'); ?></label>
+                        </div>
+                        <div id="major-publishing-actions">
+                            <div id="publishing-action">
+                                <?php submit_button(); ?>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>    
     <div class='postbox-side'>
         <div class="postbox-container lfapps-environment-container">
             <div id="normal-sortables" class="meta-box-sortables ui-sortable">

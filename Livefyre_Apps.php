@@ -55,6 +55,7 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
                 self::set_default_options();
                 self::init_hooks();
                 self::init_apps(); 
+                self::init_activity_stream();
             }
         }
         
@@ -86,6 +87,11 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
             }
         }
         
+        public static function init_activity_stream() {
+            require_once(LFAPPS__PLUGIN_PATH . 'libs' . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . 'LFAPPS_Activity_Stream.php');
+            LFAPPS_Activity_Stream::init();
+        }
+        
         /**
          * Initialise WP hooks
          */
@@ -101,7 +107,7 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
                 return false;
             }
             self::$auth_initiated = true;
-            LFAPPS_View::render_partial('script_auth');   
+            LFAPPS_View::render_partial('script_auth');
         }
         
         public static function load_resources() {
@@ -130,6 +136,11 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
                     'comments'
                 );
                 update_option('livefyre_apps-apps', $apps);
+            }
+            
+            //set default activity stream to off
+            if(!get_option('livefyre_apps-activity_stream')) {
+                update_option('livefyre_apps-activity_stream', 'off');
             }
             
             if(!get_option('livefyre_apps-livefyre_environment') 
@@ -272,7 +283,7 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
             $http = new LFAPPS_Http_Extension;
             $resp = $http->request($url, array( 'timeout' => 5 ));
             
-            if ( $resp['code'] != 500 ) {
+            if ( isset($resp['code']) && isset($resp['body']) && $resp['code'] != 500 ) {
                 $body = $resp['body'];
                 $data = json_decode($body, true);
                 if(isset($data[$package]) && isset($data[$package]['versions'])) {

@@ -18,7 +18,7 @@ class LFAPPS_Http_Extension {
                 $args[ 'body' ] = $args[ 'data' ];
                 unset( $args[ 'data' ] );
             }
-            return wpcom_vip_file_get_contents( $url, $args );
+            $result = wpcom_vip_file_get_contents( $url, $args );
         } else {
             $http = new WP_Http;
             if ( isset( $args[ 'data' ] ) ) {
@@ -26,12 +26,12 @@ class LFAPPS_Http_Extension {
                 unset( $args[ 'data' ] );
             }
             $result = $http->request( $url, $args );
-            // VIP: Fixing fatal error "Cannot use object of type WP_Error as array"
-            if ( ! is_wp_error( $result ) ){
-                return array('response'=>array('code'=>'500'));
-            } else {
-                return $result;
-            }
+        }
+        // VIP: Fixing fatal error "Cannot use object of type WP_Error as array"
+        if ( ! is_wp_error( $result ) ){
+            return array('response'=>array('code'=>'500'));
+        } else {
+            return $result;
         }
     }
 }
