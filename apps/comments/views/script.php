@@ -10,8 +10,8 @@ if ($display_template) {
     $lfHttp = new LFAPPS_Http_Extension();
     $result = $lfHttp->request($url);
     $cached_html = '';
-    if ($result['response']['code'] == 200) {
-        $cached_html = $result['body'];
+    if (isset($result['response']['code']) && $result['response']['code'] == 200) {
+        $cached_html = isset($result['body']) ? $result['body'] : '';
         $cached_html = preg_replace('(<script>[\w\W]*<\/script>)', '', $cached_html);
     }
     echo '<div id="' . esc_attr($livefyre_element) . '">' . wp_kses_post($cached_html) . '</div>';

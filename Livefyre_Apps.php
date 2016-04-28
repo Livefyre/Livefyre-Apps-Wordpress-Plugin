@@ -272,8 +272,8 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
             $http = new LFAPPS_Http_Extension;
             $resp = $http->request($url, array( 'timeout' => 5 ));
             
-            if ( $resp['code'] != 500 ) {
-                $body = $resp['body'];
+            if ( isset($resp['code']) && $resp['code'] != 500 ) {
+                $body = isset($resp['body']) ? $resp['body'] : '';
                 $data = json_decode($body, true);
                 if(isset($data[$package]) && isset($data[$package]['versions'])) {
                     return $data[$package]['versions'];
