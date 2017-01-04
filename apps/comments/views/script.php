@@ -10,7 +10,7 @@ if ($display_template) {
     $lfHttp = new LFAPPS_Http_Extension();
     $result = $lfHttp->request($url);
     $cached_html = '';
-    if (isset($result['response']['code']) && $result['response']['code'] == 200) {
+    if (! is_wp_error( $result ) && isset($result['response']['code']) && $result['response']['code'] == 200) {
         $cached_html = isset($result['body']) ? $result['body'] : '';
         $cached_html = preg_replace('(<script>[\w\W]*<\/script>)', '', $cached_html);
     }
