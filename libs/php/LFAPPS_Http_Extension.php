@@ -11,6 +11,7 @@ class LFAPPS_Http_Extension {
      * Map the Livefyre request signature to what WordPress expects.
      * This just means changing the name of the payload argument.
      *
+	 * @return array|WP_Error an array containing body, response and other keys from WP_Http::request method, or an object of WP_Error in case of error
      */
     public function request( $url, $args = array() ) {
         if(file_exists(LFAPPS__PLUGIN_PATH . '/../vip-init.php' )) {
@@ -18,24 +19,14 @@ class LFAPPS_Http_Extension {
                 $args[ 'body' ] = $args[ 'data' ];
                 unset( $args[ 'data' ] );
             }
-			$result = vip_safe_wp_remote_get( $url, $args );
-			if ( is_wp_error( $result ) ) {
-				return array( 'response'=> array( 'code' => '500' ) );
-			}
-			return $result;
+			return vip_safe_wp_remote_get( $url, $args );
 		} else {
             $http = new WP_Http;
             if ( isset( $args[ 'data' ] ) ) {
                 $args[ 'body' ] = $args[ 'data' ];
                 unset( $args[ 'data' ] );
             }
-            $result = $http->request( $url, $args );
-            // VIP: Fixing fatal error "Cannot use object of type WP_Error as array"
-            if ( is_wp_error( $result ) ){
-                return array('response'=>array('code'=>'500'));
-            } else {
-                return $result;
-            }
+            return $http->request( $url, $args );
         }
     }
 }
