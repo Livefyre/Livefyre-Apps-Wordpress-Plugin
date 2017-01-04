@@ -272,7 +272,7 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
             $http = new LFAPPS_Http_Extension;
             $resp = $http->request($url, array( 'timeout' => 5 ));
             
-            if ( ! is_wp_error( $resp ) && isset($resp['code']) && $resp['code'] != 500 ) {
+            if ( ! is_wp_error( $resp ) && isset($resp['response']['code']) && $resp['response']['code'] != 500 ) {
                 $body = isset($resp['body']) ? $resp['body'] : '';
                 $data = json_decode($body, true);
                 if(isset($data[$package]) && isset($data[$package]['versions'])) {
