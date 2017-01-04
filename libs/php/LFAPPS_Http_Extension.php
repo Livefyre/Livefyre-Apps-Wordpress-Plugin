@@ -27,7 +27,7 @@ class LFAPPS_Http_Extension {
             }
             $result = $http->request( $url, $args );
             // VIP: Fixing fatal error "Cannot use object of type WP_Error as array"
-            if ( ! is_wp_error( $result ) ){
+            if ( is_wp_error( $result ) ){
                 return array('response'=>array('code'=>'500'));
             } else {
                 return $result;
