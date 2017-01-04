@@ -325,7 +325,7 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
             
             $http = new LFAPPS_Http_Extension;
             $resp = $http->request($url, array( 'timeout' => 5, 'headers' => $header));
-            if(isset($resp['body'])) {
+            if( ! is_wp_error( $resp ) && isset($resp['body'])) {
                 $body = json_decode($resp['body'], true);
                 return $body;
             }
