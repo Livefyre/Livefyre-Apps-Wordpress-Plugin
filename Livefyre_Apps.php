@@ -269,10 +269,9 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
             $url = 'http://cdn.livefyre.com/packages.json';
             $versions = array();
             
-			$cache_key = 'available-package-versions';
-			$cache_group = 'livefyre';
+			$cache_key = 'livefyre-available-package-versions';
 
-			$resp = wp_cache_get( $cache_key, $cache_group );
+			$resp = get_transient( $cache_key );
 
 			if ( ! $resp ) {
 				$http = new LFAPPS_Http_Extension;
@@ -282,7 +281,7 @@ if ( ! class_exists( 'Livefyre_Apps' ) ) {
 				} else {
 					$expire = 900; //cache valid response for 15 minutes
 				}
-				wp_cache_set( $cache_key, $resp, $cache_group, $expire );
+				set_transient( $cache_key, $resp, $expire );
             }
             
             if ( isset($resp['code']) && $resp['code'] != 500 ) {
