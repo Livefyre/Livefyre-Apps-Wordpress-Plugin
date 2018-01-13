@@ -130,13 +130,13 @@
                             <?php if($count_posts_with_closed_comments > 0): ?>
                                 <p class="info">We've automagically found that you do not have the "Allow Comments" box in WordPress checked on the posts and pages listed below, which means that the Livefyre widget will not be present on them. 
                                 To be sure that the Chat widget is visible on these posts or pages, simply click on the "enable" button next to each.</p>
-                                <p class="info">If you'd like to simply close commenting on any post or page with the Livefyre widget still present, you can do so from your Livefyre admin panel by clicking the "Livefyre Admin" link to the right, 
+                                <p class="info">If you'd like to simply close commenting on any post or page with the Livefyre widget still present, you can do so from your Livefyre admin panel by clicking the "Livefyre Admin" link to the right,
                                 clicking "Conversations", and then clicking "Stream Settings."</p>
                                 <?php if(count($posts_with_closed_comments) > 0): ?>
                                 <span><strong><?php echo esc_html_e('Posts'); ?></strong></span>
                                 <ul>
                                     <?php foreach ( $posts_with_closed_comments as $ncpost ): ?>
-                                        <li>ID: <span><?php echo esc_html($ncpost->ID); ?></span>  Title:</span> <span><a href="<?php echo get_permalink($ncpost->ID); ?>"><?php echo esc_html($ncpost->post_title); ?></a></span>
+                                        <li>ID: <span><?php echo esc_html($ncpost->ID); ?></span>  Title:</span> <span><a href="<?php echo esc_url( get_permalink($ncpost->ID) ); ?>"><?php echo esc_html($ncpost->post_title); ?></a></span>
                                         <a href="<?php echo esc_url(Livefyre_Apps_Admin::get_page_url('livefyre_apps_chat')); ?>&allow_comments_id=<?php echo esc_attr($ncpost->ID); ?>" class="lfcomments-allow-btn">Enable</a></li>
                                     <?php endforeach; ?>
                                 </ul>
@@ -145,7 +145,7 @@
                                 <span><strong><?php echo esc_html_e('Pages'); ?></strong></span>
                                 <ul>
                                     <?php foreach ( $pages_with_closed_comments as $ncpost ): ?>
-                                        <li>ID: <span><?php echo esc_html($ncpost->ID); ?></span>  Title:</span> <span><a href="<?php echo get_permalink($ncpost->ID); ?>"><?php echo esc_html($ncpost->post_title); ?></a></span>
+                                        <li>ID: <span><?php echo esc_html($ncpost->ID); ?></span>  Title:</span> <span><a href="<?php echo esc_url( get_permalink($ncpost->ID) ); ?>"><?php echo esc_html($ncpost->post_title); ?></a></span>
                                         <a href="<?php echo esc_url(Livefyre_Apps_Admin::get_page_url('livefyre_apps_chat')); ?>&allow_comments_id=<?php echo esc_attr($ncpost->ID); ?>" class="lfcomments-allow-btn">Enable</a></li>
                                     <?php endforeach; ?>
                                 </ul>
