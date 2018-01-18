@@ -14,13 +14,13 @@ $collection_meta = array(
     'type'=>'sidenotes'
 );
 $jwtString = LFAPPS_JWT::encode($collection_meta, $site_key);
-        
+
 $conv_config = array(
-    'siteId'=>$site_id,
-    'articleId'=>$article_id,
-    'collectionMeta'=>$jwtString,
-    'network'=>$network_name,
-    'selectors'=>get_option('livefyre_apps-livefyre_sidenotes_selectors'),
+	'siteId'         => esc_js( $site_id ),
+	'articleId'      => esc_js( $article_id ),
+	'collectionMeta' => esc_js( $jwtString ),
+	'network'        => esc_js( $network_name ),
+	'selectors'      => esc_js( get_option( 'livefyre_apps-livefyre_sidenotes_selectors' ) ),
 );
 $strings = apply_filters( 'livefyre_custom_sidenotes_strings', null );
 $conv_config_str = Livefyre_Apps::json_encode_wrap($conv_config);
@@ -28,9 +28,9 @@ $conv_config_str = Livefyre_Apps::json_encode_wrap($conv_config);
 <script type="text/javascript">
 Livefyre.require([<?php echo LFAPPS_Sidenotes::get_package_reference(); ?>], function (Sidenotes) {
     load_livefyre_auth();
-    var convConfigSidenotes = <?php echo $conv_config_str; ?>;
-    convConfigSidenotes['network'] = <?php echo Livefyre_Apps::json_encode_wrap($network_name); ?>;
-    <?php echo isset( $strings ) ? "convConfigSidenotes['strings'] = " . json_encode($strings) . ';' : ''; ?>
+    var convConfigSidenotes = <?php echo esc_js( $conv_config_str ); ?>;
+    convConfigSidenotes['network'] = '<?php echo esc_js( $network_name ); ?>';
+    <?php echo isset( $strings ) ? "convConfigSidenotes['strings'] = '" . esc_js( $strings ) . "';" : ''; ?>
     if(typeof(livefyreSidenotesConfig) !== 'undefined') {
         convConfigSidenotes = Livefyre.LFAPPS.lfExtend(convConfigSidenotes, livefyreSidenotesConfig);
     }

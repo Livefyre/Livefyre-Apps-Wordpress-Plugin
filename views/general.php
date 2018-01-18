@@ -82,7 +82,7 @@
                             <?php if(get_option('livefyre_apps-package_type') === 'community'): ?>
                             <div class="lfapps-community-signup">
                                 <p><?php esc_html_e('New to Livefyre or forgotten your Site ID/Key?', 'lfapps'); ?><br/>
-                                    <a href="http://livefyre.com/installation/logout/?site_url=<?php echo urlencode(home_url())?>&domain=rooms.livefyre.com&version=4&type=wordpress&lfversion=apps&postback_hook=<?php urlencode(home_url())?>&transport=http" target="_blank"><?php esc_html_e('Click here', 'lfapps'); ?></a> and we can help!</p>
+                                    <a href="http://livefyre.com/installation/logout/?site_url=<?php echo esc_url( urlencode( home_url() ) ); ?>&domain=rooms.livefyre.com&version=4&type=wordpress&lfversion=apps&postback_hook=<?php echo esc_url( urlencode( home_url() ) ); ?>&transport=http" target="_blank"><?php esc_html_e('Click here', 'lfapps'); ?></a> and we can help!</p>
                             </div>
                             <div class="clear"></div>
                             <?php endif; ?>
@@ -223,17 +223,17 @@
                     <?php
                         $package_type = get_option('livefyre_apps-package_type');
                         $network = get_option('livefyre_apps-livefyre_domain_name', 'livefyre.com');
-                        $network_stub = split('\.', $network);
+                        $network_stub = explode( '.', $network );
                         $network_stub = $network_stub[0];
                     ?>
                     <div class='inside'>
-                        <a href= <?php echo ($package_type === 'community' || $network === 'livefyre.com') ? "http://livefyre.com/admin" : "https://" . $network_stub . ".admin.fyre.co/v3/content" ?> target="_blank">Livefyre Admin</a>
+                        <a href= <?php echo ($package_type === 'community' || $network === 'livefyre.com') ? "http://livefyre.com/admin" : "https://" . esc_url( $network_stub ) . ".admin.fyre.co/v3/content" ?> target="_blank">Livefyre Admin</a>
                         <br/>
                         <a href="http://support.livefyre.com" target="_blank">Livefyre Support</a>
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
     </div>
 </div>
 
