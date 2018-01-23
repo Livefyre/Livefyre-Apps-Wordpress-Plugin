@@ -136,7 +136,7 @@
                                 <span><strong><?php echo esc_html_e('Posts'); ?></strong></span>
                                 <ul>
                                     <?php foreach ( $posts_with_closed_comments as $ncpost ): ?>
-                                        <li>ID: <span><?php echo esc_html($ncpost->ID); ?></span>  Title:</span> <span><a href="<?php echo get_permalink($ncpost->ID); ?>"><?php echo esc_html($ncpost->post_title); ?></a></span>
+                                        <li>ID: <span><?php echo esc_html($ncpost->ID); ?></span>  Title:</span> <span><a href="<?php echo esc_url( get_permalink( $ncpost->ID ) ); ?>"><?php echo esc_html($ncpost->post_title); ?></a></span>
                                         <a href="<?php echo esc_url(Livefyre_Apps_Admin::get_page_url('livefyre_apps_comments')); ?>&allow_comments_id=<?php echo esc_attr($ncpost->ID); ?>" class="lfcomments-allow-btn">Enable</a></li>
                                     <?php endforeach; ?>
                                 </ul>
@@ -145,7 +145,7 @@
                                 <span><strong><?php echo esc_html_e('Pages'); ?></strong></span>
                                 <ul>
                                     <?php foreach ( $pages_with_closed_comments as $ncpost ): ?>
-                                        <li>ID: <span><?php echo esc_html($ncpost->ID); ?></span>  Title:</span> <span><a href="<?php echo get_permalink($ncpost->ID); ?>"><?php echo esc_html($ncpost->post_title); ?></a></span>
+                                        <li>ID: <span><?php echo esc_html($ncpost->ID); ?></span>  Title:</span> <span><a href="<?php echo esc_url( get_permalink( $ncpost->ID ) ); ?>"><?php echo esc_html($ncpost->post_title); ?></a></span>
                                         <a href="<?php echo esc_url(Livefyre_Apps_Admin::get_page_url('livefyre_apps_comments')); ?>&allow_comments_id=<?php echo esc_attr($ncpost->ID); ?>" class="lfcomments-allow-btn">Enable</a></li>
                                     <?php endforeach; ?>
                                 </ul>
