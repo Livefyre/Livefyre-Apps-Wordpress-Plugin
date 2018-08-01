@@ -53,7 +53,7 @@
         var load_livefyre_auth = function() {
             if(!livefyre_auth_loaded) {
                 Livefyre.require(['auth'], function(auth) {
-                    auth.delegate('<?php echo esc_js( get_option( 'livefyre_apps-livefyre_auth_delegate_name' ) ); ?>');
+                    auth.delegate(<?php echo esc_js( get_option( 'livefyre_apps-livefyre_auth_delegate_name' ) ); ?>);
                 });
             }
             livefyre_auth_loaded = true;
