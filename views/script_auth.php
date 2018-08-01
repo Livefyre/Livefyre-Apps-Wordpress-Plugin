@@ -26,21 +26,21 @@
                         //Called when "sign out" on the widget is clicked. Should sign out of WP
                         logout: function(cb) {
                             cb(null);
-                            href = "<?php echo urldecode(html_entity_decode(wp_logout_url(site_url()))); ?>";
+                            href = "<?php echo esc_url( urldecode( html_entity_decode( wp_logout_url( site_url() ) ) ) ); ?>";
                             window.location = href;
                         },
                         viewProfile: function() {
-                            href = "<?php echo admin_url('profile.php'); ?>";
+                            href = "<?php echo esc_url( admin_url( 'profile.php' ) ); ?>";
                             window.location = href;
                         },
                         editProfile: function() {
-                            href = "<?php echo admin_url('profile.php'); ?>";
+                            href = "<?php echo esc_url( admin_url( 'profile.php' ) ); ?>";
                             window.location = href;
                         }
                     });
 
             <?php if (is_user_logged_in()): ?>
-                        auth.authenticate({livefyre: <?php echo Livefyre_Apps::json_encode_wrap(Livefyre_Apps::generate_wp_user_token()); ?>});
+                        auth.authenticate({livefyre: '<?php echo esc_js( Livefyre_Apps::generate_wp_user_token() ); ?>'});
             <?php endif; ?>
                     window.authDelegate = auth.delegate;
                 });
@@ -51,14 +51,14 @@
 <?php elseif(get_option('livefyre_apps-auth_type') === 'auth_delegate'): ?>
     <script type="text/javascript">
         var load_livefyre_auth = function() {
-            if(!livefyre_auth_loaded) {         
+            if(!livefyre_auth_loaded) {
                 Livefyre.require(['auth'], function(auth) {
-                    auth.delegate(<?php echo Livefyre_Apps::json_encode_wrap(get_option('livefyre_apps-livefyre_auth_delegate_name')); ?>);
+                    auth.delegate(<?php echo esc_js( get_option( 'livefyre_apps-livefyre_auth_delegate_name' ) ); ?>);
                 });
             }
             livefyre_auth_loaded = true;
         };
-    </script>    
+    </script>
 <?php else: ?>
     <script type="text/javascript">
         var load_livefyre_auth = function() {};
